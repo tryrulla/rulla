@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use Rulla\Authentication\Models\AuthenticationSource;
 use Rulla\Authentication\Models\User;
 use Rulla\Authentication\Providers\LocalAuthenticationProvider;
+use Rulla\Items\Types\ItemType;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,5 +26,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // $this->call(UsersTableSeeder::class);
+
+        factory(ItemType::class, 'location', 50)->create();
+        factory(ItemType::class, 50)->create();
     }
 }

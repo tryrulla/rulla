@@ -29,3 +29,9 @@ Route::get('/auth/{provider}', 'Auth\AuthenticationController@showProvider')
 Route::get('/auth/{provider}/callback', 'Auth\AuthenticationController@callback')
     ->middleware('guest')
     ->name('login.provider.callback');
+
+Route::middleware('auth')
+    ->group(function () {
+        Route::get('/app/item/types', 'Items\Types\ItemTypeController@index')
+            ->name('items.types.index');
+    });

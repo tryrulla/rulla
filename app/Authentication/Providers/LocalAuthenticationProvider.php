@@ -12,9 +12,15 @@ class LocalAuthenticationProvider extends PasswordAuthenticationProvider
 {
     public function findUser(string $email, string $password): ?User
     {
-        return User::where([
+
+        $user = User::where([
             'email' => $email,
-            'password' => Hash::make($password),
         ])->first();
+
+        if ($user && Hash::check($password, $user->password)) {
+            return $user;
+        }
+
+        return null;
     }
 }

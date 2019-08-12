@@ -1,6 +1,6 @@
 # Rulla
 
-Open source inventory managament software.
+Open source inventory management software.
 
 ## Design
 
