@@ -12,13 +12,31 @@
     @endif
 
     <div class="card">
-        <h2 class="title text-xl">
+        <h1 class="title text-2xl">
             {{ __('items.types.index.title') }}
-        </h2>
+        </h1>
 
-        @foreach($types as $type)
-            {{ json_encode($type) }}
-        @endforeach
+        <table>
+            @foreach($types as $type)
+                <tr>
+                    <td>
+                        <a href="{{ $type->viewUrl }}" class="font-bold inline-block mr-2 pb-1">
+                            {{ $type->identifier }}
+                        </a>
+                    </td>
+
+                    <td>
+                        {{ $type->name }}
+                    </td>
+
+                    <td class="pl-1 text-gray-700">
+                        @if($type->system)
+                            {{ __('items.types.index.system') }}
+                        @endif
+                    </td>
+                </tr>
+            @endforeach
+        </table>
 
         {{ $types->links() }}
     </div>

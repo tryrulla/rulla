@@ -15,7 +15,7 @@ class ItemTypeController extends Controller
      */
     public function index()
     {
-        return view('items.types.index', ['types' => ItemType::paginate()]);
+        return view('items.types.index', ['types' => ItemType::paginate(50)]);
     }
 
     /**
@@ -42,12 +42,12 @@ class ItemTypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \Rulla\Items\Types\ItemType  $itemType
+     * @param  \Rulla\Items\Types\ItemType  $type
      * @return \Illuminate\Http\Response
      */
-    public function show(ItemType $itemType)
+    public function show(ItemType $type)
     {
-        //
+        return view('items.types.view', ['type' => $type]);
     }
 
     /**

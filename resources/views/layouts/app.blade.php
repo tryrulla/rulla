@@ -10,13 +10,27 @@
         @hasSection('title')
             @yield('title') &ndash;
         @endif
-        {{ config('app.name', 'Laravel') }}</title>
+        {{ config('app.name', 'Rulla') }}</title>
 </head>
 <body class="font-sans antialiased text-gray-800 leading-tight bg-gray-300">
 <div id="app">
     <div class="container mx-auto py-4">
-        <div class="">
-            Rulla Menu Bar
+        <div class="flex bg-white leading-none rounded-lg p-1 shadow justify-between">
+            <div class="inline-flex">
+                <a href="{{ route('home') }}" class="inline-flex bg-blue-600 text-white rounded h-6 px-3 justify-center items-center">{{ config('app.name', 'Rulla') }}</a>
+
+                @foreach([
+                    'types' => route('items.types.index')
+                ] as $key => $link)
+                    <a href="{{ $link }}" class="inline-flex justify-center items-center ml-4 hover:underline">
+                        {{ __('navbar.' . $key) }}
+                    </a>
+                @endforeach
+            </div>
+
+            <div>
+
+            </div>
         </div>
 
         @yield('content')

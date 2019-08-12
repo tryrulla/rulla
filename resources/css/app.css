@@ -7,7 +7,7 @@
 }
 
 .title {
-    @apply my-1 leading-tight font-semibold text-gray-900;
+    @apply mb-1 leading-tight font-semibold text-gray-900;
 }
 
 .button {

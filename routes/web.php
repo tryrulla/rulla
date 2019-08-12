@@ -13,7 +13,8 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})
+    ->name('home');
 
 Route::get('/auth', 'Auth\AuthenticationController@index')
     ->name('login')
@@ -34,4 +35,7 @@ Route::middleware('auth')
     ->group(function () {
         Route::get('/app/item/types', 'Items\Types\ItemTypeController@index')
             ->name('items.types.index');
+
+        Route::get('/app/view/T{type}', 'Items\Types\ItemTypeController@show')
+            ->name('items.types.view');
     });
