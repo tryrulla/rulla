@@ -13,7 +13,6 @@ class ItemType extends Model
     use SoftDeletes;
     use HasViewUrl;
 
-    protected $relations = ['parent', 'children'];
     public $translatable = ['name'];
     public $guarded = [];
 
@@ -34,5 +33,24 @@ class ItemType extends Model
     public function children()
     {
         return $this->hasMany(ItemType::class, 'parent_id', 'id')->with('children');
+    }
+
+    public function storedAtIncludeParents()
+    {
+        return $this->processStoredAtParents($this);
+    }
+
+    private function processStoredAtParents(ItemType $type) {
+        $storedAt = TypeStoredAt::where(['stored_type_id' => $type->id])
+            ->with('storageType', 'storedType')
+            ->get();
+
+        /** @var ItemType $parent */
+        $parent = $type->parent()->with('parent')->first();
+        if ($parent) {
+            $storedAt = $storedAt->merge($this->processStoredAtParents($parent));
+        }
+
+        return $storedAt;
     }
 }

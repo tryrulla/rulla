@@ -20,7 +20,7 @@
             @foreach($types as $type)
                 <tr>
                     <td>
-                        <a href="{{ $type->viewUrl }}" class="font-bold inline-block mr-2 pb-1">
+                        <a href="{{ $type->viewUrl }}" class="font-bold inline-block mr-2 pb-1 hover:underline">
                             {{ $type->identifier }}
                         </a>
                     </td>

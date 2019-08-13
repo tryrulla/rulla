@@ -11,6 +11,10 @@
             @yield('title') &ndash;
         @endif
         {{ config('app.name', 'Rulla') }}</title>
+
+    <link rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.10.1/css/all.css"
+          crossorigin="anonymous">
 </head>
 <body class="font-sans antialiased text-gray-800 leading-tight bg-gray-300">
 <div id="app">

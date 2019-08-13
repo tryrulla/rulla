@@ -42,12 +42,15 @@ class ItemTypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \Rulla\Items\Types\ItemType  $type
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(ItemType $type)
+    public function show(int $id)
     {
-        return view('items.types.view', ['type' => $type]);
+        $type = ItemType::with('parent')->find($id);
+        $storedAt = $type->storedAtIncludeParents();
+
+        return view('items.types.view', ['type' => $type, 'storedAt' => $storedAt]);
     }
 
     /**
