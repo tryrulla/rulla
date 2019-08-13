@@ -71,7 +71,7 @@
         @if($storedAt->isNotEmpty())
             <div class="card">
                 <h3 class="font-bold">
-                    {{ __('items.types.view.stored_at.title') }}
+                    {{ __('items.types.view.stored.at') }}
                 </h3>
 
                 <div class="px-2">
@@ -91,7 +91,7 @@
 
                                         @if($row->storageType->system)
                                             <span class="pl-1 text-gray-600">
-                                                {{ __('items.types.index.system') }}
+                                                {{ __('items.types.view.stored.system') }}
                                             </span>
                                         @endif
                                     </a>
@@ -99,10 +99,62 @@
 
                                 @if($row->stored_type_id !== $type->id)
                                     <td class="text-gray-700">
-                                        (via
+                                        ({{ __('items.types.view.stored.via') }}
                                         <a href="{{ route('items.types.view', $row->storedType) }}" class="text-gray-700 hover:underline">
                                             {{ $row->storedType->identifier }}
                                          {{ $row->storedType->name }}</a>)
+                                    </td>
+                                @endif
+                            </tr>
+                        @endforeach
+                    </table>
+
+                    @if(!$type->system)
+                        <div class="mt-2 text-gray-600 text-xs">
+                            <a href="{{ route('items.type-storage.add') }}" class="hover:underline">
+                                <i class="fas fa-pen"></i> {{ __('items.types.view.properties.edit') }}
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        @endif
+
+        @if($storedHere->isNotEmpty())
+            <div class="card">
+                <h3 class="font-bold">
+                    {{ __('items.types.view.stored.here') }}
+                </h3>
+
+                <div class="px-2">
+                    <table>
+                        @foreach($storedHere as $row)
+                            <?php /** @var $row \Rulla\Items\Types\TypeStoredAt */ ?>
+                            <tr>
+                                <td class="pr-4">
+                                    <a href="{{ route('items.types.view', $row->storedType) }}" class="text-gray-700 hover:underline">
+                                        {{ $row->storedType->identifier }}</a>
+                                </td>
+
+                                <td>
+                                    <a href="{{ route('items.types.view', $row->storedType) }}">
+                                        <span class="hover:underline text-gray-900 hover:text-black">
+                                        {{ $row->storedType->name }}</span>
+
+                                        @if($row->storedType->system)
+                                            <span class="pl-1 text-gray-600">
+                                                {{ __('items.types.view.stored.system') }}
+                                            </span>
+                                        @endif
+                                    </a>
+                                </td>
+
+                                @if($row->storage_type_id !== $type->id)
+                                    <td class="text-gray-700">
+                                        ({{ __('items.types.view.stored.via') }}
+                                        <a href="{{ route('items.types.view', $row->storage_type_id) }}" class="text-gray-700 hover:underline">
+                                            {{ $row->storageType->identifier }}
+                                            {{ $row->storageType->name }}</a>)
                                     </td>
                                 @endif
                             </tr>

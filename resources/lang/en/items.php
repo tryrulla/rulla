@@ -16,14 +16,21 @@ return [
                 'parent' => 'Parent',
             ],
 
-            'stored_at' => [
-                'title' => 'Type Stored At'
+            'stored' => [
+                'at' => 'Type Stored At',
+                'here' => 'Types Stored Here',
+                'system' => '(system base type)',
+                'via' => 'via'
             ],
 
             'system' => [
                 'title' => 'System',
                 'text' => 'This is a system base type and can\'t be modified.',
             ]
+        ],
+
+        'storage' => [
+            'title' => 'Add Storage Type Location'
         ]
     ]
 

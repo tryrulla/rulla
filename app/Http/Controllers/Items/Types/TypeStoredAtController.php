@@ -3,22 +3,12 @@
 namespace Rulla\Http\Controllers\Items\Types;
 
 use Rulla\Items\Types\ItemType;
+use Rulla\Items\Types\TypeStoredAt;
 use Illuminate\Http\Request;
 use Rulla\Http\Controllers\Controller;
 
-class ItemTypeController extends Controller
+class TypeStoredAtController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $types = ItemType::orderByRaw('JSON_EXTRACT(name, \'$.en\')')->paginate(50);
-        return view('items.types.index', ['types' => $types]);
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -26,7 +16,15 @@ class ItemTypeController extends Controller
      */
     public function create()
     {
-        //
+        [$itemTypes, $locations] = ItemType::with('parents')
+            ->where('system', false)
+            ->orderByRaw('JSON_EXTRACT(name, \'$.en\')')
+            ->get()
+            ->partition(function (ItemType $it) {
+                return $it->hasParent(1);
+            });
+
+        return view('items.types.storage_types.add', ['itemTypes' => $itemTypes, 'locations' => $locations]);
     }
 
     /**
@@ -43,25 +41,21 @@ class ItemTypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  \Rulla\Items\Types\TypeStoredAt  $typeStoredAt
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show(TypeStoredAt $typeStoredAt)
     {
-        $type = ItemType::with('parent')->find($id);
-        $storedAt = $type->storedAtIncludeParents();
-        $storedHere = $type->storedHereIncludeParents();
-
-        return view('items.types.view', ['type' => $type, 'storedAt' => $storedAt, 'storedHere' => $storedHere]);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \Rulla\Items\Types\ItemType  $itemType
+     * @param  \Rulla\Items\Types\TypeStoredAt  $typeStoredAt
      * @return \Illuminate\Http\Response
      */
-    public function edit(ItemType $itemType)
+    public function edit(TypeStoredAt $typeStoredAt)
     {
         //
     }
@@ -70,10 +64,10 @@ class ItemTypeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Rulla\Items\Types\ItemType  $itemType
+     * @param  \Rulla\Items\Types\TypeStoredAt  $typeStoredAt
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ItemType $itemType)
+    public function update(Request $request, TypeStoredAt $typeStoredAt)
     {
         //
     }
@@ -81,10 +75,10 @@ class ItemTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Rulla\Items\Types\ItemType  $itemType
+     * @param  \Rulla\Items\Types\TypeStoredAt  $typeStoredAt
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ItemType $itemType)
+    public function destroy(TypeStoredAt $typeStoredAt)
     {
         //
     }

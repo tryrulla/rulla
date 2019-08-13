@@ -20,11 +20,10 @@ function modelName(Faker $faker) {
 
     $name = strtoupper($name);
 
-    if ($faker->boolean(33)) {
-        $name .= ' Pro';
-    } else if ($faker->boolean) {
-        $name .= ' Plus';
+    if ($faker->boolean) {
+        $name .= ' ' . $faker->randomElement(['', 'Pro', 'Plus', 'Gen2', 'Advanced Edition']);
     }
+
     return $name;
 }
 

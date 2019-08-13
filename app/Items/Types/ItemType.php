@@ -30,6 +30,11 @@ class ItemType extends Model
         return $this->belongsTo(ItemType::class, 'parent_id', 'id');
     }
 
+    public function parents()
+    {
+        return $this->parent()->with('parent');
+    }
+
     public function children()
     {
         return $this->hasMany(ItemType::class, 'parent_id', 'id')->with('children');
@@ -46,11 +51,54 @@ class ItemType extends Model
             ->get();
 
         /** @var ItemType $parent */
-        $parent = $type->parent()->with('parent')->first();
+        $parent = $type->parents;
         if ($parent) {
             $storedAt = $storedAt->merge($this->processStoredAtParents($parent));
         }
 
-        return $storedAt;
+        return $storedAt->sortBy(function ($it) {
+            return $it->name;
+        });
+    }
+
+    public function storedHereIncludeParents()
+    {
+        return $this->processStoredHereIncludeParents($this);
+    }
+
+    private function processStoredHereIncludeParents(ItemType $type) {
+        $storedHere = TypeStoredAt::where(['storage_type_id' => $type->id])
+            ->with('storageType', 'storedType')
+            ->get();
+
+        /** @var ItemType $parent */
+        $parent = $type->parents();
+        if ($parent) {
+            $storedHere = $storedHere->merge($this->processStoredHereIncludeParents($parent));
+        }
+
+        return $storedHere->sortBy(function ($it) {
+            return $it->name;
+        });
+    }
+
+    public function hasParent($parentId)
+    {
+        return $this->processHasParent($this, $parentId);
+    }
+
+    private function processHasParent(ItemType $type, $parentId)
+    {
+        if ($type->id === $parentId) {
+            return true;
+        }
+
+        /** @var ItemType $parent */
+        $parent = $type->parents;
+        if ($parent) {
+            return $this->processHasParent($parent, $parentId);
+        }
+
+        return false;
     }
 }
