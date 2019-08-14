@@ -22,7 +22,7 @@ class CreateItemTypesTable extends Migration
                 ->references('id')
                 ->on('item_types');
 
-            $table->json('name');
+            $table->string('name');
 
             $table->boolean('system')
                 ->default(false);

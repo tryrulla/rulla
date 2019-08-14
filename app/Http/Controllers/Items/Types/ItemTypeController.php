@@ -15,7 +15,10 @@ class ItemTypeController extends Controller
      */
     public function index()
     {
-        $types = ItemType::orderByRaw('JSON_EXTRACT(name, \'$.en\')')->paginate(50);
+        $types = ItemType::orderByDesc('system')
+            ->orderBy('name')
+            ->paginate(50);
+
         return view('items.types.index', ['types' => $types]);
     }
 

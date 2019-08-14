@@ -4,16 +4,14 @@ namespace Rulla\Items\Types;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 use Rulla\Meta\HasViewUrl;
-use Spatie\Translatable\HasTranslations;
 
 class ItemType extends Model
 {
-    use HasTranslations;
     use SoftDeletes;
     use HasViewUrl;
 
-    public $translatable = ['name'];
     public $guarded = [];
 
     protected $casts = [
@@ -56,9 +54,17 @@ class ItemType extends Model
             $storedAt = $storedAt->merge($this->processStoredAtParents($parent));
         }
 
-        return $storedAt->sortBy(function ($it) {
-            return $it->name;
-        });
+        return $storedAt
+            ->groupBy(function (TypeStoredAt $at) {
+                return $at->storageType->system;
+            })
+            ->sortKeysDesc()
+            ->map(function (Collection $collection) {
+                return $collection->sortBy(function (TypeStoredAt $at) {
+                    return $at->storageType->name;
+                });
+            })
+            ->flatten();
     }
 
     public function storedHereIncludeParents()
@@ -72,14 +78,22 @@ class ItemType extends Model
             ->get();
 
         /** @var ItemType $parent */
-        $parent = $type->parents();
+        $parent = $type->parents;
         if ($parent) {
             $storedHere = $storedHere->merge($this->processStoredHereIncludeParents($parent));
         }
 
-        return $storedHere->sortBy(function ($it) {
-            return $it->name;
-        });
+        return $storedHere
+            ->groupBy(function (TypeStoredAt $at) {
+                return $at->storedType->system;
+            })
+            ->sortKeysDesc()
+            ->map(function (Collection $collection) {
+                return $collection->sortBy(function (TypeStoredAt $at) {
+                    return $at->storedType->name;
+                });
+            })
+            ->flatten();
     }
 
     public function hasParent($parentId)

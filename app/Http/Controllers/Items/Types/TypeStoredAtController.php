@@ -2,6 +2,7 @@
 
 namespace Rulla\Http\Controllers\Items\Types;
 
+use Illuminate\Validation\Rule;
 use Rulla\Items\Types\ItemType;
 use Rulla\Items\Types\TypeStoredAt;
 use Illuminate\Http\Request;
@@ -18,13 +19,13 @@ class TypeStoredAtController extends Controller
     {
         [$itemTypes, $locations] = ItemType::with('parents')
             ->where('system', false)
-            ->orderByRaw('JSON_EXTRACT(name, \'$.en\')')
+            ->orderBy('name')
             ->get()
             ->partition(function (ItemType $it) {
                 return $it->hasParent(1);
             });
 
-        return view('items.types.storage_types.add', ['itemTypes' => $itemTypes, 'locations' => $locations]);
+        return view('items.types.storage_types.add', ['itemTypes' => $itemTypes->values(), 'locations' => $locations->values()]);
     }
 
     /**
@@ -35,7 +36,19 @@ class TypeStoredAtController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'stored_type_id' => [
+                'required',
+                Rule::exists('item_types', 'id')->where('system', 'false'),
+            ],
+            'storage_type_id' => [
+                'required',
+                Rule::exists('item_types', 'id')->where('system', 'false'),
+            ]
+        ]);
+
+        $typeStoredAt = TypeStoredAt::create($data);
+        return redirect()->route('items.types.view', $typeStoredAt->stored_type_id);
     }
 
     /**

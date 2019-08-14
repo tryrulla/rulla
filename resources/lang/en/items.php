@@ -20,7 +20,8 @@ return [
                 'at' => 'Type Stored At',
                 'here' => 'Types Stored Here',
                 'system' => '(system base type)',
-                'via' => 'via'
+                'via' => 'via',
+                'add' => 'Add',
             ],
 
             'system' => [
@@ -30,7 +31,10 @@ return [
         ],
 
         'storage' => [
-            'title' => 'Add Storage Type Location'
+            'title' => 'Add Storage Type Location',
+
+            'type' => 'Type Stored',
+            'location' => 'Storage Location',
         ]
     ]
 

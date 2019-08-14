@@ -111,8 +111,8 @@
 
                     @if(!$type->system)
                         <div class="mt-2 text-gray-600 text-xs">
-                            <a href="{{ route('items.type-storage.add') }}" class="hover:underline">
-                                <i class="fas fa-pen"></i> {{ __('items.types.view.properties.edit') }}
+                            <a href="{{ route('items.type-storage.add', ['stored_type_id' => $type->id]) }}" class="hover:underline">
+                                <i class="fas fa-pen"></i> {{ __('items.types.view.stored.add') }}
                             </a>
                         </div>
                     @endif

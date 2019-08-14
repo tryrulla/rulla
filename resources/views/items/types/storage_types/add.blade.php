@@ -20,27 +20,23 @@
             @csrf
 
             <label class="block mt-4">
-                <span class="text-gray-700">{{ __('auth.form.email') }}</span>
+                <span class="text-gray-700">{{ __('items.types.storage.location') }}</span>
 
-                <select class="form-select mt-1 block w-full" name="location">
-                    @foreach($locations as $location)
-                        <option name="{{ $location->id }}">
-                            {{ $location->name }}
-                        </option>
-                    @endforeach
-                </select>
+                <select-input
+                    :options="{{ json_encode($locations) }}"
+                    initial-value="{{ old('storage_type_id', Request::get('storage_type_id')) }}"
+                    name="storage_type_id"
+                ></select-input>
             </label>
 
             <label class="block mt-4">
-                <span class="text-gray-700">{{ __('auth.form.email') }}</span>
+                <span class="text-gray-700">{{ __('items.types.storage.type') }}</span>
 
-                <select class="form-select mt-1 block w-full" name="type">
-                    @foreach($itemTypes as $type)
-                        <option name="{{ $type->id }}">
-                            {{ $type->name }}
-                        </option>
-                    @endforeach
-                </select>
+                <select-input
+                    :options="{{ json_encode($itemTypes) }}"
+                    initial-value="{{ old('stored_type_id', Request::get('stored_type_id')) }}"
+                    name="stored_type_id"
+                ></select-input>
             </label>
 
             <div class="mt-4">
@@ -50,5 +46,4 @@
             </div>
         </form>
     </div>
-
 @endsection
