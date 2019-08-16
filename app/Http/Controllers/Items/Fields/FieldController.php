@@ -1,13 +1,13 @@
 <?php
 
-namespace Rulla\Http\Controllers\Items\Types;
+namespace Rulla\Http\Controllers\Items\Fields;
 
 use Illuminate\Http\Response;
-use Rulla\Items\Types\ItemType;
-use Illuminate\Http\Request;
 use Rulla\Http\Controllers\Controller;
+use Rulla\Items\Fields\Field;
+use Illuminate\Http\Request;
 
-class ItemTypeController extends Controller
+class FieldController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +16,11 @@ class ItemTypeController extends Controller
      */
     public function index()
     {
-        $types = ItemType::orderByDesc('system')
+        $fields = Field::orderByDesc('system')
             ->orderBy('name')
             ->paginate(50);
 
-        return view('items.types.index', ['types' => $types]);
+        return view('items.fields.index', ['fields' => $fields]);
     }
 
     /**
@@ -47,26 +47,22 @@ class ItemTypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return Response
      */
     public function show(int $id)
     {
-        $type = ItemType::with('parent', 'fields', 'fields.field')
-            ->find($id);
-        $storedAt = $type->storedAtIncludeParents();
-        $storedHere = $type->storedHereIncludeParents();
-
-        return view('items.types.view', ['type' => $type, 'storedAt' => $storedAt, 'storedHere' => $storedHere]);
+        $field = Field::find($id);
+        return view('items.fields.view', ['field' => $field]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \Rulla\Items\Types\ItemType  $itemType
+     * @param  \Rulla\Items\Fields\Field  $field
      * @return Response
      */
-    public function edit(ItemType $itemType)
+    public function edit(Field $field)
     {
         //
     }
@@ -75,10 +71,10 @@ class ItemTypeController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param  \Rulla\Items\Types\ItemType  $itemType
+     * @param  \Rulla\Items\Fields\Field  $field
      * @return Response
      */
-    public function update(Request $request, ItemType $itemType)
+    public function update(Request $request, Field $field)
     {
         //
     }
@@ -86,10 +82,10 @@ class ItemTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Rulla\Items\Types\ItemType  $itemType
+     * @param  \Rulla\Items\Fields\Field  $field
      * @return Response
      */
-    public function destroy(ItemType $itemType)
+    public function destroy(Field $field)
     {
         //
     }

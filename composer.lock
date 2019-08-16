@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0321e336aa876af5d353b4258b043f31",
+    "content-hash": "3732abd9eb23a904e597f1f02df946c6",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1807,6 +1807,125 @@
                 "uuid"
             ],
             "time": "2018-07-19T23:38:55+00:00"
+        },
+        {
+            "name": "spatie/enum",
+            "version": "2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/enum.git",
+                "reference": "802b8f64a2c65594d1631c2b8500892868b6d536"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/enum/zipball/802b8f64a2c65594d1631c2b8500892868b6d536",
+                "reference": "802b8f64a2c65594d1631c2b8500892868b6d536",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "larapack/dd": "^1.1",
+                "phpunit/phpunit": "^8.0",
+                "symfony/stopwatch": "^4.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Enum\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Roose",
+                    "role": "Developer",
+                    "email": "brent@spatie.be",
+                    "homepage": "https://spatie.be"
+                },
+                {
+                    "name": "Tom Witkowski",
+                    "role": "Developer",
+                    "email": "dev.gummibeer@gmail.com",
+                    "homepage": "https://gummibeer.de"
+                }
+            ],
+            "description": "PHP Enums",
+            "homepage": "https://github.com/spatie/enum",
+            "keywords": [
+                "enum",
+                "spatie"
+            ],
+            "time": "2019-08-05T16:22:32+00:00"
+        },
+        {
+            "name": "spatie/laravel-enum",
+            "version": "1.0.0-beta.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-enum.git",
+                "reference": "bf3f8848977348ec8d47f005e85713a37808fe97"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-enum/zipball/bf3f8848977348ec8d47f005e85713a37808fe97",
+                "reference": "bf3f8848977348ec8d47f005e85713a37808fe97",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^5.8",
+                "illuminate/support": "^5.8",
+                "php": "^7.2",
+                "spatie/enum": "^2.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.8",
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Enum\\Laravel\\EnumServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Enum\\Laravel\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Roose",
+                    "role": "Developer",
+                    "email": "brent@spatie.be",
+                    "homepage": "https://spatie.be"
+                },
+                {
+                    "name": "Tom Witkowski",
+                    "role": "Developer",
+                    "email": "dev.gummibeer@gmail.com",
+                    "homepage": "https://gummibeer.de"
+                }
+            ],
+            "description": "Laravel enum support",
+            "homepage": "https://github.com/spatie/laravel-enum",
+            "keywords": [
+                "enum",
+                "laravel-enum",
+                "spatie"
+            ],
+            "time": "2019-08-05T16:30:27+00:00"
         },
         {
             "name": "spatie/laravel-translatable",
@@ -6152,6 +6271,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "spatie/laravel-enum": 10,
         "adamwathan/laravel-preset": 20
     },
     "prefer-stable": true,

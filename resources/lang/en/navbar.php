@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'types' => 'Types'
+    'types' => 'Types',
+    'fields' => 'Fields',
 ];

@@ -4,14 +4,6 @@
 <?php /** @var $authManager \Rulla\Authentication\AuthenticationManager */ ?>
 
 @section('content')
-    @if($errors->any())
-        <div class="card">
-            @foreach ($errors->all() as $error)
-                <div>{{ $error }}</div>
-            @endforeach
-        </div>
-    @endif
-
     @if($authManager->getPasswordProviders()->count() > 0)
         <div class="card">
             <h2 class="title text-xl">{{ __('auth.form.title') }}</h2>

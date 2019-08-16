@@ -1,19 +1,24 @@
 <?php
 
+use Rulla\Items\Fields\FieldType;
+
 return [
 
     'types' => [
         'index' => [
-            'title' => 'All Items',
+            'title' => 'All Types',
             'system' => '(system base type)'
         ],
 
         'view' => [
-            'properties' => [
-                'title' => 'Properties',
-                'edit' => 'Edit',
-
+            'details' => [
+                'title' => 'Details',
                 'parent' => 'Parent',
+            ],
+
+            'fields' => [
+                'title' => 'Fields',
+                'edit' => 'Edit',
             ],
 
             'stored' => [
@@ -35,6 +40,13 @@ return [
 
             'type' => 'Type Stored',
             'location' => 'Storage Location',
+        ]
+    ],
+
+    'fields' => [
+        'types' => [
+            FieldType::string()->getValue() => 'String',
+            FieldType::number()->getValue() => 'Integer',
         ]
     ]
 

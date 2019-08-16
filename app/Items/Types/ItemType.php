@@ -5,6 +5,7 @@ namespace Rulla\Items\Types;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use Rulla\Items\Fields\FieldValue;
 use Rulla\Meta\HasViewUrl;
 
 class ItemType extends Model
@@ -114,5 +115,10 @@ class ItemType extends Model
         }
 
         return false;
+    }
+
+    public function fields()
+    {
+        return $this->morphMany(FieldValue::class, 'value_holder');
     }
 }

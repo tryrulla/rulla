@@ -3,14 +3,6 @@
 @section('title', $type->identifier)
 
 @section('content')
-    @if($errors->any())
-        <div class="card">
-            @foreach ($errors->all() as $error)
-                <div>{{ $error }}</div>
-            @endforeach
-        </div>
-    @endif
-
     <div class="mt-4">
         <h3 class="font-bold">
             {{ $type->identifier }}
@@ -34,39 +26,68 @@
         @if(!$type->system)
             <div class="card">
                 <h3 class="font-bold">
-                    {{ __('items.types.view.properties.title') }}
+                    {{ __('items.types.view.details.title') }}
                 </h3>
 
                 <div class="px-2">
                     <table>
-                        @if($type->parent)
-                            <tr>
-                                <th class="pr-4">
-                                    {{ __('items.types.view.properties.parent') }}
-                                </th>
+                        <tr>
+                            <th class="pr-4">
+                                {{ __('items.types.view.details.parent') }}
+                            </th>
 
-                                <td>
-                                    <a href="{{ route('items.types.view', $type->parent) }}">
+                            <td>
+                                <a href="{{ $type->parent->viewUrl }}">
                                     <span class="hover:underline text-gray-900 hover:text-black">
                                         {{ $type->parent->name }}</span>
 
-                                        @if($type->parent->system)
-                                            <span class="pl-1 text-gray-600">
-                                                {{ __('items.types.index.system') }}
-                                            </span>
-                                        @endif
-                                    </a>
-                                </td>
-                            </tr>
-                        @endif
+                                    @if($type->parent->system)
+                                        <span class="pl-1 text-gray-600">
+                                            {{ __('items.types.index.system') }}
+                                        </span>
+                                    @endif
+                                </a>
+                            </td>
+                        </tr>
                     </table>
-
-                    <div class="mt-2 text-gray-600 text-xs">
-                        <i class="fas fa-pen"></i> {{ __('items.types.view.properties.edit') }}
-                    </div>
                 </div>
             </div>
         @endif
+
+        <div class="card">
+            <h3 class="font-bold">
+                {{ __('items.types.view.fields.title') }}
+            </h3>
+
+            <div class="px-2">
+                <table>
+                    @foreach($type->fields as $field)
+                        <?php /** @var \Rulla\Items\Fields\FieldValue $field */ ?>
+                        <tr>
+                            <td class="pr-4">
+                                <a href="{{ $field->field->viewUrl }}" class="text-gray-700 hover:underline">
+                                    {{ $field->field->identifier }}</a>
+                            </td>
+
+                            <td>
+                                <a href="{{ $field->field->viewUrl }}">
+                                    <span class="hover:underline text-gray-900 hover:text-black">
+                                        {{ $field->field->name }}</span>
+                                </a>
+                            </td>
+
+                            <td>
+                                {{ $field->getFormattedValue() }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </table>
+
+                <div class="mt-2 text-gray-600 text-xs">
+                    <i class="fas fa-pen"></i> {{ __('items.types.view.fields.edit') }}
+                </div>
+            </div>
+        </div>
 
         @if($storedAt->isNotEmpty())
             <div class="card">

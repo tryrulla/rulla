@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})
+Route::view('', 'welcome')
     ->name('home');
 
 Route::get('/auth', 'Auth\AuthenticationController@index')
@@ -44,4 +42,10 @@ Route::middleware('auth')
 
         Route::post('/app/item/type-storage', 'Items\Types\TypeStoredAtController@store')
             ->name('items.type-storage.store');
+
+        Route::get('/app/item/fields', 'Items\Fields\FieldController@index')
+            ->name('items.fields.index');
+
+        Route::get('/app/view/F{id}', 'Items\Fields\FieldController@show')
+            ->name('items.fields.view');
     });

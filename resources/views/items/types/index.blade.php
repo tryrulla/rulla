@@ -3,14 +3,6 @@
 @section('title', __('items.types.index.title'))
 
 @section('content')
-    @if($errors->any())
-        <div class="card">
-            @foreach ($errors->all() as $error)
-                <div>{{ $error }}</div>
-            @endforeach
-        </div>
-    @endif
-
     <div class="card">
         <h1 class="title text-2xl">
             {{ __('items.types.index.title') }}
