@@ -97,9 +97,14 @@ class ItemType extends Model
             ->flatten();
     }
 
-    public function hasParent($parentId)
+    public function hasParent($parent)
     {
-        return $this->processHasParent($this, $parentId);
+        if ($parent instanceof ItemType) {
+            $parent = $parent->id;
+        }
+
+        $this->loadMissing('parents');
+        return $this->processHasParent($this, $parent);
     }
 
     private function processHasParent(ItemType $type, $parentId)
@@ -120,5 +125,19 @@ class ItemType extends Model
     public function fields()
     {
         return $this->morphMany(FieldValue::class, 'value_holder');
+    }
+
+    /**
+     * @return ItemType
+     */
+    public function getGrandparent()
+    {
+        $this->loadMissing('parents');
+        $grandparent = $this;
+        while ($grandparent->parents) {
+            $grandparent = $grandparent->parents;
+        }
+
+        return $grandparent;
     }
 }

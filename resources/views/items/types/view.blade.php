@@ -24,6 +24,14 @@
         @endif
 
         @if(!$type->system)
+            <div class="mt-2">
+                <div class="inline-block bg-gray-100 text-gray-700 p-2 shadow rounded">
+                    <a href="{{ route('items.types.edit', $type->id) }}" class="group">
+                        <i class="fas fa-pen"></i> <span class="group-hover:underline">{{ __('items.types.view.fields.edit') }}</span>
+                    </a>
+                </div>
+            </div>
+
             <div class="card">
                 <h3 class="font-bold">
                     {{ __('items.types.view.details.title') }}
@@ -54,40 +62,38 @@
             </div>
         @endif
 
-        <div class="card">
-            <h3 class="font-bold">
-                {{ __('items.types.view.fields.title') }}
-            </h3>
+        @if($type->fields->isNotEmpty())
+            <div class="card">
+                <h3 class="font-bold">
+                    {{ __('items.types.view.fields.title') }}
+                </h3>
 
-            <div class="px-2">
-                <table>
-                    @foreach($type->fields as $field)
-                        <?php /** @var \Rulla\Items\Fields\FieldValue $field */ ?>
-                        <tr>
-                            <td class="pr-4">
-                                <a href="{{ $field->field->viewUrl }}" class="text-gray-700 hover:underline">
-                                    {{ $field->field->identifier }}</a>
-                            </td>
+                <div class="px-2">
+                    <table>
+                        @foreach($type->fields as $field)
+                            <?php /** @var \Rulla\Items\Fields\FieldValue $field */ ?>
+                            <tr>
+                                <td class="pr-4">
+                                    <a href="{{ $field->field->viewUrl }}" class="text-gray-700 hover:underline">
+                                        {{ $field->field->identifier }}</a>
+                                </td>
 
-                            <td>
-                                <a href="{{ $field->field->viewUrl }}">
-                                    <span class="hover:underline text-gray-900 hover:text-black">
-                                        {{ $field->field->name }}</span>
-                                </a>
-                            </td>
+                                <td>
+                                    <a href="{{ $field->field->viewUrl }}">
+                                        <span class="hover:underline text-gray-900 hover:text-black">
+                                            {{ $field->field->name }}</span>
+                                    </a>
+                                </td>
 
-                            <td>
-                                {{ $field->getFormattedValue() }}
-                            </td>
-                        </tr>
-                    @endforeach
-                </table>
-
-                <div class="mt-2 text-gray-600 text-xs">
-                    <i class="fas fa-pen"></i> {{ __('items.types.view.fields.edit') }}
+                                <td>
+                                    {{ $field->getFormattedValue() }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
                 </div>
             </div>
-        </div>
+        @endif
 
         @if($storedAt->isNotEmpty())
             <div class="card">

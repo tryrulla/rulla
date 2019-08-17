@@ -37,6 +37,12 @@ Route::middleware('auth')
         Route::get('/app/view/T{id}', 'Items\Types\ItemTypeController@show')
             ->name('items.types.view');
 
+        Route::get('/app/view/T{id}/edit', 'Items\Types\ItemTypeController@edit')
+            ->name('items.types.edit');
+
+        Route::post('/app/view/T{id}/edit', 'Items\Types\ItemTypeController@update')
+            ->name('items.types.update');
+
         Route::get('/app/item/type-storage/add', 'Items\Types\TypeStoredAtController@create')
             ->name('items.type-storage.add');
 

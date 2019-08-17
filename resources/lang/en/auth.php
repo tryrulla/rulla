@@ -23,6 +23,7 @@ return [
         'example_email' => 'john@example.com',
         'password' => 'Password',
         'provider' => 'Domain',
+        'remember' => 'Remember me',
         'submit' => 'Submit',
     ],
 

@@ -20,7 +20,7 @@
                 <label class="block mt-4">
                     <span class="text-gray-700">{{ __('auth.form.password') }}</span>
                     <input class="form-input mt-1 block w-full" type="password" name="password" placeholder="●●●●●●●●●●●●●●●●"
-                        {{ !empty(old('email', '')) ? 'autofocus' : '' }}>
+                        {{ empty(old('email', '')) ? '' : 'autofocus' }}>
                 </label>
 
                 @if($authManager->getPasswordProviders()->count() > 1)
@@ -38,6 +38,11 @@
                 @else
                     <input type="hidden" name="provider" value="{{ $authManager->getPasswordProviders()->first()->getId() }}">
                 @endif
+
+                <label class="block mt-4">
+                    <input class="form-checkbox" type="checkbox" name="remember">
+                    <span class="text-gray-700">{{ __('auth.form.remember') }}</span>
+                </label>
 
                 <div class="mt-4">
                     <button class="button button-blue">

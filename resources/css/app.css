@@ -5,7 +5,11 @@
 @tailwind utilities;
 
 .card {
-    @apply bg-gray-100 p-4 shadow rounded my-4;
+    @apply p-4 shadow rounded my-4;
+
+    &:not(.card-no-bg) {
+        @apply bg-gray-100;
+    }
 }
 
 .title {

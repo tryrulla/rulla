@@ -2,7 +2,9 @@ module.exports = {
   theme: {
     extend: {}
   },
-  variants: {},
+  variants: {
+      textDecoration: ['responsive', 'hover', 'focus', 'group-hover'],
+  },
   plugins: [
     require('tailwind-forms')(),
     require('tailwindcss-plugins/pagination'),

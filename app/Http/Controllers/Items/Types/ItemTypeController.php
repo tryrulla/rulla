@@ -3,6 +3,7 @@
 namespace Rulla\Http\Controllers\Items\Types;
 
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 use Rulla\Items\Types\ItemType;
 use Illuminate\Http\Request;
 use Rulla\Http\Controllers\Controller;
@@ -63,24 +64,77 @@ class ItemTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \Rulla\Items\Types\ItemType  $itemType
+     * @param int $id
      * @return Response
      */
-    public function edit(ItemType $itemType)
+    public function edit(int $id)
     {
-        //
+        $type = ItemType::with('parent', 'fields', 'fields.field')
+            ->find($id);
+
+        abort_if($type->system, 400, 'System can\'t be edited');
+
+        $parentChoices = ItemType::with('parents')
+            ->orderBy('name')
+            ->get()
+            ->filter(function (ItemType $it) use ($type) {
+                return !$it->hasParent($type->id);
+            })
+            ->filter(function (ItemType $it) use ($type) {
+                return $it->hasParent($type->getGrandparent());
+            })
+            ->values();
+
+        return view('items.types.edit', ['type' => $type, 'parentChoices' => $parentChoices]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param  \Rulla\Items\Types\ItemType  $itemType
+     * @param int $id
      * @return Response
      */
-    public function update(Request $request, ItemType $itemType)
+    public function update(Request $request, int $id)
     {
-        //
+        $type = ItemType::with('parents')
+            ->find($id);
+
+        abort_if($type->system, 400, 'System can\'t be edited');
+
+        $newData = $request->validate([
+            'name' => 'required|min:2',
+            'parent_id' => [
+                'required',
+                Rule::exists('item_types', 'id')->whereNot('id', $type->id),
+                function ($attribute, $value, $fail) use ($type) {
+                    $another = ItemType::with('parents')
+                        ->findOrFail($value);
+
+                    while ($another->parents) {
+                        if ($another->id === $type->id) {
+                            $fail('Type tree may not generate a loop.');
+                            return;
+                        }
+
+                        $another = $another->parents;
+                    }
+
+                    // another = new grandparent (logic!)
+                    $ogGrandparent = $type->getGrandparent();
+
+                    if ($another->id !== $ogGrandparent->id) {
+                        $fail('Grantparent can\'t be changed');
+                        return;
+                    }
+
+                    // TODO: Validate custom fields and storage
+                }
+            ]
+        ]);
+
+        $type->update($newData);
+        return redirect($type->view_url);
     }
 
     /**

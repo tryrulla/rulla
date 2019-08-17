@@ -39,7 +39,7 @@
         </div>
 
         @if($errors->any())
-            <div class="card">
+            <div class="card card-no-bg bg-red-100 text-red-900">
                 @foreach ($errors->all() as $error)
                     <div>{{ $error }}</div>
                 @endforeach

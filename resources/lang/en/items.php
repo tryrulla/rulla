@@ -35,6 +35,15 @@ return [
             ]
         ],
 
+        'edit' => [
+            'title' => 'Edit Type',
+
+            'form' => [
+                'name' => 'Name',
+                'parent_id' => 'Parent',
+            ]
+        ],
+
         'storage' => [
             'title' => 'Add Storage Type Location',
 
