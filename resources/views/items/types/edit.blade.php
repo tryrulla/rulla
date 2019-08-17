@@ -27,10 +27,23 @@
 
                     <select-input
                         :options="{{ $parentChoices }}"
-                        initial-value="{{ old('parent_id', $type->parent_id) }}"
+                        :initial-value="{{ old('parent_id', $type->parent_id) }}"
                         name="parent_id"
                     ></select-input>
                 </label>
+            </div>
+
+            <div class="card">
+                <h3 class="title text-lg">
+                    {{ __('items.types.edit.fields.title') }}
+                </h3>
+
+                <div>
+                    <type-field-editor
+                        :fields="{{ $fields }}"
+                        :values="{{ old('field-values', $type->fields) }}"
+                    ></type-field-editor>
+                </div>
             </div>
 
             <div class="card">

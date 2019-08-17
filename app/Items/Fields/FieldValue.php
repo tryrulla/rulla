@@ -7,6 +7,10 @@ use stdClass;
 
 class FieldValue extends Model
 {
+    protected $casts = [
+        'value' => 'object',
+    ];
+
     public function valueHolder()
     {
         return $this->morphTo();
@@ -22,7 +26,7 @@ class FieldValue extends Model
         /** @var FieldType $fieldType */
         $fieldType = $this->field->type;
         $fieldOptions = $this->field->extra_options ? json_decode($this->field->extra_options) : new stdClass();
-        $value = json_decode($this->value);
+        $value = $this->value;
 
         if ($fieldType->isEqual(FieldType::number())) {
             $decimals = $fieldOptions->decimals ?? 0;

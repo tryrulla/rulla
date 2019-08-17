@@ -12,6 +12,12 @@
         @endif
         {{ config('app.name', 'Rulla') }}</title>
 
+    <script>
+        window.Rulla = {
+            language: '{{ Lang::getLocale() }}'
+        };
+    </script>
+
     <link rel="stylesheet"
           href="https://use.fontawesome.com/releases/v5.10.1/css/all.css"
           crossorigin="anonymous">

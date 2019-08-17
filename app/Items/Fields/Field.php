@@ -49,4 +49,9 @@ class Field extends Model
         return $this->hasMany(FieldValue::class, 'field_id')
             ->with('valueHolder');
     }
+
+    public function appliesTo()
+    {
+        return $this->hasMany(FieldAppliesTo::class, 'field_id');
+    }
 }

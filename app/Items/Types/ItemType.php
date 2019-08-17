@@ -140,4 +140,18 @@ class ItemType extends Model
 
         return $grandparent;
     }
+
+    public function getAllParentIds()
+    {
+        $collection = collect();
+
+        $this->loadMissing('parents');
+        $loop = $this;
+        while ($loop->parents) {
+            $collection = $collection->push($loop->parents->id);
+            $loop = $loop->parents;
+        }
+
+        return $collection;
+    }
 }

@@ -41,6 +41,10 @@ return [
             'form' => [
                 'name' => 'Name',
                 'parent_id' => 'Parent',
+            ],
+
+            'fields' => [
+                'title' => 'Fields',
             ]
         ],
 

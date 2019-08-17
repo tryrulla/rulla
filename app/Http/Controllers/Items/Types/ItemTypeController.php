@@ -2,8 +2,10 @@
 
 namespace Rulla\Http\Controllers\Items\Types;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
+use Rulla\Items\Fields\Field;
 use Rulla\Items\Types\ItemType;
 use Illuminate\Http\Request;
 use Rulla\Http\Controllers\Controller;
@@ -85,7 +87,16 @@ class ItemTypeController extends Controller
             })
             ->values();
 
-        return view('items.types.edit', ['type' => $type, 'parentChoices' => $parentChoices]);
+        $typeIdsForFields = $type->getAllParentIds()
+            ->push($type->id);
+
+        $fields = Field::whereHas('appliesTo', function (Builder $query) use ($typeIdsForFields) {
+            $query->where('apply_to_type', true)
+                ->whereIn('type_id', $typeIdsForFields);
+        })
+            ->get();
+
+        return view('items.types.edit', ['type' => $type, 'parentChoices' => $parentChoices, 'fields' => $fields]);
     }
 
     /**
