@@ -31,6 +31,9 @@ Route::get('/auth/{provider}/callback', 'Auth\AuthenticationController@callback'
 
 Route::middleware('auth')
     ->group(function () {
+        Route::post('/logout', 'Auth\AuthenticationController@logout')
+            ->name('logout');
+
         Route::get('/app/item/types', 'Items\Types\ItemTypeController@index')
             ->name('items.types.index');
 
@@ -54,4 +57,9 @@ Route::middleware('auth')
 
         Route::get('/app/view/F{id}', 'Items\Fields\FieldController@show')
             ->name('items.fields.view');
+
+        Route::get('/app/user/self', function() {
+            return 'foo bar';
+        })
+            ->name('profile');
     });

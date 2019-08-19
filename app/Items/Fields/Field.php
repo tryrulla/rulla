@@ -16,6 +16,7 @@ class Field extends Model
         HasEnums::setAttribute as enumTraitSetAttribute;
     }
 
+    protected $guarded = [];
     protected $casts = [
         'system' => 'boolean',
     ];

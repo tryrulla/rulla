@@ -29,6 +29,8 @@ return [
 
     'social' => [
         'title' => 'Log in using external authentication source',
-    ]
+    ],
+
+    'logout' => 'You have been logged out.',
 
 ];

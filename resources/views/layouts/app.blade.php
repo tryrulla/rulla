@@ -39,8 +39,20 @@
                 @endforeach
             </div>
 
-            <div>
+            <div class="inline-flex mr-2">
+                @auth
+                    <a href="{{ route('profile') }}" class="inline-flex justify-center items-center ml-4 hover:underline">
+                        {{ __('navbar.profile', Auth::user()->toArray()) }}
+                    </a>
 
+                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="inline-flex justify-center items-center ml-4 hover:underline">
+                        {{ __('navbar.logout') }}
+                    </a>
+                @else
+                    <a href="{{ route('login') }}" class="inline-flex justify-center items-center ml-4 hover:underline">
+                        {{ __('navbar.login') }}
+                    </a>
+                @endif
             </div>
         </div>
 
@@ -52,9 +64,21 @@
             </div>
         @endif
 
+        @if(Session::has('notice'))
+            <div class="card card-no-bg bg-blue-100 text-blue-900">
+                <div>
+                    {{ Session::get('notice') }}
+                </div>
+            </div>
+        @endif
+
         @yield('content')
     </div>
 </div>
+<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+    @csrf
+</form>
+
 <script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>

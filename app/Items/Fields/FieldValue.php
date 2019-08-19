@@ -7,6 +7,7 @@ use stdClass;
 
 class FieldValue extends Model
 {
+    protected $guarded = [];
     protected $casts = [
         'value' => 'object',
     ];

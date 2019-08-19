@@ -3,6 +3,7 @@
 namespace Rulla\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Rulla\Authentication\AuthenticationManager;
 use Rulla\Authentication\Providers\SocialAuthenticationProvider;
 use Rulla\Http\Controllers\Controller;
@@ -61,5 +62,24 @@ class AuthenticationController extends Controller
         }
 
         return $actualProvider->authenticate($request);
+    }
+
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+        $request->session()->invalidate();
+
+        return redirect('/')
+            ->with('notice', __('auth.logout'));
+    }
+
+    /**
+     * Get the guard to be used during authentication.
+     *
+     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     */
+    protected function guard()
+    {
+        return Auth::guard();
     }
 }

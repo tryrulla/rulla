@@ -1,5 +1,7 @@
 <template>
     <div class="w-full">
+        <input type="hidden" name="custom-fields" :value="JSON.stringify(data)">
+
         <div v-for="(field, key) in data" class="flex w-full">
             <div class="w-full md:w-64 flex-shrink-0">
                 <v-select
@@ -23,6 +25,18 @@
             <div class="hidden">
                 {{ JSON.stringify(fieldData(field.field_id)) }}
             </div>
+
+            <div class="ml-2 inline-flex justify-center items-center">
+                <button @click="remove(field.field_id)" type="button">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button type="button" v-if="nextUnusedField()" @click="addField" class="bg-gray-300 hover:bg-gray-400 text-gray-700 p-2 shadow rounded">
+                <i class="fas fa-plus"></i>
+            </button>
         </div>
     </div>
 </template>
@@ -41,7 +55,7 @@
         },
         data() {
             return {
-                data: this.values,
+                data: this.values.map(it => ({ field_id: it.field_id, value: it.value })),
             };
         },
         computed: {
@@ -52,7 +66,21 @@
         methods: {
             fieldData(fieldId) {
                 return this.fields.filter(it => it.id === fieldId)
-                    .map(it => ({ extraOptions: it.extra_options ? JSON.parse(it.extra_options) : {}, ...it }))[0];
+                    .map(it => ({ extraOptions: it.extra_options ? JSON.parse(it.extra_options) : {}, ...it }))[0] || {};
+            },
+            remove(fieldId) {
+                this.data = this.data.filter(it => it.field_id !== fieldId);
+            },
+            addField() {
+                const field = this.nextUnusedField();
+                if (!field || !field.id) return;
+
+                this.data.push({ field_id: field.id, value: {} });
+            },
+            nextUnusedField() {
+                return this.fields.filter(it => {
+                    return this.data.filter(dataField => dataField.field_id === it.id).length === 0;
+                })[0];
             },
         },
     };
