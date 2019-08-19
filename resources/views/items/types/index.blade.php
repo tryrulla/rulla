@@ -12,12 +12,12 @@
             @foreach($types as $type)
                 <tr>
                     <td>
-                        <a href="{{ $type->viewUrl }}" class="font-bold inline-block mr-2 pb-1 hover:underline">
+                        <a href="{{ $type->viewUrl }}" class="font-bold inline-block mr-2 hover:underline">
                             {{ $type->identifier }}
                         </a>
                     </td>
 
-                    <td>
+                    <td class="pr-2">
                         {{ $type->name }}
                     </td>
 

@@ -15,7 +15,8 @@
 
             <div class="ml-2 w-full">
                 <div class="form-input-group relative w-full" v-if="fieldData(field.field_id).type === 'number'">
-                    <input class="form-input form-input-group-left relative w-full bg-gray-200" type="number" v-model.number="data[key].value.number" required>
+                    <input class="form-input form-input-group-left relative w-full bg-gray-200" type="number"
+                           v-model.number="data[key].value.number" required :step="(fieldData(field.field_id).extraOptions.decimals || 0) === 0 ? 1 : (1 / (10 ** fieldData(field.field_id).extraOptions.decimals))">
                     <div class="form-input-group-right inline-flex justify-center items-center bg-gray-400 px-2">
                         {{ fieldData(field.field_id).extraOptions.unit }}
                     </div>

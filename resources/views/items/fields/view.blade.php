@@ -25,6 +25,26 @@
 
         <div class="card">
             <h3 class="font-bold">
+                {{ __('items.fields.view.details.title') }}
+            </h3>
+
+            <div class="px-2">
+                <table>
+                    <tr>
+                        <th class="pr-4">
+                            {{ __('items.fields.view.details.type') }}
+                        </th>
+
+                        <td>
+                            {{ __('items.fields.types.' . $field->type) }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="font-bold">
                 {{ __('items.fields.view.values.title') }}
             </h3>
 
@@ -38,9 +58,9 @@
                                     {{ $value->valueHolder->identifier }}</a>
                             </td>
 
-                            <td>
+                            <td class="pr-4">
                                 <a href="{{ $value->valueHolder->viewUrl }}">
-                                        <span class="hover:underline text-gray-900 hover:text-black">
+                                    <span class="hover:underline text-gray-900 hover:text-black">
                                         {{ $value->valueHolder->name }}</span>
                                 </a>
                             </td>
@@ -58,7 +78,41 @@
             </div>
         </div>
 
-        {{ json_encode($field) }}
+        <div class="card">
+            <h3 class="font-bold">
+                {{ __('items.fields.view.applies.title') }}
+            </h3>
+
+            <div class="px-2">
+                <table>
+                    @foreach($field->appliesTo as $row)
+                        <?php /** @var \Rulla\Items\Fields\FieldAppliesTo $row */ ?>
+                        <tr>
+                            <td class="pr-4">
+                                <a href="{{ $row->type->view_url }}" class="text-gray-700 hover:underline">
+                                    {{ $value->valueHolder->identifier }}</a>
+                            </td>
+
+                            <td>
+                            <td class="pr-4">
+                                <a href="{{ $row->type->viewUrl }}">
+                                    <span class="hover:underline text-gray-900 hover:text-black">
+                                        {{ $row->type->name }}</span>
+                                </a>
+                            </td>
+
+                            <td>
+                                {{ $row->mode->map(function ($mode) { return __('items.fields.modes.' . $mode); })->join(', ') }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </table>
+
+                <div class="mt-2 text-gray-600 text-xs">
+                    <i class="fas fa-pen"></i> {{ __('items.fields.view.applies.add') }}
+                </div>
+            </div>
+        </div>
     </div>
 
 @endsection

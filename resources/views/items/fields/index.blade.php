@@ -12,13 +12,17 @@
             @foreach($fields as $field)
                 <tr>
                     <td>
-                        <a href="{{ $field->viewUrl }}" class="font-bold inline-block mr-2 pb-1 hover:underline">
+                        <a href="{{ $field->viewUrl }}" class="font-bold inline-block mr-4 hover:underline">
                             {{ $field->identifier }}
                         </a>
                     </td>
 
-                    <td>
+                    <td class="pr-2">
                         {{ $field->name }}
+                    </td>
+
+                    <td class="pr-2">
+                        {{ __('items.fields.types.' . $field->type) }}
                     </td>
 
                     <td class="pl-1 text-gray-700">

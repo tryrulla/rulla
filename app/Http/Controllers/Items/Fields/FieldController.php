@@ -52,7 +52,7 @@ class FieldController extends Controller
      */
     public function show(int $id)
     {
-        $field = Field::with('values', 'values.field')
+        $field = Field::with('values', 'values.field', 'appliesTo', 'appliesTo.type')
             ->find($id);
         return view('items.fields.view', ['field' => $field]);
     }

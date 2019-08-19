@@ -57,6 +57,33 @@ return [
     ],
 
     'fields' => [
+        'index' => [
+            'title' => 'All Fields',
+            'system' => '(system field)'
+        ],
+
+        'view' => [
+            'details' => [
+                'title' => 'Details',
+                'type' => 'Type',
+            ],
+
+            'values' => [
+                'title' => 'All set values',
+                'add' => 'Add',
+            ],
+
+            'applies' => [
+                'title' => 'Applies to',
+                'add' => 'Add',
+            ]
+        ],
+
+        'modes' => [
+            'item' => 'Item',
+            'type' => 'Type',
+        ],
+
         'types' => [
             FieldType::string()->getValue() => 'String',
             FieldType::number()->getValue() => 'Integer',

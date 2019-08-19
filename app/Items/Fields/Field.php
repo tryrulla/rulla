@@ -48,7 +48,9 @@ class Field extends Model
     public function values()
     {
         return $this->hasMany(FieldValue::class, 'field_id')
-            ->with('valueHolder');
+            ->with('valueHolder')
+            ->orderBy('value_holder_type')
+            ->orderBy('value_holder_id');
     }
 
     public function appliesTo()
