@@ -41,19 +41,10 @@ class ItemType extends Model
 
     public function storedAtIncludeParents()
     {
-        return $this->processStoredAtParents($this);
-    }
-
-    private function processStoredAtParents(ItemType $type) {
-        $storedAt = TypeStoredAt::where(['stored_type_id' => $type->id])
+        $parents = $this->getAllParentIds();
+        $storedAt = TypeStoredAt::whereIn('stored_type_id', $parents)
             ->with('storageType', 'storedType')
             ->get();
-
-        /** @var ItemType $parent */
-        $parent = $type->parents;
-        if ($parent) {
-            $storedAt = $storedAt->merge($this->processStoredAtParents($parent));
-        }
 
         return $storedAt
             ->groupBy(function (TypeStoredAt $at) {
@@ -70,19 +61,10 @@ class ItemType extends Model
 
     public function storedHereIncludeParents()
     {
-        return $this->processStoredHereIncludeParents($this);
-    }
-
-    private function processStoredHereIncludeParents(ItemType $type) {
-        $storedHere = TypeStoredAt::where(['storage_type_id' => $type->id])
+        $parents = $this->getAllParentIds();
+        $storedHere = TypeStoredAt::whereIn('storage_type_id', $parents)
             ->with('storageType', 'storedType')
             ->get();
-
-        /** @var ItemType $parent */
-        $parent = $type->parents;
-        if ($parent) {
-            $storedHere = $storedHere->merge($this->processStoredHereIncludeParents($parent));
-        }
 
         return $storedHere
             ->groupBy(function (TypeStoredAt $at) {
@@ -103,23 +85,7 @@ class ItemType extends Model
             $parent = $parent->id;
         }
 
-        $this->loadMissing('parents');
-        return $this->processHasParent($this, $parent);
-    }
-
-    private function processHasParent(ItemType $type, $parentId)
-    {
-        if ($type->id === $parentId) {
-            return true;
-        }
-
-        /** @var ItemType $parent */
-        $parent = $type->parents;
-        if ($parent) {
-            return $this->processHasParent($parent, $parentId);
-        }
-
-        return false;
+        return $this->getAllParentIds()->contains($parent);
     }
 
     public function fields()

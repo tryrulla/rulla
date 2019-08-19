@@ -52,7 +52,8 @@ class FieldController extends Controller
      */
     public function show(int $id)
     {
-        $field = Field::find($id);
+        $field = Field::with('values', 'values.field')
+            ->find($id);
         return view('items.fields.view', ['field' => $field]);
     }
 
