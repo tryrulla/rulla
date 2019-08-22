@@ -37,6 +37,12 @@ Route::middleware('auth')
         Route::get('/app/item/types', 'Items\Types\ItemTypeController@index')
             ->name('items.types.index');
 
+        Route::get('/app/item/types/new', 'Items\Types\ItemTypeController@create')
+            ->name('items.types.add');
+
+        Route::post('/app/item/types', 'Items\Types\ItemTypeController@store')
+            ->name('items.types.store');
+
         Route::get('/app/view/T{id}', 'Items\Types\ItemTypeController@show')
             ->name('items.types.view');
 

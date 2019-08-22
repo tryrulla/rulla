@@ -7,13 +7,19 @@ return [
     'types' => [
         'index' => [
             'title' => 'All Types',
-            'system' => '(system base type)'
+            'add' => 'Add',
+            'system' => '(system base type)',
         ],
 
         'view' => [
             'details' => [
                 'title' => 'Details',
                 'parent' => 'Parent',
+            ],
+
+            'children' => [
+                'title' => 'Child types',
+                'add' => 'Add',
             ],
 
             'fields' => [
@@ -48,12 +54,25 @@ return [
             ]
         ],
 
+        'create' => [
+            'title' => 'Create new Type',
+
+            'fields' => [
+                'name' => 'Name',
+                'parent' => 'Parent',
+            ],
+
+            'submit' => 'Submit',
+        ],
+
         'storage' => [
             'title' => 'Add Storage Type Location',
 
             'type' => 'Type Stored',
             'location' => 'Storage Location',
-        ]
+
+            'submit' => 'Submit',
+        ],
     ],
 
     'fields' => [

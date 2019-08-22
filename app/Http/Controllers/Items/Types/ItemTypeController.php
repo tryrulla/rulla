@@ -35,7 +35,11 @@ class ItemTypeController extends Controller
      */
     public function create()
     {
-        //
+        $parents = ItemType::orderByDesc('system')
+            ->orderBy('name')
+            ->get();
+
+        return view('items.types.add', ['parents' => $parents]);
     }
 
     /**
@@ -46,7 +50,16 @@ class ItemTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $fields = $request->validate([
+            'name' => 'required|min:2',
+            'parent_id' => [
+                'required',
+                Rule::exists('item_types', 'id'),
+            ]
+        ]);
+
+        $type = ItemType::create($fields);
+        return redirect($type->view_url);
     }
 
     /**
@@ -57,7 +70,7 @@ class ItemTypeController extends Controller
      */
     public function show(int $id)
     {
-        $type = ItemType::with('parent', 'fields', 'fields.field')
+        $type = ItemType::with('parent', 'children', 'fields', 'fields.field')
             ->find($id);
         $storedAt = $type->storedAtIncludeParents();
         $storedHere = $type->storedHereIncludeParents();

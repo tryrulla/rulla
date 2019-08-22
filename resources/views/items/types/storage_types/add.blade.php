@@ -33,7 +33,7 @@
 
             <div class="mt-4">
                 <button class="button button-blue">
-                    {{ __('auth.form.submit') }}
+                    {{ __('items.types.storage.submit') }}
                 </button>
             </div>
         </form>

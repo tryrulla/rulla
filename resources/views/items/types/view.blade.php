@@ -62,7 +62,40 @@
             </div>
         @endif
 
-        @if($type->fields->isNotEmpty())
+        <div class="card">
+            <h3 class="font-bold">
+                {{ __('items.types.view.children.title') }}
+            </h3>
+
+            <div class="px-2">
+                <table>
+                    @foreach($type->children as $child)
+                        <?php /** @var \Rulla\Items\Types\ItemType $child */ ?>
+                        <tr>
+                            <td class="pr-4">
+                                <a href="{{ $child->viewUrl }}" class="text-gray-700 hover:underline">
+                                    {{ $child->identifier }}</a>
+                            </td>
+
+                            <td class="pr-2">
+                                <a href="{{ $child->viewUrl }}">
+                                        <span class="hover:underline text-gray-900 hover:text-black">
+                                            {{ $child->name }}</span>
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </table>
+
+                <div class="mt-2 text-gray-600 text-xs">
+                    <a href="{{ route('items.types.add', ['parent_id' => $type->id]) }}" class="hover:underline">
+                        <i class="fas fa-pen"></i> {{ __('items.types.view.children.add') }}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    @if($type->fields->isNotEmpty())
             <div class="card">
                 <h3 class="font-bold">
                     {{ __('items.types.view.fields.title') }}
@@ -78,7 +111,7 @@
                                         {{ $field->field->identifier }}</a>
                                 </td>
 
-                                <td>
+                                <td class="pr-2">
                                     <a href="{{ $field->field->viewUrl }}">
                                         <span class="hover:underline text-gray-900 hover:text-black">
                                             {{ $field->field->name }}</span>
@@ -198,8 +231,6 @@
                 </div>
             </div>
         @endif
-
-        {{ json_encode($type) }}
     </div>
 
 @endsection

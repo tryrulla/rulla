@@ -36,7 +36,12 @@ class ItemType extends Model
 
     public function children()
     {
-        return $this->hasMany(ItemType::class, 'parent_id', 'id')->with('children');
+        return $this->hasMany(ItemType::class, 'parent_id', 'id');
+    }
+
+    public function childTree()
+    {
+        return $this->children()->with('childTree');
     }
 
     public function storedAtIncludeParents()

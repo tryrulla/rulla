@@ -29,7 +29,6 @@
                 required: true,
             },
             initialValue: {
-                type: Number,
                 default: null,
             }
         },
