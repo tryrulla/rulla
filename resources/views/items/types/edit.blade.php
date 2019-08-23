@@ -40,8 +40,9 @@
 
                 <div>
                     <type-field-editor
-                        :fields="{{ $fields }}"
-                        :values="{{ old('field-values', $type->fields) }}"
+                        type-id-selector="parent_id"
+                        :default-fields="{{ $fields }}"
+                        :original-values="{{ old('field-values', $type->fields) }}"
                     ></type-field-editor>
                 </div>
             </div>

@@ -98,20 +98,31 @@ class ItemTypeController extends Controller
                 return !$it->hasParent($type->id);
             })
             ->filter(function (ItemType $it) use ($type) {
-                return $it->hasParent($type->getGrandparent());
+                return $it->hasParent($type->getGrandparent(), true);
             })
             ->values();
 
+
+        $fields = $this->fields($type);
+
+        return view('items.types.edit', ['type' => $type, 'parentChoices' => $parentChoices, 'fields' => $fields]);
+    }
+
+    public function getFields(int $id) {
+        return response()->json([
+            'fields' => $this->fields(ItemType::findOrFail($id)),
+        ]);
+    }
+
+    private function fields(ItemType $type) {
         $typeIdsForFields = $type->getAllParentIds()
             ->push($type->id);
 
-        $fields = Field::whereHas('appliesTo', function (Builder $query) use ($typeIdsForFields) {
+        return Field::whereHas('appliesTo', function (Builder $query) use ($typeIdsForFields) {
             $query->where('apply_to_type', true)
                 ->whereIn('type_id', $typeIdsForFields);
         })
             ->get();
-
-        return view('items.types.edit', ['type' => $type, 'parentChoices' => $parentChoices, 'fields' => $fields]);
     }
 
     /**

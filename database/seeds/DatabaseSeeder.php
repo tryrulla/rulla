@@ -67,7 +67,7 @@ class DatabaseSeeder extends Seeder
                     'field_id' => $lengthField->id,
                     'value_holder_id' => $type->id,
                     'value_holder_type' => ItemType::class,
-                    'value' => json_encode(['number' => $len]),
+                    'value' => ['number' => $len],
                 ]);
             });
         });

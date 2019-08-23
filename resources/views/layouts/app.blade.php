@@ -14,7 +14,8 @@
 
     <script>
         window.Rulla = {
-            language: '{{ Lang::getLocale() }}'
+            language: '{{ Lang::getLocale() }}',
+            baseUrl: '{{ url(route('home')) }}',
         };
     </script>
 

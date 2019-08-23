@@ -19,6 +19,14 @@
                 value: parseInt(this.initialValue, 10),
             };
         },
+        watch: {
+            value(value) {
+                this.$store.dispatch('setValue', { key: this.name, value });
+            }
+        },
+        mounted() {
+            this.$store.dispatch('setValue', { key: this.name, value: this.initialValue });
+        },
         props: {
             name: {
                 type: String,
@@ -30,7 +38,7 @@
             },
             initialValue: {
                 default: null,
-            }
+            },
         },
     };
 </script>

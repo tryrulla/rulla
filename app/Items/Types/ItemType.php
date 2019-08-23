@@ -84,10 +84,14 @@ class ItemType extends Model
             ->flatten();
     }
 
-    public function hasParent($parent)
+    public function hasParent($parent, $allowSelf = false)
     {
         if ($parent instanceof ItemType) {
             $parent = $parent->id;
+        }
+
+        if ($parent === $this->id && $allowSelf) {
+            return true;
         }
 
         return $this->getAllParentIds()->contains($parent);

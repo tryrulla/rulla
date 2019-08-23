@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import vSelect from 'vue-select';
 
+import store from './store';
+
 import SelectInput from "./components/SelectInput";
 import TypeFieldEditor from "./components/TypeFieldEditor";
 
@@ -10,4 +12,5 @@ Vue.component('type-field-editor', TypeFieldEditor);
 
 new Vue({
     el: '#app',
+    store,
 });

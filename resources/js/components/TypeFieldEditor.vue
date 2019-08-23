@@ -1,8 +1,8 @@
 <template>
     <div class="w-full">
-        <input type="hidden" name="custom-fields" :value="JSON.stringify(data)">
+        <input type="hidden" name="custom-fields" :value="JSON.stringify(applicableValues)">
 
-        <div v-for="(field, key) in data" class="flex w-full">
+        <div v-for="(field, key) in applicableValues" class="flex w-full">
             <div class="w-full md:w-64 flex-shrink-0">
                 <v-select
                     class="bg-white shadow mt-1"
@@ -23,10 +23,6 @@
                 </div>
             </div>
 
-            <div class="hidden">
-                {{ JSON.stringify(fieldData(field.field_id)) }}
-            </div>
-
             <div class="ml-2 inline-flex justify-center items-center">
                 <button @click="remove(field.field_id)" type="button">
                     <i class="fas fa-times"></i>
@@ -43,31 +39,65 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex';
+    import axios from '../axios';
+
     export default {
         props: {
-            fields: {
+            defaultFields: {
                 type: Array,
                 required: true,
             },
-            values: {
+            originalValues: {
                 type: Array,
                 required: true,
             },
+            typeIdSelector: {
+                default: null,
+                type: String,
+            }
         },
         data() {
             return {
-                data: this.values.map(it => ({ field_id: it.field_id, value: it.value })),
+                fields: this.defaultFields.map(it => ({ extraOptions: it.extra_options ? JSON.parse(it.extra_options) : {}, ...it })),
+                data: this.originalValues.map(it => ({ field_id: it.field_id, value: it.value })),
             };
         },
         computed: {
             language() {
                 return (window.Rulla || {}).language || 'en';
             },
+            fieldId() {
+                return this.typeIdSelector ? this.$store.getters.values[this.typeIdSelector] : null;
+            },
+            applicableValues() {
+                return this.data.filter(it => {
+                    console.log({ data: it, field: this.fieldData(it.field_id) });
+                    return this.fieldData(it.field_id).id === it.field_id;
+                });
+            },
+        },
+        watch: {
+            fieldId: {
+                async handler(newTypeId) {
+                    if (this.typeIdSelector && newTypeId) {
+                        const url = window.Rulla.baseUrl + '/app/item/types/' + newTypeId.toString() + '/fields';
+                        console.log({ newTypeId, url });
+                        const { data } = await axios.get(url);
+
+                        const newFields = data.fields
+                            .map(it => ({ extraOptions: it.extra_options ? JSON.parse(it.extra_options) : {}, ...it }));
+
+                        console.log({ newFields });
+                        this.fields = newFields;
+                    }
+                },
+                deep: true,
+            }
         },
         methods: {
             fieldData(fieldId) {
-                return this.fields.filter(it => it.id === fieldId)
-                    .map(it => ({ extraOptions: it.extra_options ? JSON.parse(it.extra_options) : {}, ...it }))[0] || {};
+                return this.fields.filter(it => it.id === fieldId)[0] || {};
             },
             remove(fieldId) {
                 this.data = this.data.filter(it => it.field_id !== fieldId);
