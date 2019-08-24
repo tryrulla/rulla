@@ -51,15 +51,21 @@ return [
 
             'fields' => [
                 'title' => 'Fields',
+                'none' => 'There are no fields available for this item type.',
             ]
         ],
 
         'create' => [
             'title' => 'Create new Type',
 
-            'fields' => [
+            'form' => [
                 'name' => 'Name',
                 'parent' => 'Parent',
+            ],
+
+            'fields' => [
+                'title' => 'Fields',
+                'none' => 'There are no fields available for this item type.',
             ],
 
             'submit' => 'Submit',

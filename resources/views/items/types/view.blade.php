@@ -95,7 +95,7 @@
             </div>
         </div>
 
-    @if($type->fields->isNotEmpty())
+        @if($type->fields->isNotEmpty())
             <div class="card">
                 <h3 class="font-bold">
                     {{ __('items.types.view.fields.title') }}

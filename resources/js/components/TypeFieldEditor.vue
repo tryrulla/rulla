@@ -30,8 +30,12 @@
             </div>
         </div>
 
-        <div class="mt-4">
-            <button type="button" v-if="nextUnusedField()" @click="addField" class="bg-gray-300 hover:bg-gray-400 text-gray-700 p-2 shadow rounded">
+        <div v-if="fields.length === 0" class="text-gray-700">
+            {{ msgNoneAvailable }}
+        </div>
+
+        <div class="mt-4" v-if="nextUnusedField()">
+            <button type="button" @click="addField" class="bg-gray-300 hover:bg-gray-400 text-gray-700 p-2 shadow rounded">
                 <i class="fas fa-plus"></i>
             </button>
         </div>
@@ -39,7 +43,6 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex';
     import axios from '../axios';
 
     export default {
@@ -55,7 +58,11 @@
             typeIdSelector: {
                 default: null,
                 type: String,
-            }
+            },
+            msgNoneAvailable: {
+                required: true,
+                type: String,
+            },
         },
         data() {
             return {
@@ -82,13 +89,11 @@
                 async handler(newTypeId) {
                     if (this.typeIdSelector && newTypeId) {
                         const url = window.Rulla.baseUrl + '/app/item/types/' + newTypeId.toString() + '/fields';
-                        console.log({ newTypeId, url });
                         const { data } = await axios.get(url);
 
                         const newFields = data.fields
                             .map(it => ({ extraOptions: it.extra_options ? JSON.parse(it.extra_options) : {}, ...it }));
 
-                        console.log({ newFields });
                         this.fields = newFields;
                     }
                 },

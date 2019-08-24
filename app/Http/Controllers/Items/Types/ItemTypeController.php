@@ -59,6 +59,8 @@ class ItemTypeController extends Controller
         ]);
 
         $type = ItemType::create($fields);
+        $this->processCustomFields($request, $type);
+
         return redirect($type->view_url);
     }
 
@@ -139,36 +141,7 @@ class ItemTypeController extends Controller
 
         abort_if($type->system, 400, 'System can\'t be edited');
 
-        if ($request->has('custom-fields')) {
-            $data = collect(json_decode($request->get('custom-fields')));
-
-            $fieldIds = $data->map(function ($it) {
-                return $it->field_id;
-            });
-
-            try {
-                DB::beginTransaction();
-
-                FieldValue::where('value_holder_id', $type->id)
-                    ->where('value_holder_type', ItemType::class)
-                    ->whereNotIn('field_id', $fieldIds)
-                    ->delete();
-
-                $data->each(function ($it) use ($type) {
-                    FieldValue::updateOrCreate([
-                        'value_holder_id' => $type->id,
-                        'value_holder_type' => ItemType::class,
-                        'field_id' => $it->field_id,
-                    ], [
-                        'value' => $it->value,
-                    ]);
-                });
-
-                DB::commit();
-            } catch (\Exception $ex) {
-                DB::rollback();
-            }
-        }
+        $this->processCustomFields($request, $type);
 
         $newData = $request->validate([
             'name' => 'required|min:2',
@@ -214,5 +187,38 @@ class ItemTypeController extends Controller
     public function destroy(ItemType $itemType)
     {
         //
+    }
+
+    private function processCustomFields(Request $request, ItemType $type) {
+        if ($request->has('custom-fields')) {
+            $data = collect(json_decode($request->get('custom-fields')));
+
+            $fieldIds = $data->map(function ($it) {
+                return $it->field_id;
+            });
+
+            try {
+                DB::beginTransaction();
+
+                FieldValue::where('value_holder_id', $type->id)
+                    ->where('value_holder_type', ItemType::class)
+                    ->whereNotIn('field_id', $fieldIds)
+                    ->delete();
+
+                $data->each(function ($it) use ($type) {
+                    FieldValue::updateOrCreate([
+                        'value_holder_id' => $type->id,
+                        'value_holder_type' => ItemType::class,
+                        'field_id' => $it->field_id,
+                    ], [
+                        'value' => $it->value,
+                    ]);
+                });
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+            }
+        }
     }
 }

@@ -27,7 +27,7 @@
 
                     <select-input
                         :options="{{ $parentChoices }}"
-                        :initial-value="{{ old('parent_id', $type->parent_id) }}"
+                        initial-value="{{ old('parent_id', $type->parent_id) }}"
                         name="parent_id"
                     ></select-input>
                 </label>
@@ -41,6 +41,7 @@
                 <div>
                     <type-field-editor
                         type-id-selector="parent_id"
+                        msg-none-available="{{ __('items.types.edit.fields.none') }}"
                         :default-fields="{{ $fields }}"
                         :original-values="{{ old('field-values', $type->fields) }}"
                     ></type-field-editor>
