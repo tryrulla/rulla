@@ -84,7 +84,8 @@ return [
     'fields' => [
         'index' => [
             'title' => 'All Fields',
-            'system' => '(system field)'
+            'system' => '(system field)',
+            'add' => 'Add',
         ],
 
         'view' => [
@@ -102,6 +103,18 @@ return [
                 'title' => 'Applies to',
                 'add' => 'Add',
             ]
+        ],
+
+        'create' => [
+            'title' => 'Create new Field',
+
+            'form' => [
+                'name' => 'Name',
+                'description' => 'Description',
+                'type' => 'Value type',
+            ],
+
+            'submit' => 'Submit'
         ],
 
         'modes' => [

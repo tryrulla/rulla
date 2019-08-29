@@ -13,9 +13,14 @@
 
             <div class="card">
                 <label class="block">
-                    <span class="text-gray-700">{{ __('items.fields.create.form.name') }}</span>
+                    <span class="text-gray-700">{{ __('items.fields.create.form.name') }} <span class="text-gray-600">({{ __('languages.in.en') }})</span></span>
                     <input class="form-input mt-1 block w-full" type="text" name="name" value="{{ old('name') }}"
                         {{ empty(old('name', '')) ? 'autofocus' : '' }}>
+                </label>
+
+                <label class="block mt-4">
+                    <span class="text-gray-700">{{ __('items.fields.create.form.description') }} <span class="text-gray-600">({{ __('languages.in.en') }})</span></span>
+                    <textarea class="form-textarea mt-1 block w-full" rows="3" name="description">{{ old('description') }}</textarea>
                 </label>
 
                 <div class="mt-4">
@@ -24,6 +29,7 @@
                     <select-input
                         name="type"
                         :options="{{ json_encode(\Rulla\Items\Fields\FieldType::getValues()) }}"
+                        :names="{{ json_encode(__('items.fields.types')) }}"
                         initial-value="{{ old('type', Request::get('type')) }}"
                     ></select-input>
                 </div>

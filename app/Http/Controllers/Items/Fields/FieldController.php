@@ -3,9 +3,11 @@
 namespace Rulla\Http\Controllers\Items\Fields;
 
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 use Rulla\Http\Controllers\Controller;
 use Rulla\Items\Fields\Field;
 use Illuminate\Http\Request;
+use Rulla\Items\Fields\FieldType;
 
 class FieldController extends Controller
 {
@@ -41,7 +43,18 @@ class FieldController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $fields = $request->validate([
+            'name' => 'required|min:3',
+            'description' => 'nullable|max:1024',
+            'type' => [
+                'required',
+                Rule::in(FieldType::getValues()),
+            ],
+        ]);
+
+        $field = Field::create($fields);
+        return redirect($field->view_url);
+
     }
 
     /**

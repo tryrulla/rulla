@@ -5,7 +5,7 @@
         <v-select
             class="bg-white mt-1"
             :get-option-label="label"
-            :reduce="it => it.id"
+            :reduce="getKey"
             :options="options"
             v-model="value"
         />
@@ -16,7 +16,7 @@
     export default {
         data() {
             return {
-                value: parseInt(this.initialValue, 10),
+                value: parseInt(this.initialValue, 10) || null,
             };
         },
         watch: {
@@ -39,10 +39,18 @@
             initialValue: {
                 default: null,
             },
+            names: {
+                type: Array,
+                default: [],
+            },
         },
         methods: {
             label(it) {
                 if (typeof it === 'string') {
+                    if (it in this.names) {
+                        return this.names[it];
+                    }
+
                     return it;
                 }
 
@@ -50,8 +58,21 @@
                     return `[${it.identifier}] ${it.name}`;
                 }
 
+                console.warn('Could not get name for ' + JSON.encode(it));
                 return 'foo';
-            }
+            },
+            getKey(it) {
+                if (typeof it === 'string') {
+                    return it;
+                }
+
+                if (it.id) {
+                    return it.id;
+                }
+
+                console.warn('Could not get key for ' + JSON.encode(it));
+                return 'foo';
+            },
         },
     };
 </script>
