@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.vs__dropdown-toggle {
+    @apply p-1;
+}
+
 .card {
     @apply p-4 shadow rounded my-4;
 

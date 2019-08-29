@@ -35,6 +35,7 @@ class FieldAppliesTo extends Model
         if ($this->apply_to_type) {
             $modes->push('type');
         }
+
         return $modes;
     }
 }

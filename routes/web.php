@@ -67,6 +67,12 @@ Route::middleware('auth')
         Route::get('/app/view/F{id}', 'Items\Fields\FieldController@show')
             ->name('items.fields.view');
 
+        Route::get('/app/item/fields/new', 'Items\Fields\FieldController@create')
+            ->name('items.fields.add');
+
+        Route::post('/app/item/fields', 'Items\Fields\FieldController@store')
+            ->name('items.fields.store');
+
         Route::get('/app/user/self', function() {
             return 'foo bar';
         })

@@ -23,7 +23,7 @@
           href="https://use.fontawesome.com/releases/v5.10.1/css/all.css"
           crossorigin="anonymous">
 </head>
-<body class="font-sans antialiased text-gray-800 leading-tight bg-gray-300">
+<body class="font-sans antialiased text-gray-800 leading-tight bg-gray-300 border-t-8 border-blue-500">
 <div id="app">
     <div class="container mx-auto py-4">
         <div class="flex bg-white leading-none rounded-lg p-1 shadow justify-between">

@@ -8,6 +8,14 @@
             {{ __('items.fields.index.title') }}
         </h1>
 
+        <div class="my-2">
+            <div class="inline-block bg-gray-300 text-gray-700 p-2 shadow rounded">
+                <a href="{{ route('items.fields.add') }}" class="group">
+                    <i class="fas fa-plus"></i> <span class="group-hover:underline">{{ __('items.fields.index.add') }}</span>
+                </a>
+            </div>
+        </div>
+
         <table>
             @foreach($fields as $field)
                 <tr>

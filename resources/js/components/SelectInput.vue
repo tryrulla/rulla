@@ -3,8 +3,8 @@
         <input type="hidden" :name="name" :value="value">
 
         <v-select
-            class="bg-white shadow mt-1"
-            :get-option-label="it => `[${it.identifier}] ${it.name}`"
+            class="bg-white mt-1"
+            :get-option-label="label"
             :reduce="it => it.id"
             :options="options"
             v-model="value"
@@ -39,6 +39,19 @@
             initialValue: {
                 default: null,
             },
+        },
+        methods: {
+            label(it) {
+                if (typeof it === 'string') {
+                    return it;
+                }
+
+                if (it.identifier) {
+                    return `[${it.identifier}] ${it.name}`;
+                }
+
+                return 'foo';
+            }
         },
     };
 </script>
