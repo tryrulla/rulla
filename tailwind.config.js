@@ -1,6 +1,8 @@
 module.exports = {
   theme: {
-    extend: {}
+    extend: {
+
+    }
   },
   variants: {
       textDecoration: ['responsive', 'hover', 'focus', 'group-hover'],
