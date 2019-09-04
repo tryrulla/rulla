@@ -119,7 +119,6 @@
                                     {{ $row->type->identifier }}</a>
                             </td>
 
-                            <td>
                             <td class="pr-4">
                                 <a href="{{ $row->type->viewUrl }}">
                                     <span class="hover:underline text-gray-900 hover:text-black">
@@ -127,8 +126,19 @@
                                 </a>
                             </td>
 
-                            <td>
+                            <td class="pr-4">
                                 {{ $row->mode->map(function ($mode) { return __('items.fields.modes.' . $mode); })->join(', ') }}
+                            </td>
+
+                            <td>
+                                <form action="{{ route('items.field-apply.destroy', $row) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-900 hover:underline">
+                                        <i class="fas fa-trash"></i>
+                                        Delete
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach

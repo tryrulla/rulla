@@ -156,7 +156,10 @@ return [
                 'apply_to' => 'Apply to',
 
                 'submit' => 'Submit',
-            ]
+            ],
+
+            'delete' => 'Delete',
+            'deleted' => 'Successfully deleted FieldAppliesTo record.',
         ]
     ]
 

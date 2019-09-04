@@ -2,6 +2,7 @@
 
 namespace Rulla\Http\Controllers\Items\Fields;
 
+use Exception;
 use Illuminate\Http\Response;
 use Rulla\Http\Requests\FieldAppliesToRequest;
 use Rulla\Items\Fields\Field;
@@ -79,11 +80,15 @@ class FieldAppliesToController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param FieldAppliesTo $fieldAppliesTo
+     * @param FieldAppliesTo $fat
      * @return Response
+     * @throws Exception
      */
-    public function destroy(FieldAppliesTo $fieldAppliesTo)
+    public function destroy(FieldAppliesTo $fat)
     {
-        //
+        $fat->delete();
+        return redirect()
+            ->route('items.fields.view', $fat->field_id)
+            ->with('notice', __('items.fields.apply_to.deleted'));
     }
 }

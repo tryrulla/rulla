@@ -85,6 +85,9 @@ Route::middleware('auth')
         Route::post('/app/field-apply', 'Items\Fields\FieldAppliesToController@store')
             ->name('items.field-apply.store');
 
+        Route::delete('/app/field-apply/{fat}/destroy', 'Items\Fields\FieldAppliesToController@destroy')
+            ->name('items.field-apply.destroy');
+
         Route::get('/app/user/self', function() {
             return 'foo bar';
         })
