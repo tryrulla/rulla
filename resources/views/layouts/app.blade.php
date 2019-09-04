@@ -31,6 +31,7 @@
                 <a href="{{ route('home') }}" class="inline-flex bg-blue-600 text-white rounded h-6 px-3 justify-center items-center">{{ config('app.name', 'Rulla') }}</a>
 
                 @foreach([
+                    'items' => route('items.instances.index'),
                     'types' => route('items.types.index'),
                     'fields' => route('items.fields.index'),
                 ] as $key => $link)

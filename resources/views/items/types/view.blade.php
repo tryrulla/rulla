@@ -95,6 +95,74 @@
             </div>
         </div>
 
+        @if($type->hasParent(1))
+            <div class="card">
+                <h3 class="font-bold">
+                    {{ __('items.types.view.instances.title') }}
+                </h3>
+
+                <div class="px-2">
+                    <table>
+                        @foreach($type->instances as $item)
+                            <?php /** @var \Rulla\Items\Instances\Item $item */ ?>
+                            <tr>
+                                <td class="pr-4">
+                                    <a href="{{ $item->viewUrl }}" class="text-gray-700 hover:underline">
+                                        {{ $item->identifier }}</a>
+                                </td>
+
+                                <td class="pr-2">
+                                    <a href="{{ $item->viewUrl }}">
+                                    <span class="hover:underline text-gray-900 hover:text-black">
+                                        {{ $item->name }}</span>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+
+                    <div class="mt-2 text-gray-600 text-xs">
+                        <a href="{{ route('items.instances.add', ['type_id' => $type->id]) }}" class="hover:underline">
+                            <i class="fas fa-pen"></i> {{ __('items.types.view.instances.add') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        @elseif($type->hasParent(2))
+            <div class="card">
+                <h3 class="font-bold">
+                    {{ __('items.types.view.locatedHere.title') }}
+                </h3>
+
+                <div class="px-2">
+                    <table>
+                        @foreach($type->instances as $item)
+                            <?php /** @var \Rulla\Items\Instances\Item $item */ ?>
+                            <tr>
+                                <td class="pr-4">
+                                    <a href="{{ $item->viewUrl }}" class="text-gray-700 hover:underline">
+                                        {{ $item->identifier }}</a>
+                                </td>
+
+                                <td class="pr-2">
+                                    <a href="{{ $item->viewUrl }}">
+                                    <span class="hover:underline text-gray-900 hover:text-black">
+                                        {{ $item->name }}</span>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+
+                    <div class="mt-2 text-gray-600 text-xs">
+                        <a href="{{ route('items.instances.add', ['location' => $type->identifier]) }}" class="hover:underline">
+                            <i class="fas fa-pen"></i> {{ __('items.types.view.locatedHere.add') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         @if($type->fields->isNotEmpty())
             <div class="card">
                 <h3 class="font-bold">

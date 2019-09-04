@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'items' => 'Items',
     'types' => 'Types',
     'fields' => 'Fields',
 

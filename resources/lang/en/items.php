@@ -3,6 +3,12 @@
 use Rulla\Items\Fields\FieldType;
 
 return [
+    'instances' => [
+        'index' => [
+            'title' => 'All Items',
+            'add' => 'Add',
+        ],
+    ],
 
     'types' => [
         'index' => [
@@ -21,6 +27,16 @@ return [
 
             'children' => [
                 'title' => 'Child types',
+                'add' => 'Add',
+            ],
+
+            'instances' => [
+                'title' => 'Instances',
+                'add' => 'Add',
+            ],
+
+            'locatedHere' => [
+                'title' => 'Items here',
                 'add' => 'Add',
             ],
 

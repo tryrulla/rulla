@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Rulla\Items\Fields\FieldValue;
+use Rulla\Items\Instances\Item;
 use Rulla\Meta\HasViewUrl;
 
 class ItemType extends Model
@@ -128,5 +129,15 @@ class ItemType extends Model
         }
 
         return $collection;
+    }
+
+    public function instances()
+    {
+        return $this->hasMany(Item::class, 'type_id', 'id');
+    }
+
+    public function locatedHere()
+    {
+        return $this->morphMany(Item::class, 'location');
     }
 }

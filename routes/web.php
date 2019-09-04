@@ -88,6 +88,18 @@ Route::middleware('auth')
         Route::delete('/app/field-apply/{fat}/destroy', 'Items\Fields\FieldAppliesToController@destroy')
             ->name('items.field-apply.destroy');
 
+        Route::get('/app/items/instances', 'Items\Instances\ItemController@index')
+            ->name('items.instances.index');
+
+        Route::get('/app/item/instances/new', 'Items\Instances\ItemController@create')
+            ->name('items.instances.add');
+
+        Route::post('/app/item/instances', 'Items\Instances\ItemController@store')
+            ->name('items.instances.store');
+
+        Route::get('/app/view/I{id}', 'Items\Instances\ItemController@show')
+            ->name('items.instances.view');
+
         Route::get('/app/user/self', function() {
             return 'foo bar';
         })

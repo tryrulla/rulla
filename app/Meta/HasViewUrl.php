@@ -17,5 +17,4 @@ trait HasViewUrl
     {
         return url('app/view/' . $this->getIdentifierAttribute());
     }
-
 }

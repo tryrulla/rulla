@@ -75,6 +75,10 @@
                     return it;
                 }
 
+                if (it.identifier && name.endsWith('_identifier')) {
+                    return it.identifier;
+                }
+
                 if (it.id) {
                     return it.id;
                 }

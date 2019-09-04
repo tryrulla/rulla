@@ -72,7 +72,7 @@ class ItemTypeController extends Controller
      */
     public function show(int $id)
     {
-        $type = ItemType::with('parent', 'children', 'fields', 'fields.field')
+        $type = ItemType::with('parent', 'parents', 'children', 'fields', 'fields.field', 'instances', 'locatedHere')
             ->find($id);
         $storedAt = $type->storedAtIncludeParents();
         $storedHere = $type->storedHereIncludeParents();
