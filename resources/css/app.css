@@ -31,3 +31,7 @@
 .button-blue:hover {
     @apply bg-blue-700;
 }
+
+th {
+    @apply text-left;
+}

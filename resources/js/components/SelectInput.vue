@@ -27,6 +27,11 @@
         mounted() {
             this.$store.dispatch('setValue', { key: this.name, value: this.initialValue });
         },
+        computed: {
+            language() {
+                return (window.Rulla || {}).language || 'en';
+            },
+        },
         props: {
             name: {
                 type: String,
@@ -55,6 +60,10 @@
                 }
 
                 if (it.identifier) {
+                    if (typeof it.name === 'object') {
+                        return `[${it.identifier}] ${it.name[this.language] || it.name['en']}`;
+                    }
+
                     return `[${it.identifier}] ${it.name}`;
                 }
 

@@ -100,7 +100,6 @@ return [
 
             'values' => [
                 'title' => 'All set values',
-                'add' => 'Add',
             ],
 
             'applies' => [
@@ -146,6 +145,18 @@ return [
         'extra_options' => [
             'unit' => 'Unit of Measurement',
             'decimals' => 'Decimals'
+        ],
+
+        'apply_to' => [
+            'create' => [
+                'title' => 'Add Field Applying Location',
+
+                'field' => 'Field',
+                'type' => 'Type',
+                'apply_to' => 'Apply to',
+
+                'submit' => 'Submit',
+            ]
         ]
     ]
 

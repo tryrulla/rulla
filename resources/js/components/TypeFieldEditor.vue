@@ -21,6 +21,10 @@
                         {{ fieldData(field.field_id).extraOptions.unit }}
                     </div>
                 </div>
+
+                <div class="form-input-group relative w-full" v-if="fieldData(field.field_id).type === 'string'">
+                    <input class="form-input relative w-full bg-gray-200" type="text" v-model="data[key].value.string" required>
+                </div>
             </div>
 
             <div class="ml-2 inline-flex justify-center items-center">

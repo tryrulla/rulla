@@ -64,6 +64,12 @@ Route::middleware('auth')
         Route::get('/app/item/fields', 'Items\Fields\FieldController@index')
             ->name('items.fields.index');
 
+        Route::get('/app/item/fields/new', 'Items\Fields\FieldController@create')
+            ->name('items.fields.add');
+
+        Route::post('/app/item/fields', 'Items\Fields\FieldController@store')
+            ->name('items.fields.store');
+
         Route::get('/app/view/F{id}', 'Items\Fields\FieldController@show')
             ->name('items.fields.view');
 
@@ -73,11 +79,11 @@ Route::middleware('auth')
         Route::post('/app/view/F{id}/edit', 'Items\Fields\FieldController@update')
             ->name('items.fields.update');
 
-        Route::get('/app/item/fields/new', 'Items\Fields\FieldController@create')
-            ->name('items.fields.add');
+        Route::get('/app/field-apply/add', 'Items\Fields\FieldAppliesToController@create')
+            ->name('items.field-apply.add');
 
-        Route::post('/app/item/fields', 'Items\Fields\FieldController@store')
-            ->name('items.fields.store');
+        Route::post('/app/field-apply', 'Items\Fields\FieldAppliesToController@store')
+            ->name('items.field-apply.store');
 
         Route::get('/app/user/self', function() {
             return 'foo bar';

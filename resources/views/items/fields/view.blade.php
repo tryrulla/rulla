@@ -47,6 +47,28 @@
                             {{ __('items.fields.types.' . $field->type) }}
                         </td>
                     </tr>
+
+                    @if($field->type->isNumber())
+                        <tr>
+                            <th class="pr-4">
+                                {{ __('items.fields.extra_options.unit') }}
+                            </th>
+
+                            <td>
+                                {{ $field->getOptions()->unit }}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="pr-4">
+                                {{ __('items.fields.extra_options.decimals') }}
+                            </th>
+
+                            <td>
+                                {{ $field->getOptions()->decimals || '0' }}
+                            </td>
+                        </tr>
+                    @endif
                 </table>
             </div>
         </div>
@@ -79,10 +101,6 @@
                         </tr>
                     @endforeach
                 </table>
-
-                <div class="mt-2 text-gray-600 text-xs">
-                    <i class="fas fa-pen"></i> {{ __('items.fields.view.values.add') }}
-                </div>
             </div>
         </div>
 
@@ -117,7 +135,9 @@
                 </table>
 
                 <div class="mt-2 text-gray-600 text-xs">
-                    <i class="fas fa-pen"></i> {{ __('items.fields.view.applies.add') }}
+                    <a href="{{ route('items.field-apply.add', ['field_id' => $field->id]) }}" class="hover:underline">
+                        <i class="fas fa-pen"></i> {{ __('items.fields.view.applies.add') }}
+                    </a>
                 </div>
             </div>
         </div>
