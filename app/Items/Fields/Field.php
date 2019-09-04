@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Rulla\Meta\HasViewUrl;
 use Spatie\Enum\Laravel\HasEnums;
 use Spatie\Translatable\HasTranslations;
+use stdClass;
 
 class Field extends Model
 {
@@ -21,6 +22,12 @@ class Field extends Model
         'system' => 'boolean',
     ];
 
+    public $translatable = ['name', 'description'];
+
+    public $enums = [
+        'type' => FieldType::class,
+    ];
+
     public function setAttribute($key, $value)
     {
         if ($this->isTranslatableAttribute($key)) {
@@ -33,12 +40,6 @@ class Field extends Model
 
         return parent::setAttribute($key, $value);
     }
-
-    public $translatable = ['name', 'description'];
-
-    public $enums = [
-        'type' => FieldType::class,
-    ];
 
     public function getIdentifierPrefixLetter(): string
     {
@@ -56,5 +57,10 @@ class Field extends Model
     public function appliesTo()
     {
         return $this->hasMany(FieldAppliesTo::class, 'field_id');
+    }
+
+    public function getOptions()
+    {
+        return $this->extra_options ? json_decode($this->extra_options) : new stdClass();
     }
 }

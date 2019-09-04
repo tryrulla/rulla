@@ -16,7 +16,7 @@
     export default {
         data() {
             return {
-                value: parseInt(this.initialValue, 10) || null,
+                value: parseInt(this.initialValue, 10) || this.initialValue,
             };
         },
         watch: {
@@ -40,8 +40,8 @@
                 default: null,
             },
             names: {
-                type: Array,
-                default: [],
+                type: Object,
+                default: () => {},
             },
         },
         methods: {

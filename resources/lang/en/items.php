@@ -12,6 +12,8 @@ return [
         ],
 
         'view' => [
+            'edit' => 'Edit',
+
             'details' => [
                 'title' => 'Details',
                 'parent' => 'Parent',
@@ -89,6 +91,8 @@ return [
         ],
 
         'view' => [
+            'edit' => 'Edit',
+
             'details' => [
                 'title' => 'Details',
                 'type' => 'Type',
@@ -117,6 +121,18 @@ return [
             'submit' => 'Submit'
         ],
 
+        'edit' => [
+            'title' => 'Edit Field',
+
+            'form' => [
+                'name' => 'Name',
+                'description' => 'Description',
+                'type' => 'Value type',
+            ],
+
+            'submit' => 'Submit'
+        ],
+
         'modes' => [
             'item' => 'Item',
             'type' => 'Type',
@@ -125,6 +141,11 @@ return [
         'types' => [
             FieldType::string()->getValue() => 'String',
             FieldType::number()->getValue() => 'Integer',
+        ],
+
+        'extra_options' => [
+            'unit' => 'Unit of Measurement',
+            'decimals' => 'Decimals'
         ]
     ]
 

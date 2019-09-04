@@ -35,6 +35,12 @@
                 </div>
             </div>
 
+            <field-custom-options
+                type-selector="type"
+                old-values="{{ json_encode(old('extra_options', new stdClass())) }}"
+                :translations="{{ json_encode(__('items.fields.extra_options')) }}"
+            ></field-custom-options>
+
             <div class="card">
                 <button class="button button-blue">
                     {{ __('items.fields.create.submit') }}

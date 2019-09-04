@@ -67,6 +67,12 @@ Route::middleware('auth')
         Route::get('/app/view/F{id}', 'Items\Fields\FieldController@show')
             ->name('items.fields.view');
 
+        Route::get('/app/view/F{id}/edit', 'Items\Fields\FieldController@edit')
+            ->name('items.fields.edit');
+
+        Route::post('/app/view/F{id}/edit', 'Items\Fields\FieldController@update')
+            ->name('items.fields.update');
+
         Route::get('/app/item/fields/new', 'Items\Fields\FieldController@create')
             ->name('items.fields.add');
 

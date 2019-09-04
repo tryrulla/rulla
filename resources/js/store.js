@@ -9,7 +9,6 @@ const state = {
 
 const mutations = {
     setValue (state, { key, value }) {
-        console.log({ key, value });
         state.values = { ...state.values, [key]: value };
     }
 };

@@ -27,7 +27,7 @@
             <div class="mt-2">
                 <div class="inline-block bg-gray-100 text-gray-700 p-2 shadow rounded">
                     <a href="{{ route('items.types.edit', $type->id) }}" class="group">
-                        <i class="fas fa-pen"></i> <span class="group-hover:underline">{{ __('items.types.view.fields.edit') }}</span>
+                        <i class="fas fa-pen"></i> <span class="group-hover:underline">{{ __('items.types.view.edit') }}</span>
                     </a>
                 </div>
             </div>

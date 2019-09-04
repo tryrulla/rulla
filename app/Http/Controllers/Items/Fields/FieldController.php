@@ -50,11 +50,11 @@ class FieldController extends Controller
                 'required',
                 Rule::in(FieldType::getValues()),
             ],
+            'extra_options' => 'nullable|json',
         ]);
 
         $field = Field::create($fields);
         return redirect($field->view_url);
-
     }
 
     /**
@@ -73,12 +73,17 @@ class FieldController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \Rulla\Items\Fields\Field  $field
+     * @param  int $id
      * @return Response
      */
-    public function edit(Field $field)
+    public function edit(int $id)
     {
-        //
+        $field = Field::with([])
+            ->find($id);
+
+        abort_if($field->system, 400, 'System can\'t be edited');
+
+        return view('items.fields.edit', ['field' => $field]);
     }
 
     /**
@@ -88,9 +93,24 @@ class FieldController extends Controller
      * @param  \Rulla\Items\Fields\Field  $field
      * @return Response
      */
-    public function update(Request $request, Field $field)
+    public function update(Request $request, int $id)
     {
-        //
+        $field = Field::find($id);
+
+        abort_if($field->system, 400, 'System can\'t be edited');
+
+        $fields = $request->validate([
+            'name' => 'required|min:3',
+            'description' => 'nullable|max:1024',
+            'type' => [
+                'required',
+                Rule::in(FieldType::getValues()),
+            ],
+            'extra_options' => 'nullable|json',
+        ]);
+
+        $field->update($fields);
+        return redirect($field->view_url);
     }
 
     /**

@@ -16,4 +16,4 @@ if (mix.inProduction()) {
   mix.version();
 }
 
-mix.browserSync('rulla.test');
+// mix.browserSync('rulla.test');

@@ -91,10 +91,10 @@
                         const url = window.Rulla.baseUrl + '/app/item/types/' + newTypeId.toString() + '/fields';
                         const { data } = await axios.get(url);
 
-                        const newFields = data.fields
-                            .map(it => ({ extraOptions: it.extra_options ? JSON.parse(it.extra_options) : {}, ...it }));
-
-                        this.fields = newFields;
+                        this.fields = data.fields
+                            .map(it => ({extraOptions: it.extra_options ? JSON.parse(it.extra_options) : {}, ...it}));
+                    } else if (!newTypeId) {
+                        this.fields = [];
                     }
                 },
                 deep: true,

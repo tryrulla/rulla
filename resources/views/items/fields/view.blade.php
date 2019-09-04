@@ -21,6 +21,14 @@
                     {{ __('items.fields.view.system.text') }}
                 </span>
             </div>
+        @else
+            <div class="mt-2">
+                <div class="inline-block bg-gray-100 text-gray-700 p-2 shadow rounded">
+                    <a href="{{ route('items.fields.edit', $field->id) }}" class="group">
+                        <i class="fas fa-pen"></i> <span class="group-hover:underline">{{ __('items.fields.view.edit') }}</span>
+                    </a>
+                </div>
+            </div>
         @endif
 
         <div class="card">
@@ -90,7 +98,7 @@
                         <tr>
                             <td class="pr-4">
                                 <a href="{{ $row->type->view_url }}" class="text-gray-700 hover:underline">
-                                    {{ $value->valueHolder->identifier }}</a>
+                                    {{ $row->type->identifier }}</a>
                             </td>
 
                             <td>
