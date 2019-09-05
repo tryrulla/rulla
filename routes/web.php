@@ -11,9 +11,6 @@
 |
 */
 
-Route::view('', 'welcome')
-    ->name('home');
-
 Route::get('/auth', 'Auth\AuthenticationController@index')
     ->name('login')
     ->middleware('guest');
@@ -31,6 +28,9 @@ Route::get('/auth/{provider}/callback', 'Auth\AuthenticationController@callback'
 
 Route::middleware('auth')
     ->group(function () {
+        Route::view('', 'welcome')
+            ->name('home');
+
         Route::post('/logout', 'Auth\AuthenticationController@logout')
             ->name('logout');
 
