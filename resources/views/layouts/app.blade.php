@@ -81,6 +81,8 @@
         @endif
 
         @yield('content')
+
+        <div class="text-center text-xs text-gray-600 mt-1">Powered by <a href="https://github.com/tryrulla" class="hover:underline">Rulla</a> {!! \Rulla\Utils\Version::getVersion() !!}.</div>
     </div>
 </div>
 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
