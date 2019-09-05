@@ -18,7 +18,7 @@
                 </label>
 
                 <div class="mt-4">
-                    <span class="text-gray-700">{{ __('items.types.create.form.type') }}</span>
+                    <span class="text-gray-700">{{ __('items.instances.create.form.type') }}</span>
 
                     <select-input
                         name="type_id"
@@ -28,12 +28,13 @@
                 </div>
 
                 <div class="mt-4">
-                    <span class="text-gray-700">{{ __('items.types.create.form.location') }}</span>
+                    <span class="text-gray-700">{{ __('items.instances.create.form.location') }}</span>
 
                     <select-input
-                        name="location_identifier"
+                        name="location_id"
+                        :typed="true"
                         :options="{{ $locations }}"
-                        initial-value="{{ old('location_identifier', Request::get('location_identifier')) }}"
+                        initial-value="{{ old('location_id', Request::get('location_id')) }}"
                     ></select-input>
                 </div>
             </div>

@@ -8,6 +8,18 @@ return [
             'title' => 'All Items',
             'add' => 'Add',
         ],
+
+        'create' => [
+            'title' => 'Create new Item',
+
+            'form' => [
+                'tag' => 'Tag',
+                'type' => 'Type',
+                'location' => 'Location (optional)',
+            ],
+
+            'submit' => 'Submit',
+        ],
     ],
 
     'types' => [

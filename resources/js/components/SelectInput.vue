@@ -1,6 +1,7 @@
 <template>
     <div>
-        <input type="hidden" :name="name" :value="value">
+        <input type="hidden" :name="name" :value="getId(value)">
+        <input type="hidden" v-if="typed" :name="name.replace('_id', '_type')" :value="getType(value)">
 
         <v-select
             class="bg-white mt-1"
@@ -48,6 +49,10 @@
                 type: Object,
                 default: () => {},
             },
+            typed: {
+                type: Boolean,
+                default: false,
+            }
         },
         methods: {
             label(it) {
@@ -75,7 +80,7 @@
                     return it;
                 }
 
-                if (it.identifier && name.endsWith('_identifier')) {
+                if (this.typed) {
                     return it.identifier;
                 }
 
@@ -86,6 +91,20 @@
                 console.warn('Could not get key for ' + JSON.encode(it));
                 return 'foo';
             },
+            getType(identifier) {
+                return (window.Rulla || {identifierLetters: {}}).identifierLetters[identifier.substr(0, 1)];
+            },
+            getId(identifier) {
+                if (typeof identifier === 'number') {
+                    return identifier;
+                }
+
+                if (!identifier) {
+                    return null;
+                }
+
+                return parseInt(identifier.substr(1));
+            }
         },
     };
 </script>

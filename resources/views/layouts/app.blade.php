@@ -16,6 +16,12 @@
         window.Rulla = {
             language: '{{ Lang::getLocale() }}',
             baseUrl: '{{ url(route('home')) }}',
+
+            identifierLetters: {
+                'I': '{{ str_replace('\\', '\\\\', \Rulla\Items\Instances\Item::class) }}',
+                'T': '{{ str_replace('\\', '\\\\', \Rulla\Items\Types\ItemType::class) }}',
+                'F': '{{ str_replace('\\', '\\\\', \Rulla\Items\Fields\Field::class) }}',
+            }
         };
     </script>
 
