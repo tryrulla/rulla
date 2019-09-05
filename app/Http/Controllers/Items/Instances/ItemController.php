@@ -4,6 +4,7 @@ namespace Rulla\Http\Controllers\Items\Instances;
 
 use Illuminate\Http\Response;
 use Rulla\Http\Controllers\Controller;
+use Rulla\Http\Requests\CreateInstanceRequest;
 use Rulla\Items\Instances\Item;
 use Illuminate\Http\Request;
 use Rulla\Items\Types\ItemType;
@@ -21,7 +22,6 @@ class ItemController extends Controller
             ->paginate(50);
 
         return view('items.instances.index', ['items' => $items]);
-
     }
 
     /**
@@ -47,12 +47,13 @@ class ItemController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param CreateInstanceRequest $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(CreateInstanceRequest $request)
     {
-        //
+        $item = Item::create($request->validated());
+        return redirect($item->view_url);
     }
 
     /**

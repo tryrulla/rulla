@@ -26,7 +26,8 @@ class CreateItemsTable extends Migration
 
             $table->unsignedBigInteger('location_id')
                 ->nullable();
-            $table->string('location_type');
+            $table->string('location_type')
+                ->nullable();
 
             $table->softDeletes();
             $table->timestamps();

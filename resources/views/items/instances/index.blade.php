@@ -27,11 +27,22 @@
                     </td>
 
                     <td class="pr-2">
-                        {{ $item->name }}
+                        <a href="{{ $item->type->viewUrl }}" class="hover:underline">
+                            <span class="text-blue-900">{{ $item->type->identifier }}</span> {{ $item->type->name }}
+                        </a>
                     </td>
 
-                    <td class="pl-1 text-gray-700">
+                    <td class="pr-2 text-gray-700">
+                        {{ $item->tag }}
                     </td>
+
+                    @if($item->location)
+                        <td class="pl-1 text-gray-700">
+                            <a href="{{ $item->location->viewUrl }}" class="hover:underline">
+                                <span class="text-blue-900">{{ $item->location->identifier }}</span> {{ $item->location->name }}
+                            </a>
+                        </td>
+                    @endif
                 </tr>
             @endforeach
         </table>
