@@ -12,16 +12,15 @@
         "ext-json": "*",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.3",
-        "laravel/framework": "5.8.*",
+        "laravel/framework": "^6.0",
         "laravel/tinker": "^1.0",
         "league/oauth2-client": "^2.4",
         "predis/predis": "^1.1",
         "spatie/enum": "^2.3",
-        "spatie/laravel-enum": "^1.0@beta",
+        "spatie/laravel-enum": "dev-master",
         "spatie/laravel-translatable": "^4.1"
     },
     "require-dev": {
-        "adamwathan/laravel-preset": "dev-master",
         "barryvdh/laravel-debugbar": "^3.2",
         "barryvdh/laravel-ide-helper": "^2.6",
         "beyondcode/laravel-dump-server": "^1.0",
