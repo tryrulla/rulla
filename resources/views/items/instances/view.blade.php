@@ -85,7 +85,11 @@
 
                             <td>
                                 <a href="{{ $item->location->viewUrl }}">
-                                    <span class="hover:underline text-gray-900 hover:text-black">
+                                    <span class="hover:underline text-gray-900 hover:text-black group">
+                                        <span class="text-gray-700 group-hover:text-gray-900">
+                                            {{ $item->location->identifier }}
+                                        </span>
+
                                         {{ $item->location->name }}</span>
 
                                     @if($item->location->system)

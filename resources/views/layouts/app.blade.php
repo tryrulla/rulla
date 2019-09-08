@@ -8,22 +8,26 @@
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <title>
         @hasSection('title')
-            @yield('title') &ndash;
+        @yield('title') &ndash;
         @endif
         {{ config('app.name', 'Rulla') }}</title>
 
-    <script>
-        window.Rulla = {
-            language: '{{ Lang::getLocale() }}',
-            baseUrl: '{{ url(route('home')) }}',
-
-            identifierLetters: {
-                'I': '{{ str_replace('\\', '\\\\', \Rulla\Items\Instances\Item::class) }}',
-                'T': '{{ str_replace('\\', '\\\\', \Rulla\Items\Types\ItemType::class) }}',
-                'F': '{{ str_replace('\\', '\\\\', \Rulla\Items\Fields\Field::class) }}',
-            }
-        };
-    </script>
+    @javascript('Rulla', [
+        'language' => Lang::getLocale(),
+        'baseUrl' => url(route('home')),
+        'identifiers' => [
+            'letterToType' => [
+                'I' => \Rulla\Items\Instances\Item::class,
+                'T' => \Rulla\Items\Types\ItemType::class,
+                'F' => \Rulla\Items\Fields\Field::class
+            ],
+            'typeToLetter' => [
+                \Rulla\Items\Instances\Item::class => 'I',
+                \Rulla\Items\Types\ItemType::class => 'T',
+                \Rulla\Items\Fields\Field::class => 'F',
+            ],
+        ]
+    ])
 
     <link rel="stylesheet"
           href="https://use.fontawesome.com/releases/v5.10.1/css/all.css"
@@ -34,7 +38,8 @@
     <div class="container mx-auto py-4">
         <div class="flex bg-white leading-none rounded-lg p-1 shadow justify-between">
             <div class="inline-flex">
-                <a href="{{ route('home') }}" class="inline-flex bg-blue-600 text-white rounded h-6 px-3 justify-center items-center">{{ config('app.name', 'Rulla') }}</a>
+                <a href="{{ route('home') }}"
+                   class="inline-flex bg-blue-600 text-white rounded h-6 px-3 justify-center items-center">{{ config('app.name', 'Rulla') }}</a>
 
                 @foreach([
                     'items' => route('items.instances.index'),
@@ -49,11 +54,14 @@
 
             <div class="inline-flex mr-2">
                 @auth
-                    <a href="{{ route('profile') }}" class="inline-flex justify-center items-center ml-4 hover:underline">
+                    <a href="{{ route('profile') }}"
+                       class="inline-flex justify-center items-center ml-4 hover:underline">
                         {{ __('navbar.profile', Auth::user()->toArray()) }}
                     </a>
 
-                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="inline-flex justify-center items-center ml-4 hover:underline">
+                    <a href="{{ route('logout') }}"
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                       class="inline-flex justify-center items-center ml-4 hover:underline">
                         {{ __('navbar.logout') }}
                     </a>
                 @else
@@ -82,7 +90,10 @@
 
         @yield('content')
 
-        <div class="text-center text-xs text-gray-600 mt-1">Powered by <a href="https://github.com/tryrulla" class="hover:underline">Rulla</a> {!! \Rulla\Utils\Version::getVersion() !!}.</div>
+        <div class="text-center text-xs text-gray-600 mt-1">Powered by <a href="https://github.com/tryrulla"
+                                                                          class="hover:underline">Rulla</a> {!! \Rulla\Utils\Version::getVersion() !!}
+            .
+        </div>
     </div>
 </div>
 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

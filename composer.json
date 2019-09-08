@@ -17,6 +17,7 @@
         "league/oauth2-client": "^2.4",
         "predis/predis": "^1.1",
         "spatie/enum": "^2.3",
+        "spatie/laravel-blade-javascript": "^2.4",
         "spatie/laravel-enum": "dev-master",
         "spatie/laravel-translatable": "^4.1"
     },
@@ -30,7 +31,8 @@
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
-        "phpunit/phpunit": "^7.5"
+        "phpunit/phpunit": "^7.5",
+        "wnx/laravel-stats": "^2.0"
     },
     "config": {
         "optimize-autoloader": true,

@@ -32,9 +32,10 @@
 
                     <select-input
                         name="location_id"
-                        :typed="true"
+                        typed
                         :options="{{ $locations }}"
                         initial-value="{{ old('location_id', Request::get('location_id')) }}"
+                        initial-type="{{ old('location_type') }}"
                     ></select-input>
                 </div>
             </div>

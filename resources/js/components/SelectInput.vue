@@ -14,10 +14,24 @@
 </template>
 
 <script>
+    const isNumber = require('is-number');
+    const processNewType = (initialValue, initialType, typed) => {
+        if (!typed) {
+            return isNumber(initialValue) ? parseInt(initialValue) : null;
+        }
+
+        console.log({ initialType, initialValue });
+        if (initialType && isNumber(initialValue)) {
+            return window.Rulla.identifiers.typeToLetter[initialType] + initialValue.toString().padStart(7, '0');
+        }
+
+        return null;
+    };
+
     export default {
         data() {
             return {
-                value: parseInt(this.initialValue, 10) || this.initialValue,
+                value: processNewType(this.initialValue, this.initialType, this.typed),
             };
         },
         watch: {
@@ -45,9 +59,12 @@
             initialValue: {
                 default: null,
             },
+            initialType: {
+                default: null,
+            },
             names: {
                 type: Object,
-                default: () => {},
+                default: () => ({}),
             },
             typed: {
                 type: Boolean,
@@ -92,7 +109,11 @@
                 return 'foo';
             },
             getType(identifier) {
-                return (window.Rulla || {identifierLetters: {}}).identifierLetters[identifier.substr(0, 1)];
+                if (!identifier) {
+                    return null;
+                }
+
+                return window.Rulla.identifiers.letterToType[identifier.substr(0, 1)];
             },
             getId(identifier) {
                 if (typeof identifier === 'number') {
