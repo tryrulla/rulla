@@ -20,6 +20,17 @@ return [
 
             'submit' => 'Submit',
         ],
+
+        'view' => [
+            'edit' => 'Edit',
+
+            'details' => [
+                'title' => 'Details',
+                'tag' => 'Tag',
+                'type' => 'Type',
+                'location' => 'Location',
+            ]
+        ]
     ],
 
     'types' => [
@@ -108,6 +119,9 @@ return [
             'location' => 'Storage Location',
 
             'submit' => 'Submit',
+
+            'delete' => 'Delete',
+            'deleted' => 'Successfully deleted type storage record.',
         ],
     ],
 

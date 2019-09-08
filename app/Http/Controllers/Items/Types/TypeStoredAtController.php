@@ -2,6 +2,8 @@
 
 namespace Rulla\Http\Controllers\Items\Types;
 
+use Exception;
+use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 use Rulla\Items\Types\ItemType;
 use Rulla\Items\Types\TypeStoredAt;
@@ -13,7 +15,7 @@ class TypeStoredAtController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -31,8 +33,8 @@ class TypeStoredAtController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -54,8 +56,8 @@ class TypeStoredAtController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \Rulla\Items\Types\TypeStoredAt  $typeStoredAt
-     * @return \Illuminate\Http\Response
+     * @param TypeStoredAt $typeStoredAt
+     * @return Response
      */
     public function show(TypeStoredAt $typeStoredAt)
     {
@@ -65,8 +67,8 @@ class TypeStoredAtController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \Rulla\Items\Types\TypeStoredAt  $typeStoredAt
-     * @return \Illuminate\Http\Response
+     * @param TypeStoredAt $typeStoredAt
+     * @return Response
      */
     public function edit(TypeStoredAt $typeStoredAt)
     {
@@ -76,9 +78,9 @@ class TypeStoredAtController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Rulla\Items\Types\TypeStoredAt  $typeStoredAt
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param TypeStoredAt $typeStoredAt
+     * @return Response
      */
     public function update(Request $request, TypeStoredAt $typeStoredAt)
     {
@@ -88,11 +90,18 @@ class TypeStoredAtController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Rulla\Items\Types\TypeStoredAt  $typeStoredAt
-     * @return \Illuminate\Http\Response
+     * @param TypeStoredAt $typeStoredAt
+     * @return Response
+     * @throws Exception
      */
     public function destroy(TypeStoredAt $typeStoredAt)
     {
-        //
+        abort_if($typeStoredAt->stored_type_id <= 1000, 400, "Can't delete typeStoredAt with system types");
+        abort_if($typeStoredAt->storage_type_id <= 1000, 400, "Can't delete typeStoredAt with system types");
+
+        $typeStoredAt->delete();
+        return redirect()
+            ->route('items.fields.view', $typeStoredAt->stored_type_id)
+            ->with('notice', __('items.types.storage.deleted'));
     }
 }

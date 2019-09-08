@@ -100,6 +100,9 @@ Route::middleware('auth')
         Route::get('/app/view/I{id}', 'Items\Instances\ItemController@show')
             ->name('items.instances.view');
 
+        Route::get('/app/view/I{id}/edit', 'Items\Instances\ItemController@edit')
+            ->name('items.instances.edit');
+
         Route::get('/app/user/self', function() {
             return 'foo bar';
         })

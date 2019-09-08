@@ -59,12 +59,15 @@ class ItemController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \Rulla\Items\Instances\Item  $item
-     * @return Response
+     * @param int $id
+     * @return void
      */
-    public function show(Item $item)
+    public function show(int $id)
     {
-        //
+        $item = Item::with('type', 'location', 'locatedHere')
+            ->findOrFail($id);
+
+        return view('items.instances.view', ['item' => $item]);
     }
 
     /**

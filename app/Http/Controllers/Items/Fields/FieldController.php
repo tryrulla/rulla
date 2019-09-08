@@ -66,7 +66,7 @@ class FieldController extends Controller
     public function show(int $id)
     {
         $field = Field::with('values', 'values.field', 'appliesTo', 'appliesTo.type')
-            ->find($id);
+            ->findOrFail($id);
         return view('items.fields.view', ['field' => $field]);
     }
 
@@ -79,7 +79,7 @@ class FieldController extends Controller
     public function edit(int $id)
     {
         $field = Field::with([])
-            ->find($id);
+            ->findOrFail($id);
 
         abort_if($field->system, 400, 'System can\'t be edited');
 
@@ -95,7 +95,7 @@ class FieldController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        $field = Field::find($id);
+        $field = Field::findOrFail($id);
 
         abort_if($field->system, 400, 'System can\'t be edited');
 

@@ -171,7 +171,7 @@
                     </table>
 
                     <div class="mt-2 text-gray-600 text-xs">
-                        <a href="{{ route('items.instances.add', ['location' => $type->identifier]) }}" class="hover:underline">
+                        <a href="{{ route('items.instances.add', ['location_id' => $type->identifier]) }}" class="hover:underline">
                             <i class="fas fa-pen"></i> {{ __('items.types.view.locatedHere.add') }}
                         </a>
                     </div>
