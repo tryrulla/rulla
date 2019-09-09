@@ -18,7 +18,7 @@
         "predis/predis": "^1.1",
         "spatie/enum": "^2.3",
         "spatie/laravel-blade-javascript": "^2.4",
-        "spatie/laravel-enum": "dev-master",
+        "spatie/laravel-enum": "^1.0@beta",
         "spatie/laravel-translatable": "^4.1"
     },
     "require-dev": {
