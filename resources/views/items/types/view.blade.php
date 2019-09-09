@@ -70,7 +70,7 @@
             @component('components.cards.lists.instances', ['items' => $type->instances, 'title' => __('items.types.view.instances.title'), 'link' => ['target' => route('items.instances.add', ['type_id' => $type->id]), 'icon' => 'fas fa-pen', 'text' => __('items.types.view.instances.add')]])
             @endcomponent
         @elseif($type->hasParent(2))
-            @component('components.cards.lists.instances', ['items' => $type->instances, 'title' => __('items.types.view.locatedHere.title'), 'link' => ['target' => route('items.instances.add', ['location_id' => $type->identifier]), 'icon' => 'fas fa-pen', 'text' => __('items.types.view.instances.add')]])
+            @component('components.cards.lists.instances', ['items' => $type->locatedHere, 'title' => __('items.types.view.locatedHere.title'), 'link' => ['target' => route('items.instances.add', ['location_id' => $type->identifier]), 'icon' => 'fas fa-pen', 'text' => __('items.types.view.instances.add')]])
             @endcomponent
         @endif
 
