@@ -6,7 +6,7 @@ jobs:
     services:
       image: mariadb
       restart: always
-      environment:
+      env:
         MYSQL_ROOT_PASSWORD: rulla
         MYSQL_DATABASE: rulla
       ports:
