@@ -23,7 +23,7 @@
             @endforeach
         </table>
 
-        @if($link)
+        @if(isset($link))
             <div class="mt-2 text-gray-600 text-xs">
                 <a href="{{ $link['target'] }}" class="hover:underline">
                     <i class="{{ $link['icon'] }}"></i> {{ $link['text'] }}

@@ -105,6 +105,11 @@
             </div>
         </div>
 
+        @if($item->locatedHere->isNotEmpty())
+            @component('components.cards.lists.instances', ['items' => $item->locatedHere, 'title' => __('items.types.view.locatedHere.title'), 'doNotShowLocation' => true])
+            @endcomponent
+        @endif
+
     </div>
 
 @endsection

@@ -20,10 +20,10 @@
                         </a>
                     </td>
 
-                    @if($item->location)
+                    @if($item->location && !isset($doNotShowLocation))
                         <td class="pl-1 text-gray-700">
                             <a href="{{ $item->location->viewUrl }}" class="hover:underline">
-                                <span class="text-blue-900">{{ $item->location->identifier }}</span> {{ $item->location->name }}
+                                <span class="text-blue-900">{{ $item->location->identifier }}</span> {{ $item->location->name ?? $item->location->tag }}
                             </a>
                         </td>
                     @endif
@@ -31,7 +31,7 @@
             @endforeach
         </table>
 
-        @if($link)
+        @if(isset($link))
             <div class="mt-2 text-gray-600 text-xs">
                 <a href="{{ $link['target'] }}" class="hover:underline">
                     <i class="{{ $link['icon'] }}"></i> {{ $link['text'] }}
