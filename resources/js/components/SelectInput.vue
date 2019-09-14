@@ -7,7 +7,7 @@
             class="bg-white mt-1"
             :get-option-label="label"
             :reduce="getKey"
-            :options="options"
+            :options="allOptions"
             v-model="value"
         />
     </div>
@@ -15,12 +15,13 @@
 
 <script>
     const isNumber = require('is-number');
+    import axios from '../axios';
+
     const processNewType = (initialValue, initialType, typed) => {
         if (!typed) {
             return isNumber(initialValue) ? parseInt(initialValue) : null;
         }
 
-        console.log({ initialType, initialValue });
         if (initialType && isNumber(initialValue)) {
             return window.Rulla.identifiers.typeToLetter[initialType] + initialValue.toString().padStart(7, '0');
         }
@@ -32,12 +33,26 @@
         data() {
             return {
                 value: processNewType(this.initialValue, this.initialType, this.typed),
+                extraValues: [],
             };
         },
         watch: {
             value(value) {
                 this.$store.dispatch('setValue', { key: this.name, value });
-            }
+            },
+            extraValuesFieldValue: {
+                async handler(newValue) {
+                    if (this.processExtraValuesField && this.processExtraValuesUrl && newValue) {
+                        const url = window.Rulla.baseUrl + this.processExtraValuesUrl.replace('{id}', newValue.toString());
+                        const { data } = await axios.get(url);
+
+                        this.extraValues = data;
+                    } else {
+                        this.extraValues = [];
+                    }
+                },
+                deep: true,
+            },
         },
         mounted() {
             this.$store.dispatch('setValue', { key: this.name, value: this.initialValue });
@@ -45,6 +60,12 @@
         computed: {
             language() {
                 return (window.Rulla || {}).language || 'en';
+            },
+            extraValuesFieldValue() {
+                return this.processExtraValuesField ? this.$store.getters.values[this.processExtraValuesField] : null;
+            },
+            allOptions() {
+                return this.options.concat(this.extraValues);
             },
         },
         props: {
@@ -69,7 +90,15 @@
             typed: {
                 type: Boolean,
                 default: false,
-            }
+            },
+            processExtraValuesField: {
+                type: String,
+                default: null,
+            },
+            processExtraValuesUrl: {
+                type: String,
+                default: null,
+            },
         },
         methods: {
             label(it) {
@@ -86,7 +115,7 @@
                         return `[${it.identifier}] ${it.name[this.language] || it.name['en']}`;
                     }
 
-                    return `[${it.identifier}] ${it.name}`;
+                    return `[${it.identifier}] ${it.name || it.tag}`;
                 }
 
                 console.warn('Could not get name for ' + JSON.encode(it));

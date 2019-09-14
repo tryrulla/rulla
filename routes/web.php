@@ -94,6 +94,9 @@ Route::middleware('auth')
         Route::get('/app/item/instances/new', 'Items\Instances\ItemController@create')
             ->name('items.instances.add');
 
+        Route::get('/app/item/instances/new/api/type-locations/{id}', 'Items\Instances\ItemController@getApplicableLocations')
+            ->name('item.instances.add.get-type-locations');
+
         Route::post('/app/item/instances', 'Items\Instances\ItemController@store')
             ->name('items.instances.store');
 

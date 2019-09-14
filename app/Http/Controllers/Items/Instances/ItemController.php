@@ -2,6 +2,8 @@
 
 namespace Rulla\Http\Controllers\Items\Instances;
 
+use Illuminate\Database\Query\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Rulla\Http\Controllers\Controller;
 use Rulla\Http\Requests\CreateInstanceRequest;
@@ -31,7 +33,7 @@ class ItemController extends Controller
      */
     public function create()
     {
-        [$types, $locationTypes] = ItemType::with('parents')
+        [$types, $locations] = ItemType::with('parents')
             ->where('system', false)
             ->orderBy('name')
             ->get()
@@ -39,9 +41,31 @@ class ItemController extends Controller
                 return $type->hasParent(1);
             });
 
-        $locations = $locationTypes->merge(collect());
-
         return view('items.instances.add', ['types' => $types->values(), 'locations' => $locations->values()]);
+    }
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function getApplicableLocations(int $id)
+    {
+        $type = ItemType::with('parents')
+            ->where('system', false)
+            ->findOrFail($id);
+
+        $locations = Item::whereIn('type_id', function (Builder $query) use ($type) {
+            return $query->from('item_types')
+                ->whereIn('id', function (Builder $query) use ($type) {
+                    return $query->from('type_stored_ats')
+                        ->whereIn('stored_type_id', $type->getAllParentIds())
+                        ->select('storage_type_id');
+                })
+                ->select('id');
+            })
+            ->get();
+
+        return response()->json($locations);
     }
 
     /**

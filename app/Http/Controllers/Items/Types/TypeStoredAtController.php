@@ -19,13 +19,14 @@ class TypeStoredAtController extends Controller
      */
     public function create()
     {
-        [$itemTypes, $locations] = ItemType::with('parents')
+        $locations = ItemType::with('parents')
             ->where('system', false)
             ->orderBy('name')
-            ->get()
-            ->partition(function (ItemType $it) {
-                return $it->hasParent(1);
-            });
+            ->get();
+
+        $itemTypes = $locations->filter(function (ItemType $it) {
+            return $it->hasParent(1);
+        });
 
         return view('items.types.storage_types.add', ['itemTypes' => $itemTypes->values(), 'locations' => $locations->values()]);
     }

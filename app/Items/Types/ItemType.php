@@ -47,7 +47,7 @@ class ItemType extends Model
 
     public function storedAtIncludeParents()
     {
-        $parents = $this->getAllParentIds();
+        $parents = $this->getAllParentIds(true);
         $storedAt = TypeStoredAt::whereIn('stored_type_id', $parents)
             ->with('storageType', 'storedType')
             ->get();
@@ -67,7 +67,7 @@ class ItemType extends Model
 
     public function storedHereIncludeParents()
     {
-        $parents = $this->getAllParentIds();
+        $parents = $this->getAllParentIds(true);
         $storedHere = TypeStoredAt::whereIn('storage_type_id', $parents)
             ->with('storageType', 'storedType')
             ->get();
@@ -117,9 +117,9 @@ class ItemType extends Model
         return $grandparent;
     }
 
-    public function getAllParentIds()
+    public function getAllParentIds($includeSelf = false)
     {
-        $collection = collect();
+        $collection = $includeSelf ? collect($this->id) : collect();
 
         $this->loadMissing('parents');
         $loop = $this;

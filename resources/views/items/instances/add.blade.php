@@ -36,6 +36,8 @@
                         :options="{{ $locations }}"
                         initial-value="{{ old('location_id', Request::get('location_id')) }}"
                         initial-type="{{ old('location_type') }}"
+                        process-extra-values-field="type_id"
+                        process-extra-values-url="/app/item/instances/new/api/type-locations/{id}"
                     ></select-input>
                 </div>
             </div>

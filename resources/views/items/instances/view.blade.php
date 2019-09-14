@@ -90,7 +90,7 @@
                                             {{ $item->location->identifier }}
                                         </span>
 
-                                        {{ $item->location->name }}</span>
+                                        {{ $item->location->name ?? $item->location->tag }}</span>
 
                                     @if($item->location->system)
                                         <span class="pl-1 text-gray-600">

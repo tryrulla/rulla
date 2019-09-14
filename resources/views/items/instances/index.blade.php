@@ -39,7 +39,7 @@
                     @if($item->location)
                         <td class="pl-1 text-gray-700">
                             <a href="{{ $item->location->viewUrl }}" class="hover:underline">
-                                <span class="text-blue-900">{{ $item->location->identifier }}</span> {{ $item->location->name }}
+                                <span class="text-blue-900">{{ $item->location->identifier }}</span> {{ $item->location->name ?? $item->location->tag }}
                             </a>
                         </td>
                     @endif
