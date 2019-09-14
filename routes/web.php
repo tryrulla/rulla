@@ -52,7 +52,7 @@ Route::middleware('auth')
         Route::post('/app/view/T{id}/edit', 'Items\Types\ItemTypeController@update')
             ->name('items.types.update');
 
-        Route::get('/app/item/types/{id}/fields', 'Items\Types\ItemTypeController@getFields')
+        Route::get('/app/item/types/{id}/api/fields', 'Items\Types\ItemTypeController@getFields')
             ->name('items.types.fields');
 
         Route::get('/app/item/type-storage/add', 'Items\Types\TypeStoredAtController@create')
@@ -94,8 +94,11 @@ Route::middleware('auth')
         Route::get('/app/item/instances/new', 'Items\Instances\ItemController@create')
             ->name('items.instances.add');
 
-        Route::get('/app/item/instances/new/api/type-locations/{id}', 'Items\Instances\ItemController@getApplicableLocations')
-            ->name('item.instances.add.get-type-locations');
+        Route::get('/app/item/instances/api/type-locations/{id}', 'Items\Instances\ItemController@getApplicableLocations')
+            ->name('item.instances.api.get-type-locations');
+
+        Route::get('/app/item/instances/api/fields/{id}', 'Items\Instances\ItemController@getApplicableFields')
+            ->name('item.instances.api.get-type-fields');
 
         Route::post('/app/item/instances', 'Items\Instances\ItemController@store')
             ->name('items.instances.store');
@@ -105,6 +108,9 @@ Route::middleware('auth')
 
         Route::get('/app/view/I{id}/edit', 'Items\Instances\ItemController@edit')
             ->name('items.instances.edit');
+
+        Route::post('/app/view/I{id}/edit', 'Items\Instances\ItemController@update')
+            ->name('items.instances.update');
 
         Route::get('/app/user/self', function() {
             return 'foo bar';

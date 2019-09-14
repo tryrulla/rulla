@@ -75,36 +75,8 @@
         @endif
 
         @if($type->fields->isNotEmpty())
-            <div class="card">
-                <h3 class="font-bold">
-                    {{ __('items.types.view.fields.title') }}
-                </h3>
-
-                <div class="px-2">
-                    <table>
-                        @foreach($type->fields as $field)
-                            <?php /** @var \Rulla\Items\Fields\FieldValue $field */ ?>
-                            <tr>
-                                <td class="pr-4">
-                                    <a href="{{ $field->field->viewUrl }}" class="text-gray-700 hover:underline">
-                                        {{ $field->field->identifier }}</a>
-                                </td>
-
-                                <td class="pr-2">
-                                    <a href="{{ $field->field->viewUrl }}">
-                                        <span class="hover:underline text-gray-900 hover:text-black">
-                                            {{ $field->field->name }}</span>
-                                    </a>
-                                </td>
-
-                                <td>
-                                    {{ $field->getFormattedValue() }}
-                                </td>
-                            </tr>
-                        @endforeach
-                    </table>
-                </div>
-            </div>
+            @component('components.cards.lists.field-values', ['title' => __('items.types.view.fields.title'), 'fields' => $type->fields])
+            @endcomponent
         @endif
 
         @if($storedAt->isNotEmpty())

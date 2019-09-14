@@ -30,7 +30,7 @@
     ])
 
     <link rel="stylesheet"
-          href="https://use.fontawesome.com/releases/v5.10.1/css/all.css"
+          href="https://use.fontawesome.com/releases/v5.10.2/css/all.css"
           crossorigin="anonymous">
 </head>
 <body class="font-sans antialiased text-gray-800 leading-tight bg-gray-300 border-t-8 border-blue-500">

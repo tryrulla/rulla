@@ -39,12 +39,13 @@
                 </h3>
 
                 <div>
-                    <type-field-editor
-                        type-id-selector="parent_id"
+                    <field-editor
+                        id-selector="parent_id"
                         msg-none-available="{{ __('items.types.edit.fields.none') }}"
+                        field-url="/app/item/types/{id}/api/fields"
                         :default-fields="{{ $fields }}"
                         :original-values="{{ old('field-values', $type->fields) }}"
-                    ></type-field-editor>
+                    ></field-editor>
                 </div>
             </div>
 

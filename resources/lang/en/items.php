@@ -18,6 +18,28 @@ return [
                 'location' => 'Location (optional)',
             ],
 
+            'fields' => [
+                'title' => 'Fields',
+                'none' => 'There are no fields available for this item type.',
+            ],
+
+            'submit' => 'Submit',
+        ],
+
+        'edit' => [
+            'title' => 'Edit Item',
+
+            'form' => [
+                'tag' => 'Tag',
+                'type' => 'Type',
+                'location' => 'Location (optional)',
+            ],
+
+            'fields' => [
+                'title' => 'Fields',
+                'none' => 'There are no fields available for this item type.',
+            ],
+
             'submit' => 'Submit',
         ],
 
@@ -29,6 +51,10 @@ return [
                 'tag' => 'Tag',
                 'type' => 'Type',
                 'location' => 'Location',
+            ],
+
+            'fields' => [
+                'title' => 'Fields'
             ]
         ]
     ],

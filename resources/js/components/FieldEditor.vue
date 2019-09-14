@@ -59,7 +59,11 @@
                 type: Array,
                 required: true,
             },
-            typeIdSelector: {
+            idSelector: {
+                default: null,
+                type: String,
+            },
+            fieldUrl: {
                 default: null,
                 type: String,
             },
@@ -79,25 +83,24 @@
                 return (window.Rulla || {}).language || 'en';
             },
             fieldId() {
-                return this.typeIdSelector ? this.$store.getters.values[this.typeIdSelector] : null;
+                return this.idSelector ? this.$store.getters.values[this.idSelector] : null;
             },
             applicableValues() {
                 return this.data.filter(it => {
-                    console.log({ data: it, field: this.fieldData(it.field_id) });
                     return this.fieldData(it.field_id).id === it.field_id;
                 });
             },
         },
         watch: {
             fieldId: {
-                async handler(newTypeId) {
-                    if (this.typeIdSelector && newTypeId) {
-                        const url = window.Rulla.baseUrl + '/app/item/types/' + newTypeId.toString() + '/fields';
+                async handler(newValue) {
+                    if (this.idSelector && this.fieldUrl && newValue) {
+                        const url = window.Rulla.baseUrl + this.fieldUrl.replace('{id}', newValue.toString());
                         const { data } = await axios.get(url);
 
-                        this.fields = data.fields
+                        this.fields = data
                             .map(it => ({extraOptions: it.extra_options ? JSON.parse(it.extra_options) : {}, ...it}));
-                    } else if (!newTypeId) {
+                    } else if (!newValue) {
                         this.fields = [];
                     }
                 },

@@ -19,7 +19,7 @@
 
     const processNewType = (initialValue, initialType, typed) => {
         if (!typed) {
-            return isNumber(initialValue) ? parseInt(initialValue) : null;
+            return isNumber(initialValue) ? parseInt(initialValue) : initialValue;
         }
 
         if (initialType && isNumber(initialValue)) {
@@ -151,6 +151,10 @@
 
                 if (!identifier) {
                     return null;
+                }
+
+                if (this.names && Object.keys(this.names).length > 0) {
+                    return identifier;
                 }
 
                 return parseInt(identifier.substr(1));

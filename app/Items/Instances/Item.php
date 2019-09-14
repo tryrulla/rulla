@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Rulla\Items\Types\ItemType;
 use Rulla\Meta\HasViewUrl;
+use Rulla\Traits\HasCustomFields;
 
 class Item extends Model
 {
     use SoftDeletes;
     use HasViewUrl;
+    use HasCustomFields;
 
     public $guarded = [];
 

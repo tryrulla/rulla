@@ -8,11 +8,13 @@ use Illuminate\Support\Collection;
 use Rulla\Items\Fields\FieldValue;
 use Rulla\Items\Instances\Item;
 use Rulla\Meta\HasViewUrl;
+use Rulla\Traits\HasCustomFields;
 
 class ItemType extends Model
 {
     use SoftDeletes;
     use HasViewUrl;
+    use HasCustomFields;
 
     public $guarded = [];
 
@@ -96,11 +98,6 @@ class ItemType extends Model
         }
 
         return $this->getAllParentIds()->contains($parent);
-    }
-
-    public function fields()
-    {
-        return $this->morphMany(FieldValue::class, 'value_holder');
     }
 
     /**

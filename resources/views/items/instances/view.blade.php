@@ -110,6 +110,11 @@
             @endcomponent
         @endif
 
+        @if($item->fields->isNotEmpty())
+            @component('components.cards.lists.field-values', ['title' => __('items.instances.view.fields.title'), 'fields' => $item->fields])
+            @endcomponent
+        @endif
+
     </div>
 
 @endsection

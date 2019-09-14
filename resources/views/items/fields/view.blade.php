@@ -65,7 +65,7 @@
                             </th>
 
                             <td>
-                                {{ $field->getOptions()->decimals || '0' }}
+                                {{ $field->getOptions()->decimals ?? '0' }}
                             </td>
                         </tr>
                     @endif
@@ -91,7 +91,7 @@
                             <td class="pr-4">
                                 <a href="{{ $value->valueHolder->viewUrl }}">
                                     <span class="hover:underline text-gray-900 hover:text-black">
-                                        {{ $value->valueHolder->name }}</span>
+                                        {{ $value->valueHolder->name ?? $value->valueHolder->tag }}</span>
                                 </a>
                             </td>
 
