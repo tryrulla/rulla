@@ -9,9 +9,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class PassiveAuthenticationProvider extends AuthenticationProvider
 {
-    protected abstract function tryFindUser(Request $request): ?User;
+    public abstract function tryFindUser(Request $request): ?User;
 
-    public function tryAuthenticate(Request $request): boolean
+    /**
+     * @param Request $request
+     * @return bool
+     */
+    public function tryAuthenticate(Request $request)
     {
         $user = $this->tryFindUser($request);
 

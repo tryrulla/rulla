@@ -10,7 +10,7 @@ use Rulla\Authentication\Models\User;
  */
 class UpnPassiveAuthenticationProvider extends PassiveAuthenticationProvider
 {
-    protected function tryFindUser(Request $request): ?User
+    public function tryFindUser(Request $request): ?User
     {
         $upn = getenv('upn');
         if ($upn) {

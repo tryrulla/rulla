@@ -20,6 +20,10 @@ class AuthenticationController extends Controller
 
     public function index()
     {
+        if ($this->authenticationManager->getSocialProviders()->isEmpty()
+            && $this->authenticationManager->getPasswordProviders()->isEmpty()) {
+            return view('general.message', ['message' => __('auth.no-providers')]);
+        }
         return view('authentication.auth');
     }
 

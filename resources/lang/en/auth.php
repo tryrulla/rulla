@@ -16,6 +16,8 @@ return [
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
+    'no-providers' => 'No authentication providers are currently available.',
+
     'form' => [
         'title' => 'Log in using email and password',
 
