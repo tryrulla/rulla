@@ -32,17 +32,23 @@
                     </a>
                 </div>
 
-                <div class="inline-block bg-gray-100 text-gray-700 p-2 shadow rounded">
-                    @if($item->isCheckedOut())
-                        <a href="{{ route('items.instances.edit', $item->id) }}" class="hover:underline">
+                @if($item->isCheckedOut())
+                    <form action="{{ route('items.checkout.delete', $item->getActiveCheckout()) }}" method="POST" class="inline-block">
+                        @method('DELETE')
+                        @csrf
+                        <button type="submit" class="bg-gray-100 text-gray-700 p-2 shadow rounded hover:underline">
                             {{ __('items.instances.view.return') }}
-                        </a>
-                    @else
-                        <a href="{{ route('items.instances.edit', $item->id) }}" class="hover:underline">
+                        </button>
+                    </form>
+                @else
+                    <form action="{{ route('items.checkout.store') }}" method="POST" class="inline-block">
+                        @csrf
+                        <input type="hidden" name="item" value="{{ $item->id }}">
+                        <button type="submit" class="bg-gray-100 text-gray-700 p-2 shadow rounded hover:underline">
                             {{ __('items.instances.view.checkout') }}
-                        </a>
-                    @endif
-                </div>
+                        </button>
+                    </form>
+                @endif
             </div>
         @endif
 

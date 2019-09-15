@@ -11,6 +11,8 @@ class ItemCheckout extends Model
 {
     use HasFormattedIdentifier;
 
+    protected $guarded = [];
+
     public function getIdentifierPrefixLetter(): string
     {
         return 'IC';

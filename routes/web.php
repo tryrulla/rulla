@@ -112,6 +112,12 @@ Route::middleware('auth')
         Route::post('/app/view/I{id}/edit', 'Items\Instances\ItemController@update')
             ->name('items.instances.update');
 
+        Route::post('/app/item/checkout/new', 'Items\Instances\ItemCheckoutController@store')
+            ->name('items.checkout.store');
+
+        Route::delete('/app/item/checkout/{checkout}', 'Items\Instances\ItemCheckoutController@destroy')
+            ->name('items.checkout.delete');
+
         Route::get('/app/user/self', 'Auth\UsersController@self')
             ->name('user.profile.self');
 

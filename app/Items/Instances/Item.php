@@ -43,6 +43,20 @@ class Item extends Model
             ->limit(5);
     }
 
+    /**
+     * @return ItemCheckout|null
+     */
+    public function getActiveCheckout()
+    {
+        return $this->checkouts
+            ->first(function (ItemCheckout $checkout) {
+                return $checkout->returned_at === null;
+            });
+    }
+
+    /**
+     * @return bool
+     */
     public function isCheckedOut()
     {
         return $this->checkouts
