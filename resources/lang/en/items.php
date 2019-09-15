@@ -55,8 +55,16 @@ return [
 
             'fields' => [
                 'title' => 'Fields'
+            ],
+
+            'checkouts' => [
+                'title' => 'Latest checkouts',
+                'id' => 'ID',
+                'start_time' => 'Checked out at',
+                'return_time' => 'Returned at',
+                'user' => 'User',
             ]
-        ]
+        ],
     ],
 
     'types' => [

@@ -32,8 +32,8 @@
     @apply bg-blue-700;
 }
 
-th {
-    @apply text-left;
+th, td {
+    @apply text-left align-top;
 }
 
 .navbar-item {

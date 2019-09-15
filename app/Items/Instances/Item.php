@@ -35,4 +35,11 @@ class Item extends Model
     {
         return $this->morphMany(Item::class, 'location');
     }
+
+    public function checkouts()
+    {
+        return $this->hasMany(ItemCheckout::class, 'item_id', 'id')
+            ->orderByDesc('id')
+            ->limit(5);
+    }
 }

@@ -105,6 +105,65 @@
             </div>
         </div>
 
+        @if($item->checkouts->isNotEmpty())
+            <div class="card">
+                <h3 class="font-bold">
+                    {{ __('items.instances.view.checkouts.title') }}
+                </h3>
+
+                <div class="px-2">
+                    <table>
+                        <tr>
+                            <th class="pr-2">
+                                {{ __('items.instances.view.checkouts.id') }}
+                            </th>
+
+                            <th class="pr-2">
+                                {{ __('items.instances.view.checkouts.start_time') }}
+                            </th>
+
+                            <th class="pr-2">
+                                {{ __('items.instances.view.checkouts.return_time') }}
+                            </th>
+
+                            <th>
+                                {{ __('items.instances.view.checkouts.user') }}
+                            </th>
+                        </tr>
+
+                        @foreach($item->checkouts as $checkout)
+                            <?php /** @var Rulla\Items\Instances\ItemCheckout $checkout */ ?>
+                            <tr>
+                                <td class="pr-4 text-gray-700">
+                                    {{ $checkout->identifier }}
+                                </td>
+
+                                <td class="pr-2">
+                                    {{ $checkout->created_at->toDateTimeString() }}
+                                </td>
+
+                                <td class="pr-2">
+                                    {{ $checkout->returned_at ? $checkout->returned_at->toDateTimeString() : '' }}
+                                </td>
+
+                                <td class="pr-2">
+                                    <a href="{{ $checkout->user->viewUrl }}">
+                                        <span class="hover:underline text-gray-900 hover:text-black">
+                                            {{ $checkout->user->name }}
+
+                                            <span class="text-gray-700">
+                                                ({{ $checkout->user->email }})
+                                            </span>
+                                        </span>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+            </div>
+        @endif
+
         @if($item->locatedHere->isNotEmpty())
             @component('components.cards.lists.instances', ['items' => $item->locatedHere, 'title' => __('items.types.view.locatedHere.title'), 'doNotShowLocation' => true])
             @endcomponent
