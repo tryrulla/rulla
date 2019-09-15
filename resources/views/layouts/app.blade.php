@@ -35,9 +35,9 @@
 </head>
 <body class="font-sans antialiased text-gray-800 leading-tight bg-gray-300 border-t-8 border-blue-500">
 <div id="app">
-    <div class="container mx-auto py-4">
-        <div class="flex bg-white leading-none rounded-lg p-1 shadow justify-between">
-            <div class="inline-flex">
+    <div class="container max-md:px-2 md:mx-auto py-4">
+        <div class="md:flex bg-white leading-none rounded-lg p-1 shadow justify-between">
+            <div class="md:inline-flex max-md:inline-block">
                 <a href="{{ route('home') }}"
                    class="inline-flex bg-blue-600 text-white rounded h-6 px-3 justify-center items-center">{{ config('app.name', 'Rulla') }}</a>
 
@@ -46,26 +46,26 @@
                     'types' => route('items.types.index'),
                     'fields' => route('items.fields.index'),
                 ] as $key => $link)
-                    <a href="{{ $link }}" class="inline-flex justify-center items-center ml-4 hover:underline">
+                    <a href="{{ $link }}" class="navbar-item hover:underline">
                         {{ __('navbar.' . $key) }}
                     </a>
                 @endforeach
             </div>
 
-            <div class="inline-flex mr-2">
+            <div class="md:inline-flex max-md:inline-block mr-2">
                 @auth
                     <a href="{{ route('user.profile.self') }}"
-                       class="inline-flex justify-center items-center ml-4 hover:underline">
+                       class="navbar-item hover:underline">
                         {{ __('navbar.profile', Auth::user()->toArray()) }}
                     </a>
 
                     <a href="{{ route('logout') }}"
                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                       class="inline-flex justify-center items-center ml-4 hover:underline">
+                       class="navbar-item hover:underline">
                         {{ __('navbar.logout') }}
                     </a>
                 @else
-                    <a href="{{ route('login') }}" class="inline-flex justify-center items-center ml-4 hover:underline">
+                    <a href="{{ route('login') }}" class="navbar-item hover:underline">
                         {{ __('navbar.login') }}
                     </a>
                 @endif
@@ -90,9 +90,8 @@
 
         @yield('content')
 
-        <div class="text-center text-xs text-gray-600 mt-1">Powered by <a href="https://github.com/tryrulla"
-                                                                          class="hover:underline">Rulla</a> {!! \Rulla\Utils\Version::getVersion() !!}
-            .
+        <div class="text-center text-xs text-gray-600 mt-1">Powered by
+            <a href="https://github.com/tryrulla" class="hover:underline">Rulla</a>{!! \Rulla\Utils\Version::getVersion() !!}.
         </div>
     </div>
 </div>

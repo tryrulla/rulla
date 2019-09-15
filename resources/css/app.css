@@ -35,3 +35,11 @@
 th {
     @apply text-left;
 }
+
+.navbar-item {
+    @apply ml-4;
+
+    @screen lg {
+        @apply inline-flex justify-center items-center;
+    }
+}

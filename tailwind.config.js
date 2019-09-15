@@ -1,6 +1,10 @@
 module.exports = {
     theme: {
-        extend: {}
+        extend: {
+            screens: {
+                'max-md': {max: '768px'}
+            },
+        },
     },
     variants: {
         textDecoration: ['responsive', 'hover', 'focus', 'group-hover'],
