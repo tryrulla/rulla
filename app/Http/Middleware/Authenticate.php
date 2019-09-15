@@ -5,6 +5,7 @@ namespace Rulla\Http\Middleware;
 use Closure;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Contracts\Auth\Factory as Auth;
 use Rulla\Authentication\AuthenticationManager;
 use Rulla\Authentication\Providers\PassiveAuthenticationProvider;
 
@@ -13,8 +14,9 @@ class Authenticate extends Middleware
     /** @var AuthenticationManager */
     private $authenticationManager;
 
-    public function __construct(AuthenticationManager $authenticationManager)
+    public function __construct(Auth $auth, AuthenticationManager $authenticationManager)
     {
+        parent::__construct($auth);
         $this->authenticationManager = $authenticationManager;
     }
 
