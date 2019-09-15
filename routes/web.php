@@ -112,8 +112,12 @@ Route::middleware('auth')
         Route::post('/app/view/I{id}/edit', 'Items\Instances\ItemController@update')
             ->name('items.instances.update');
 
-        Route::get('/app/user/self', function() {
-            return 'foo bar';
-        })
-            ->name('profile');
+        Route::get('/app/user/self', 'Auth\UsersController@self')
+            ->name('user.profile.self');
+
+        Route::get('/app/user/profile/{user}', 'Auth\UsersController@show')
+            ->name('user.profile.view');
+
+        Route::get('/app/user/profile/{user}/edit', 'Auth\UsersController@edit')
+            ->name('user.profile.edit');
     });

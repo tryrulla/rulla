@@ -54,7 +54,7 @@
 
             <div class="inline-flex mr-2">
                 @auth
-                    <a href="{{ route('profile') }}"
+                    <a href="{{ route('user.profile.self') }}"
                        class="inline-flex justify-center items-center ml-4 hover:underline">
                         {{ __('navbar.profile', Auth::user()->toArray()) }}
                     </a>
