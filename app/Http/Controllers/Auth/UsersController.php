@@ -64,7 +64,7 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('users.profile.edit', ['user' => $user]);
     }
 
     /**
@@ -76,7 +76,12 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $data = $request->validate([
+            'name' => 'nullable|min:2',
+        ]);
+
+        $user->update($data);
+        return redirect($user->view_url);
     }
 
     /**

@@ -120,4 +120,7 @@ Route::middleware('auth')
 
         Route::get('/app/user/profile/{user}/edit', 'Auth\UsersController@edit')
             ->name('user.profile.edit');
+
+        Route::post('/app/user/profile/{user}/edit', 'Auth\UsersController@update')
+            ->name('user.profile.update');
     });

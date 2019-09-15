@@ -12,5 +12,15 @@ return [
                 'name' => 'Name',
             ],
         ],
+
+        'edit' => [
+            'title' => 'Editing user :name',
+
+            'form' => [
+                'name' => 'Name',
+            ],
+
+            'submit' => 'Submit',
+        ],
     ],
 ];
