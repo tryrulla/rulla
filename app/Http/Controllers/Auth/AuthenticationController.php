@@ -5,6 +5,7 @@ namespace Rulla\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Rulla\Authentication\AuthenticationManager;
+use Rulla\Authentication\Providers\PassiveAuthenticationProvider;
 use Rulla\Authentication\Providers\SocialAuthenticationProvider;
 use Rulla\Http\Controllers\Controller;
 
@@ -18,8 +19,17 @@ class AuthenticationController extends Controller
         $this->authenticationManager = $authenticationManager;
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        if ($this->authenticationManager->getPassiveProviders()
+            ->filter(function (PassiveAuthenticationProvider $provider) use ($request) {
+                return $provider->tryAuthenticate($request);
+            })
+            ->isNotEmpty()) {
+            return redirect()
+                ->intended('/');
+        }
+
         if ($this->authenticationManager->getSocialProviders()->isEmpty()
             && $this->authenticationManager->getPasswordProviders()->isEmpty()) {
             return view('general.message', ['message' => __('auth.no-providers')]);
