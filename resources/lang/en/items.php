@@ -45,6 +45,8 @@ return [
 
         'view' => [
             'edit' => 'Edit',
+            'checkout' => 'Checkout',
+            'return' => 'Return',
 
             'details' => [
                 'title' => 'Details',

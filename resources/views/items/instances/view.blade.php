@@ -31,6 +31,18 @@
                             class="group-hover:underline">{{ __('items.instances.view.edit') }}</span>
                     </a>
                 </div>
+
+                <div class="inline-block bg-gray-100 text-gray-700 p-2 shadow rounded">
+                    @if($item->isCheckedOut())
+                        <a href="{{ route('items.instances.edit', $item->id) }}" class="hover:underline">
+                            {{ __('items.instances.view.return') }}
+                        </a>
+                    @else
+                        <a href="{{ route('items.instances.edit', $item->id) }}" class="hover:underline">
+                            {{ __('items.instances.view.checkout') }}
+                        </a>
+                    @endif
+                </div>
             </div>
         @endif
 

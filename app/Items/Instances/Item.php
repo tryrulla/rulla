@@ -42,4 +42,13 @@ class Item extends Model
             ->orderByDesc('id')
             ->limit(5);
     }
+
+    public function isCheckedOut()
+    {
+        return $this->checkouts
+            ->filter(function (ItemCheckout $checkout) {
+                return $checkout->returned_at === null;
+            })
+            ->isNotEmpty();
+    }
 }
