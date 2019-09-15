@@ -14,5 +14,6 @@ class AuthenticationSource extends Model
 
     protected $casts = [
         'options' => 'object',
+        'active' => 'boolean',
     ];
 }

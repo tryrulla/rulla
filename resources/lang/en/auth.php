@@ -31,6 +31,10 @@ return [
         'title' => 'Log in using external authentication source',
     ],
 
+    'passive' => [
+        'no-session' => 'You do not have a valid session with this provider.',
+    ],
+
     'logout' => 'You have been logged out.',
 
 ];

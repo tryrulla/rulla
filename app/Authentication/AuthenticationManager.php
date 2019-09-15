@@ -6,9 +6,11 @@ use Illuminate\Support\Collection;
 use Rulla\Authentication\Models\AuthenticationSource;
 use Rulla\Authentication\Providers\AuthenticationProvider;
 use Rulla\Authentication\Providers\OpenIdAuthenticationProvider;
+use Rulla\Authentication\Providers\PassiveAuthenticationProvider;
 use Rulla\Authentication\Providers\PasswordAuthenticationProvider;
 use Rulla\Authentication\Providers\LocalAuthenticationProvider;
 use Rulla\Authentication\Providers\SocialAuthenticationProvider;
+use Rulla\Authentication\Providers\UpnPassiveAuthenticationProvider;
 
 class AuthenticationManager
 {
@@ -16,6 +18,7 @@ class AuthenticationManager
     private $providerClasses = [
         LocalAuthenticationProvider::class,
         OpenIdAuthenticationProvider::class,
+        UpnPassiveAuthenticationProvider::class,
     ];
 
     /** @var Collection */
@@ -27,7 +30,8 @@ class AuthenticationManager
             return;
         }
 
-        $this->providers = AuthenticationSource::all()
+        $this->providers = AuthenticationSource::where('active', true)
+            ->get()
             ->filter(function (AuthenticationSource $source) {
                 return in_array($source->type, $this->providerClasses);
             })
@@ -65,6 +69,17 @@ class AuthenticationManager
         return $this->getProviders()
             ->filter(function ($it) {
                 return $it instanceof SocialAuthenticationProvider;
+            });
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPassiveProviders(): Collection
+    {
+        return $this->getProviders()
+            ->filter(function ($it) {
+                return $it instanceof PassiveAuthenticationProvider;
             });
     }
 
