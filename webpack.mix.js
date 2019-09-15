@@ -10,7 +10,9 @@ mix.js('resources/js/app.js', 'public/js')
       require('postcss-nesting')(),
     ]
   })
-  .purgeCss();
+  .purgeCss({
+      whitelistPatterns: [/vs__/],
+  });
 
 if (mix.inProduction()) {
   mix.version();
