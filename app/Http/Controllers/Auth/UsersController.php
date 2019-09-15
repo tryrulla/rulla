@@ -16,7 +16,8 @@ class UsersController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::paginate(50);
+        return view('users.profile.index', ['users' => $users]);
     }
 
     /**

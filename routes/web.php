@@ -115,6 +115,9 @@ Route::middleware('auth')
         Route::get('/app/user/self', 'Auth\UsersController@self')
             ->name('user.profile.self');
 
+        Route::get('/app/user/profile', 'Auth\UsersController@index')
+            ->name('user.profile.index');
+
         Route::get('/app/user/profile/{user}', 'Auth\UsersController@show')
             ->name('user.profile.view');
 

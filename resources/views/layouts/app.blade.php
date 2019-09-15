@@ -45,6 +45,7 @@
                     'items' => route('items.instances.index'),
                     'types' => route('items.types.index'),
                     'fields' => route('items.fields.index'),
+                    'users' => route('user.profile.index'),
                 ] as $key => $link)
                     <a href="{{ $link }}" class="navbar-item hover:underline">
                         {{ __('navbar.' . $key) }}

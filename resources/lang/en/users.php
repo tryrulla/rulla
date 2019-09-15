@@ -2,6 +2,10 @@
 
 return [
     'profile' => [
+        'index' => [
+            'title' => 'All Users',
+        ],
+
         'view' => [
             'edit' => 'Edit',
 
