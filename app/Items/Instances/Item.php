@@ -35,4 +35,34 @@ class Item extends Model
     {
         return $this->morphMany(Item::class, 'location');
     }
+
+    public function checkouts()
+    {
+        return $this->hasMany(ItemCheckout::class, 'item_id', 'id')
+            ->orderByDesc('id')
+            ->limit(5);
+    }
+
+    /**
+     * @return ItemCheckout|null
+     */
+    public function getActiveCheckout()
+    {
+        return $this->checkouts
+            ->first(function (ItemCheckout $checkout) {
+                return $checkout->returned_at === null;
+            });
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCheckedOut()
+    {
+        return $this->checkouts
+            ->filter(function (ItemCheckout $checkout) {
+                return $checkout->returned_at === null;
+            })
+            ->isNotEmpty();
+    }
 }
