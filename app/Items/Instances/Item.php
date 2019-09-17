@@ -39,7 +39,12 @@ class Item extends Model
     public function checkouts()
     {
         return $this->hasMany(ItemCheckout::class, 'item_id', 'id')
-            ->orderByDesc('id')
+            ->orderByDesc('id');
+    }
+
+    public function lastCheckouts()
+    {
+        return $this->checkouts()
             ->limit(5);
     }
 
@@ -48,7 +53,7 @@ class Item extends Model
      */
     public function getActiveCheckout()
     {
-        return $this->checkouts
+        return ($this->relationLoaded('checkouts') ? $this->checkouts : $this->lastCheckouts)
             ->first(function (ItemCheckout $checkout) {
                 return $checkout->returned_at === null;
             });
@@ -59,10 +64,22 @@ class Item extends Model
      */
     public function isCheckedOut()
     {
-        return $this->checkouts
+        return ($this->relationLoaded('checkouts') ? $this->checkouts : $this->lastCheckouts)
             ->filter(function (ItemCheckout $checkout) {
                 return $checkout->returned_at === null;
             })
             ->isNotEmpty();
+    }
+
+    public function faults()
+    {
+        return $this->hasMany(ItemFault::class, 'item_id', 'id')
+            ->orderByDesc('id');
+    }
+
+    public function lastFaults()
+    {
+        return $this->faults()
+            ->limit(5);
     }
 }

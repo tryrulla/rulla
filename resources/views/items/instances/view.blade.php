@@ -123,7 +123,7 @@
             </div>
         </div>
 
-        @if($item->checkouts->isNotEmpty())
+        @if($item->lastCheckouts->isNotEmpty())
             <div class="card">
                 <h3 class="font-bold">
                     {{ __('items.instances.view.checkouts.title') }}
@@ -149,7 +149,7 @@
                             </th>
                         </tr>
 
-                        @foreach($item->checkouts as $checkout)
+                        @foreach($item->lastCheckouts as $checkout)
                             <?php /** @var Rulla\Items\Instances\ItemCheckout $checkout */ ?>
                             <tr>
                                 <td class="pr-4 text-gray-700">
@@ -191,6 +191,8 @@
             @component('components.cards.lists.field-values', ['title' => __('items.instances.view.fields.title'), 'fields' => $item->fields])
             @endcomponent
         @endif
+
+        {{ json_encode($item->lastFaults) }}
 
     </div>
 
