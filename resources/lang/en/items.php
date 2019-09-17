@@ -65,7 +65,11 @@ return [
                 'start_time' => 'Checked out at',
                 'return_time' => 'Returned at',
                 'user' => 'User',
-            ]
+            ],
+
+            'faults' => [
+                'title' => 'Latest faults',
+            ],
         ],
     ],
 

@@ -182,6 +182,35 @@
             </div>
         @endif
 
+        @if($item->lastFaults->isNotEmpty())
+            <div class="card">
+                <h3 class="font-bold">
+                    {{ __('items.instances.view.faults.title') }}
+                </h3>
+
+                <div class="px-2">
+                    <table>
+                        @foreach($item->lastFaults as $fault)
+                            <?php /** @var Rulla\Items\Instances\ItemFault $fault */ ?>
+                            <tr>
+                                <td class="pr-4 text-gray-700">
+                                    {{ $fault->identifier }}
+                                </td>
+
+                                <td class="pr-2">
+                                    {{ $fault->created_at->toDateTimeString() }}
+                                </td>
+
+                                <td class="pr-2">
+                                    {{ $fault->name }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+            </div>
+        @endif
+
         @if($item->locatedHere->isNotEmpty())
             @component('components.cards.lists.instances', ['items' => $item->locatedHere, 'title' => __('items.types.view.locatedHere.title'), 'doNotShowLocation' => true])
             @endcomponent
@@ -191,8 +220,6 @@
             @component('components.cards.lists.field-values', ['title' => __('items.instances.view.fields.title'), 'fields' => $item->fields])
             @endcomponent
         @endif
-
-        {{ json_encode($item->lastFaults) }}
 
     </div>
 
