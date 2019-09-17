@@ -4,11 +4,11 @@ namespace Rulla\Items\Instances;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Rulla\Meta\HasFormattedIdentifier;
+use Rulla\Meta\HasViewUrl;
 
 class ItemFault extends Model
 {
-    use HasFormattedIdentifier;
+    use HasViewUrl;
 
     protected $guarded = [];
 

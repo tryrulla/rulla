@@ -118,6 +118,12 @@ Route::middleware('auth')
         Route::delete('/app/item/checkout/{checkout}', 'Items\Instances\ItemCheckoutController@destroy')
             ->name('items.checkout.delete');
 
+        Route::get('/app/view/IF{id}', 'Items\Instances\ItemFaultController@show')
+            ->name('items.faults.view');
+
+        Route::get('/app/view/IF{id}/edit', 'Items\Instances\ItemFaultController@edit')
+            ->name('items.faults.edit');
+
         Route::get('/app/user/self', 'Auth\UsersController@self')
             ->name('user.profile.self');
 

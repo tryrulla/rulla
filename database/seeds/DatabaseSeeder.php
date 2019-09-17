@@ -115,7 +115,7 @@ class DatabaseSeeder extends Seeder
                     if ($faker->boolean(33)) {
                         ItemFault::create([
                             'item_id' => $item->id,
-                            'name' => implode(' ', $faker->words(3)),
+                            'title' => implode(' ', $faker->words(3)),
                         ]);
                     }
                 }

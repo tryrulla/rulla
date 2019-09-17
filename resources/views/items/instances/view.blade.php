@@ -194,15 +194,17 @@
                             <?php /** @var Rulla\Items\Instances\ItemFault $fault */ ?>
                             <tr>
                                 <td class="pr-4 text-gray-700">
-                                    {{ $fault->identifier }}
+                                    <a href="{{ $fault->viewUrl }}" class="hover:underline">
+                                        {{ $fault->identifier }}
+                                    </a>
+                                </td>
+
+                                <td class="pr-2">
+                                    {{ $fault->title }}
                                 </td>
 
                                 <td class="pr-2">
                                     {{ $fault->created_at->toDateTimeString() }}
-                                </td>
-
-                                <td class="pr-2">
-                                    {{ $fault->name }}
                                 </td>
                             </tr>
                         @endforeach

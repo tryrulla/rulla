@@ -73,6 +73,20 @@ return [
         ],
     ],
 
+    'faults' => [
+        'view' => [
+            'edit' => 'Edit',
+
+            'details' => [
+                'title' => 'Details',
+                'id' => 'Fault ID',
+                'title' => 'Title',
+                'item' => 'Item',
+                'type' => 'Item Type',
+            ]
+        ],
+    ],
+
     'types' => [
         'index' => [
             'title' => 'All Types',
