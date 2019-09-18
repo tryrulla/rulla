@@ -115,7 +115,8 @@ class DatabaseSeeder extends Seeder
                     if ($faker->boolean(33)) {
                         ItemFault::create([
                             'item_id' => $item->id,
-                            'title' => implode(' ', $faker->words(3)),
+                            'title' => $faker->words(3, true),
+                            'description' => $faker->sentences($faker->numberBetween(2, 6), true) . "\n\n" . $faker->sentences($faker->numberBetween(2, 6), true) . "\n\n" . $faker->sentences($faker->numberBetween(2, 6), true),
                         ]);
                     }
                 }

@@ -79,11 +79,13 @@ return [
 
             'details' => [
                 'title' => 'Details',
+
                 'id' => 'Fault ID',
-                'title' => 'Title',
                 'item' => 'Item',
                 'type' => 'Item Type',
-            ]
+                'field-title' => 'Title',
+                'description' => 'Description',
+            ],
         ],
     ],
 

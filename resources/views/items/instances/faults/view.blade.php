@@ -40,16 +40,6 @@
 
                     <tr>
                         <th class="pr-4">
-                            {{ __('items.faults.view.details.title') }}
-                        </th>
-
-                        <td>
-                            {{ $fault->title }}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th class="pr-4">
                             {{ __('items.faults.view.details.item') }}
                         </th>
 
@@ -78,6 +68,24 @@
                                 {{ $fault->item->type->name }}
                             </a>
                         </td>
+                    </tr>
+
+                    <tr>
+                        <th class="pr-4">
+                            {{ __('items.faults.view.details.field-title') }}
+                        </th>
+
+                        <td>
+                            {{ $fault->title }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th class="pr-4">
+                            {{ __('items.faults.view.details.description') }}
+                        </th>
+
+                        <td class="whitespace-pre-line">{{ $fault->description }}</td>
                     </tr>
                 </table>
             </div>

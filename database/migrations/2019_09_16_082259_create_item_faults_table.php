@@ -22,6 +22,8 @@ class CreateItemFaultsTable extends Migration
                 ->on('items');
 
             $table->string('title');
+            $table->text('description')
+                ->nullable();
 
             $table->boolean('closed')
                 ->default(false);
