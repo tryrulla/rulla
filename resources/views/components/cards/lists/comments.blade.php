@@ -5,7 +5,7 @@
 
     <div class="px-2">
         @foreach($commentable->comments as $comment)
-            <div class="my-1">
+            <div class="my-2">
                 <div>
                     <a href="{{ $comment->user->viewUrl }}">
                         <span class="hover:underline text-gray-900 hover:text-black">
@@ -42,7 +42,7 @@
                             @foreach($comment->data->diff as $key => $diff)
                                 <tr>
                                     <td class="pr-2">
-                                        {{ $key }}
+                                        {{ $commentable->getFieldName($key) }}
                                     </td>
 
                                     <td class="pr-2">

@@ -61,4 +61,9 @@ class ItemFault extends Model
     {
         return $this->belongsTo(User::class, 'assignee_id', 'id');
     }
+
+    public function getFieldNameTranslationPrefix()
+    {
+        return 'items.faults.fields.';
+    }
 }

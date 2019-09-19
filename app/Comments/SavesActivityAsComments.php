@@ -3,6 +3,7 @@
 namespace Rulla\Comments;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 trait SavesActivityAsComments
 {
@@ -16,9 +17,13 @@ trait SavesActivityAsComments
         return isset($this->fieldToModelTypes) ? $this->fieldToModelTypes : [];
     }
 
-    public function getFieldModelType($field)
+    public function getFieldName($field)
     {
-        return $this->getFieldToModelTypes()[$field];
+        if (Str::endsWith($field, '_id')) {
+            $field = substr($field, 0, strlen($field) - 3);
+        }
+
+        return __($this->getFieldNameTranslationPrefix() . $field);
     }
 
     public static function bootSavesActivityAsComments()
@@ -93,4 +98,6 @@ trait SavesActivityAsComments
     {
         return $this->castAttribute($key, $value);
     }
+
+    public abstract function getFieldNameTranslationPrefix();
 }
