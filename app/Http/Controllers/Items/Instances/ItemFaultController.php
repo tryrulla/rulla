@@ -26,7 +26,7 @@ class ItemFaultController extends Controller
      */
     public function create()
     {
-        //
+        return view('items.instances.faults.add');
     }
 
     /**
@@ -37,7 +37,15 @@ class ItemFaultController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required|max:150',
+            'description' => 'required',
+            'item_id' => 'required|exists:items,id',
+            'assignee_id' => 'nullable|exists:users,id',
+        ]);
+
+        $fault = ItemFault::create($data);
+        return redirect($fault->view_url);
     }
 
     /**

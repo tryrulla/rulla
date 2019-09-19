@@ -5,6 +5,7 @@ namespace Rulla\Http\Controllers;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Rulla\Authentication\Models\User;
+use Rulla\Items\Instances\Item;
 
 class SearchController extends Controller
 {
@@ -66,6 +67,39 @@ class SearchController extends Controller
                 })
                 ->each(function ($user) use ($results) {
                     return $results->push($user);
+                });
+        }
+
+        if (in_array(Item::class, $types) && ($typeOnly === '' || $typeOnly === 'I')) {
+            Item::query()
+                ->where(function (Builder $builder) use ($query) {
+                    if ($query && strlen($query) >= 1) {
+                        return $builder->where('tag', 'like', '%' . $query . '%');
+                    }
+
+                    return $builder;
+                })
+                ->where(function (Builder $builder) use ($id) {
+                    if ($id > 0) {
+                        return $builder->where('id', $id);
+                    }
+
+                    return $builder;
+                })
+                ->get()
+                ->map(function (Item $item) {
+                    return [
+                        'type' => Item::class,
+                        'id' => $item->id,
+                        'identifier' => $item->identifier,
+                        'viewUrl' => $item->view_url,
+                        'tag' => $item->tag,
+                        'type_id' => $item->type_id,
+                        'location_id' => $item->location_id,
+                    ];
+                })
+                ->each(function ($item) use ($results) {
+                    return $results->push($item);
                 });
         }
 

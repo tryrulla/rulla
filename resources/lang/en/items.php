@@ -76,6 +76,7 @@ return [
     'faults' => [
         'title' => 'Fault',
         'latest-faults' => 'Latest Faults',
+        'create' => 'Create Item Fault',
         'edit' => 'Edit Item Fault',
 
         'fields' => [

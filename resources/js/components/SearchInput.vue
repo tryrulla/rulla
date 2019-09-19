@@ -47,6 +47,12 @@ export default {
             this.search(loading, search, this);
         },
         search: debounce((loading, search, vm) => {
+            if (search.length === 0) {
+                loading(false);
+                vm.options = [];
+                return;
+            }
+
             axios.post(Rulla.baseUrl + '/app/search', {filters: {query: search, ...vm.filter}})
                 .then(({data}) => {
                     vm.options = data.results;
@@ -63,7 +69,7 @@ export default {
                 return `[${it.identifier}] ${it.name[this.language] || it.name['en']}`;
             }
 
-            return `[${it.identifier}] ${it.name || it.tag}`;
+            return `[${it.identifier}] ${it.name || it.tag || ''}`;
         },
         getKey(thing) {
             if (thing == null) {

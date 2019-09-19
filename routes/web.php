@@ -118,6 +118,12 @@ Route::middleware('auth')
         Route::delete('/app/item/checkout/{checkout}', 'Items\Instances\ItemCheckoutController@destroy')
             ->name('items.checkout.delete');
 
+        Route::get('/app/faults/new', 'Items\Instances\ItemFaultController@create')
+            ->name('items.faults.add');
+
+        Route::post('/app/faults/new', 'Items\Instances\ItemFaultController@store')
+            ->name('items.faults.store');
+
         Route::get('/app/view/IF{id}', 'Items\Instances\ItemFaultController@show')
             ->name('items.faults.view');
 
