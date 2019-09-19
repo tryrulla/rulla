@@ -64,5 +64,24 @@
                 <div></div>
             </div>
         @endforeach
+
+        <form class="mt-4" action="{{ route('comment.store') }}" method="POST">
+            @csrf
+            <input type="hidden" name="commentable_type" value="{{ get_class($commentable) }}">
+            <input type="hidden" name="commentable_id" value="{{ $commentable->id }}">
+            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+            <input type="hidden" name="comment_type" value="{{ \Rulla\Comments\CommentType::comment() }}">
+            <label class="block">
+                <span class="text-gray-700">
+                    Post comment
+                </span>
+
+                <textarea name="text" class="form-textarea block w-full">{{ old('data.text') }}</textarea>
+            </label>
+
+            <button class="button button-blue mt-2">
+                {{ __('general.submit') }}
+            </button>
+        </form>
     </div>
 </div>

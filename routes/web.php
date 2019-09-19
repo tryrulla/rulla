@@ -150,4 +150,7 @@ Route::middleware('auth')
 
         Route::post('/app/search', 'SearchController')
             ->name('search');
+
+        Route::post('/app/comment', 'Comment\CommentController')
+            ->name('comment.store');
     });
