@@ -10,6 +10,7 @@
             :reduce="getKey"
             v-model="value"
             @search="onSearch"
+            v-if="loaded"
         ></v-select>
     </div>
 </template>
@@ -23,6 +24,7 @@ export default {
         return {
             options: [],
             value: null,
+            loaded: false,
         };
     },
     props: {
@@ -95,7 +97,18 @@ export default {
     },
     mounted() {
         if (this.initialValue) {
-            this.search(() => {}, this.initialValue, this);
+            axios.post(Rulla.baseUrl + '/app/search', {filters: {query: this.initialValue, ...this.filter}})
+                .then(({data}) => {
+                    this.options = data.results;
+
+                    if (this.options.length === 1) {
+                        this.value = this.options[0].identifier;
+                    }
+
+                    this.loaded = true;
+                });
+        } else {
+            this.loaded = true;
         }
     }
 }

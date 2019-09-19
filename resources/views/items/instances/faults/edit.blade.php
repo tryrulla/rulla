@@ -28,7 +28,7 @@
                     <span class="text-gray-700">{{ __('items.faults.fields.assignee') }}</span>
                     <search-input
                         :filter="{{ json_encode(['type' => \Rulla\Authentication\Models\User::class]) }}"
-                        initial-value="U1"
+                        initial-value="{{ old('assignee_id', $fault->assignee->identifier) }}"
                         id="assignee"
                     ></search-input>
                 </div>

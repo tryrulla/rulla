@@ -57,7 +57,7 @@ class ItemFaultController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param ItemFault $itemFault
+     * @param int $id
      * @return Response
      */
     public function edit(int $id)
@@ -70,12 +70,20 @@ class ItemFaultController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param ItemFault $itemFault
+     * @param int $id
      * @return Response
      */
     public function update(Request $request, int $id)
     {
-        //
+        $fault = ItemFault::findOrFail($id);
+        $data = $request->validate([
+            'title' => 'nullable|max:150',
+            'description' => 'nullable',
+            'assignee_id' => 'nullable|exists:users,id',
+        ]);
+
+        $fault->update($data);
+        return redirect($fault->view_url);
     }
 
     /**

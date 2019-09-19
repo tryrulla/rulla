@@ -34,7 +34,7 @@ class SearchController extends Controller
             $query = '';
         }
 
-        $id = intval($filters['id']);
+        $id = intval($filters['id'] ?? '');
 
         if (in_array(User::class, $types) && ($typeOnly === '' || $typeOnly === 'U')) {
             User::query()
