@@ -4,6 +4,10 @@
 
 @section('content')
     <div class="mt-4">
+        <h3 class="font-bold">
+            {{ $user->identifier }}
+        </h3>
+
         <h1 class="title text-2xl">
             {{ $user->name }}
         </h1>
@@ -30,7 +34,7 @@
                         </th>
 
                         <td>
-                            {{ $user->id }}
+                            {{ $user->identifier }}
                         </td>
                     </tr>
 
@@ -56,6 +60,11 @@
                 </table>
             </div>
         </div>
+
+        @if($user->assignedFaults->isNotEmpty())
+            @component('components.cards.lists.faults', ['faults' => $user->assignedFaults, 'title' => __('items.faults.assigned-faults'), 'showItem' => true])
+            @endcomponent
+        @endif
     </div>
 
 @endsection

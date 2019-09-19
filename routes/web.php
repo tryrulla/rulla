@@ -118,6 +118,21 @@ Route::middleware('auth')
         Route::delete('/app/item/checkout/{checkout}', 'Items\Instances\ItemCheckoutController@destroy')
             ->name('items.checkout.delete');
 
+        Route::get('/app/faults/new', 'Items\Instances\ItemFaultController@create')
+            ->name('items.faults.add');
+
+        Route::post('/app/faults/new', 'Items\Instances\ItemFaultController@store')
+            ->name('items.faults.store');
+
+        Route::get('/app/view/IF{id}', 'Items\Instances\ItemFaultController@show')
+            ->name('items.faults.view');
+
+        Route::get('/app/view/IF{id}/edit', 'Items\Instances\ItemFaultController@edit')
+            ->name('items.faults.edit');
+
+        Route::post('/app/view/IF{id}/edit', 'Items\Instances\ItemFaultController@update')
+            ->name('items.faults.update');
+
         Route::get('/app/user/self', 'Auth\UsersController@self')
             ->name('user.profile.self');
 
@@ -132,4 +147,7 @@ Route::middleware('auth')
 
         Route::post('/app/user/profile/{user}/edit', 'Auth\UsersController@update')
             ->name('user.profile.update');
+
+        Route::post('/app/search', 'SearchController')
+            ->name('search');
     });

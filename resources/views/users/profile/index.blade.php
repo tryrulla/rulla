@@ -22,7 +22,7 @@
                 <tr>
                     <td>
                         <a href="{{ $user->viewUrl }}" class="font-bold inline-block mr-2 hover:underline">
-                            {{ $user->id }}
+                            {{ $user->identifier }}
                         </a>
                     </td>
 

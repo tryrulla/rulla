@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 .vs__dropdown-toggle {
-    @apply p-1;
+    @apply p-1 bg-white;
 }
 
 .card {
