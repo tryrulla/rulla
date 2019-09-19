@@ -21,7 +21,8 @@ class CreateItemFaultsTable extends Migration
                 ->references('id')
                 ->on('items');
 
-            $table->unsignedBigInteger('assignee_id');
+            $table->unsignedBigInteger('assignee_id')
+                ->nullable();
             $table->foreign('assignee_id')
                 ->references('id')
                 ->on('users');
