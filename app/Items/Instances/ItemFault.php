@@ -5,11 +5,13 @@ namespace Rulla\Items\Instances;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Rulla\Authentication\Models\User;
+use Rulla\Comments\HasComments;
 use Rulla\Meta\HasViewUrl;
 
 class ItemFault extends Model
 {
     use HasViewUrl;
+    use HasComments;
 
     protected $guarded = [];
 

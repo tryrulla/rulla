@@ -124,6 +124,9 @@
                 </table>
             </div>
         </div>
+
+        @component('components.cards.lists.comments', ['comments' => $fault->comments])
+        @endcomponent
     </div>
 
 @endsection
