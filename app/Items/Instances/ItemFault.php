@@ -4,6 +4,7 @@ namespace Rulla\Items\Instances;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Rulla\Authentication\Models\User;
 use Rulla\Meta\HasViewUrl;
 
 class ItemFault extends Model
@@ -42,5 +43,10 @@ class ItemFault extends Model
     public function item()
     {
         return $this->belongsTo(Item::class, 'item_id', 'id');
+    }
+
+    public function assignee()
+    {
+        return $this->belongsTo(User::class, 'assignee_id', 'id');
     }
 }

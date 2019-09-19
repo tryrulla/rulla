@@ -16,21 +16,21 @@
             <div class="inline-block bg-gray-100 text-gray-700 p-2 shadow rounded">
                 <a href="{{ route('items.faults.edit', $fault->id) }}" class="group">
                     <i class="fas fa-pen"></i> <span
-                        class="group-hover:underline">{{ __('items.faults.view.edit') }}</span>
+                        class="group-hover:underline">{{ __('general.edit') }}</span>
                 </a>
             </div>
         </div>
 
         <div class="card">
             <h3 class="font-bold">
-                {{ __('items.faults.view.details.title') }}
+                {{ __('general.cards.details') }}
             </h3>
 
             <div class="px-2">
                 <table>
                     <tr>
                         <th class="pr-4">
-                            {{ __('items.faults.view.details.id') }}
+                            {{ __('items.faults.fields.id') }}
                         </th>
 
                         <td>
@@ -40,7 +40,7 @@
 
                     <tr>
                         <th class="pr-4">
-                            {{ __('items.faults.view.details.item') }}
+                            {{ __('items.faults.fields.item') }}
                         </th>
 
                         <td>
@@ -56,7 +56,7 @@
 
                     <tr>
                         <th class="pr-4">
-                            {{ __('items.faults.view.details.type') }}
+                            {{ __('items.faults.fields.type') }}
                         </th>
 
                         <td>
@@ -72,7 +72,31 @@
 
                     <tr>
                         <th class="pr-4">
-                            {{ __('items.faults.view.details.field-title') }}
+                            {{ __('items.faults.fields.assignee') }}
+                        </th>
+
+                        <td>
+                            @if($fault->assignee)
+                                <a href="{{ $fault->assignee->viewUrl }}">
+                                    <span class="hover:underline text-gray-900 hover:text-black">
+                                        {{ $fault->assignee->name }}
+
+                                        <span class="text-gray-700">
+                                            ({{ $fault->assignee->email }})
+                                        </span>
+                                    </span>
+                                </a>
+                            @else
+                                <span class="text-gray-700">
+                                    &ndash;
+                                </span>
+                            @endif
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th class="pr-4">
+                            {{ __('items.faults.fields.title') }}
                         </th>
 
                         <td>
@@ -82,7 +106,7 @@
 
                     <tr>
                         <th class="pr-4">
-                            {{ __('items.faults.view.details.description') }}
+                            {{ __('items.faults.fields.description') }}
                         </th>
 
                         <td class="whitespace-pre-line">{{ $fault->description }}</td>

@@ -74,18 +74,19 @@ return [
     ],
 
     'faults' => [
-        'view' => [
-            'edit' => 'Edit',
+        'title' => 'Fault',
+        'latest-faults' => 'Latest Faults',
+        'edit' => 'Edit Item Fault',
 
-            'details' => [
-                'title' => 'Details',
+        'fields' => [
+            'id' => 'ID',
+            'item' => 'Item',
+            'type' => 'Item Type',
 
-                'id' => 'Fault ID',
-                'item' => 'Item',
-                'type' => 'Item Type',
-                'field-title' => 'Title',
-                'description' => 'Description',
-            ],
+            'assignee' => 'Assignee',
+
+            'title' => 'Title',
+            'description' => 'Description',
         ],
     ],
 

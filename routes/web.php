@@ -124,6 +124,9 @@ Route::middleware('auth')
         Route::get('/app/view/IF{id}/edit', 'Items\Instances\ItemFaultController@edit')
             ->name('items.faults.edit');
 
+        Route::post('/app/view/IF{id}/edit', 'Items\Instances\ItemFaultController@update')
+            ->name('items.faults.update');
+
         Route::get('/app/user/self', 'Auth\UsersController@self')
             ->name('user.profile.self');
 
@@ -138,4 +141,7 @@ Route::middleware('auth')
 
         Route::post('/app/user/profile/{user}/edit', 'Auth\UsersController@update')
             ->name('user.profile.update');
+
+        Route::post('/app/search', 'SearchController')
+            ->name('search');
     });

@@ -48,7 +48,7 @@ class ItemFaultController extends Controller
      */
     public function show(int $id)
     {
-        $fault = ItemFault::with('item', 'item.type')
+        $fault = ItemFault::with('item', 'item.type', 'assignee')
             ->findOrFail($id);
 
         return view('items.instances.faults.view', ['fault' => $fault]);
@@ -60,9 +60,10 @@ class ItemFaultController extends Controller
      * @param ItemFault $itemFault
      * @return Response
      */
-    public function edit(ItemFault $itemFault)
+    public function edit(int $id)
     {
-        //
+        $fault = ItemFault::findOrFail($id);
+        return view('items.instances.faults.edit', ['fault' => $fault]);
     }
 
     /**
@@ -72,7 +73,7 @@ class ItemFaultController extends Controller
      * @param ItemFault $itemFault
      * @return Response
      */
-    public function update(Request $request, ItemFault $itemFault)
+    public function update(Request $request, int $id)
     {
         //
     }

@@ -4,10 +4,17 @@ namespace Rulla\Authentication\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Rulla\Meta\HasFormattedIdentifier;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use HasFormattedIdentifier;
+
+    public function getIdentifierPrefixLetter(): string
+    {
+        return 'U';
+    }
 
     protected $appends = ['viewUrl'];
 

@@ -183,34 +183,8 @@
         @endif
 
         @if($item->lastFaults->isNotEmpty())
-            <div class="card">
-                <h3 class="font-bold">
-                    {{ __('items.instances.view.faults.title') }}
-                </h3>
-
-                <div class="px-2">
-                    <table>
-                        @foreach($item->lastFaults as $fault)
-                            <?php /** @var Rulla\Items\Instances\ItemFault $fault */ ?>
-                            <tr>
-                                <td class="pr-4 text-gray-700">
-                                    <a href="{{ $fault->viewUrl }}" class="hover:underline">
-                                        {{ $fault->identifier }}
-                                    </a>
-                                </td>
-
-                                <td class="pr-2">
-                                    {{ $fault->title }}
-                                </td>
-
-                                <td class="pr-2">
-                                    {{ $fault->created_at->toDateTimeString() }}
-                                </td>
-                            </tr>
-                        @endforeach
-                    </table>
-                </div>
-            </div>
+            @component('components.cards.lists.faults', ['faults' => $item->lastFaults, 'title' => __('items.faults.latest-faults'), 'showAssignee' => true])
+            @endcomponent
         @endif
 
         @if($item->locatedHere->isNotEmpty())
