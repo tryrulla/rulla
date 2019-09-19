@@ -47,6 +47,7 @@ return [
             'edit' => 'Edit',
             'checkout' => 'Checkout',
             'return' => 'Return',
+            'add-fault' => 'Record Fault',
 
             'details' => [
                 'title' => 'Details',
@@ -76,6 +77,7 @@ return [
     'faults' => [
         'title' => 'Fault',
         'latest-faults' => 'Latest Faults',
+        'assigned-faults' => 'Assigned Faults',
         'create' => 'Create Item Fault',
         'edit' => 'Edit Item Fault',
 

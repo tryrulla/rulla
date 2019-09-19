@@ -60,6 +60,11 @@
                 </table>
             </div>
         </div>
+
+        @if($user->assignedFaults->isNotEmpty())
+            @component('components.cards.lists.faults', ['faults' => $user->assignedFaults, 'title' => __('items.faults.assigned-faults'), 'showItem' => true])
+            @endcomponent
+        @endif
     </div>
 
 @endsection

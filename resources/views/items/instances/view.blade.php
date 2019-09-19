@@ -49,6 +49,12 @@
                         </button>
                     </form>
                 @endif
+
+                <div class="inline-block bg-gray-100 text-gray-700 p-2 shadow rounded">
+                    <a href="{{ route('items.faults.add', ['item_id' => $item->identifier]) }}" class="group">
+                        <span class="group-hover:underline">{{ __('items.instances.view.add-fault') }}</span>
+                    </a>
+                </div>
             </div>
         @endif
 
