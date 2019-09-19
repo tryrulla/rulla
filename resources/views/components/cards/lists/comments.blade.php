@@ -23,8 +23,40 @@
                 @if($comment->comment_type->isComment())
                     <div class="whitespace-pre-line ml-2">{{ $comment->data->text }}</div>
                 @elseif($comment->comment_type->isChange())
-                    <div>
-                        {{ json_encode($comment->data) }}
+                    <div class="ml-2">
+                        <table>
+                            <tr>
+                                <th class="pr-2">
+                                    {{ __('comments.field') }}
+                                </th>
+
+                                <th class="pr-2">
+                                    {{ __('comments.original') }}
+                                </th>
+
+                                <th>
+                                    {{ __('comments.new') }}
+                                </th>
+                            </tr>
+
+                            @foreach($comment->data->diff as $key => $diff)
+                                <tr>
+                                    <td class="pr-2">
+                                        {{ $key }}
+                                    </td>
+
+                                    <td class="pr-2">
+                                        @component('components.value', ['value' => $diff->original])
+                                        @endcomponent
+                                    </td>
+
+                                    <td>
+                                        @component('components.value', ['value' => $diff->new])
+                                        @endcomponent
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </table>
                     </div>
                 @else
                     {{ $comment->comment_type }}
