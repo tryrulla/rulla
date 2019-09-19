@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import isNumber from 'is-number';
 import debounce from 'lodash/debounce';
 import axios from '../axios';
 
@@ -103,7 +104,13 @@ export default {
     },
     mounted() {
         if (this.initialValue) {
-            axios.post(Rulla.baseUrl + '/app/search', {filters: {query: this.initialValue, ...this.filter}})
+            let typeToFetch = this.initialValue;
+            if (isNumber(typeToFetch) && typeof this.filter.type === 'string') {
+                const type = this.filter.type;
+                typeToFetch = window.Rulla.identifiers.typeToLetter[type] + typeToFetch;
+            }
+
+            axios.post(Rulla.baseUrl + '/app/search', {filters: {query: typeToFetch, ...this.filter}})
                 .then(({data}) => {
                     this.options = data.results;
 

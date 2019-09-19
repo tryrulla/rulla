@@ -5,11 +5,19 @@ namespace Rulla\Items\Instances;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Rulla\Authentication\Models\User;
+use Rulla\Comments\HasComments;
+use Rulla\Comments\SavesActivityAsComments;
 use Rulla\Meta\HasViewUrl;
 
 class ItemFault extends Model
 {
+    protected $fieldToModelTypes = [
+        'item_id' => [Item::class, 'id'],
+        'assignee_id' => [User::class, 'id'],
+    ];
+
     use HasViewUrl;
+    use HasComments, SavesActivityAsComments;
 
     protected $guarded = [];
 
@@ -52,5 +60,10 @@ class ItemFault extends Model
     public function assignee()
     {
         return $this->belongsTo(User::class, 'assignee_id', 'id');
+    }
+
+    public function getFieldNameTranslationPrefix()
+    {
+        return 'items.faults.fields.';
     }
 }
