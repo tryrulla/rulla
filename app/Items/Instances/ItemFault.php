@@ -11,6 +11,11 @@ use Rulla\Meta\HasViewUrl;
 
 class ItemFault extends Model
 {
+    protected $fieldToModelTypes = [
+        'item_id' => [Item::class, 'id'],
+        'assignee_id' => [User::class, 'id'],
+    ];
+
     use HasViewUrl;
     use HasComments, SavesActivityAsComments;
 

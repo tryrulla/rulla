@@ -125,7 +125,7 @@
             </div>
         </div>
 
-        @component('components.cards.lists.comments', ['comments' => $fault->comments])
+        @component('components.cards.lists.comments', ['commentable' => $fault])
         @endcomponent
     </div>
 

@@ -4,7 +4,7 @@
     </h3>
 
     <div class="px-2">
-        @foreach($comments as $comment)
+        @foreach($commentable->comments as $comment)
             <div class="my-1">
                 <div>
                     <a href="{{ $comment->user->viewUrl }}">
@@ -46,12 +46,12 @@
                                     </td>
 
                                     <td class="pr-2">
-                                        @component('components.value', ['value' => $diff->original])
+                                        @component('components.value', ['typeModels' => $commentable->getFieldToModelTypes(), 'name' => $key, 'value' => $diff->original])
                                         @endcomponent
                                     </td>
 
                                     <td>
-                                        @component('components.value', ['value' => $diff->new])
+                                        @component('components.value', ['typeModels' => $commentable->getFieldToModelTypes(), 'name' => $key, 'value' => $diff->new])
                                         @endcomponent
                                     </td>
                                 </tr>
