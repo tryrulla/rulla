@@ -57,7 +57,7 @@ class ItemFaultController extends Controller
      */
     public function show(int $id)
     {
-        $fault = ItemFault::with('item', 'item.type', 'assignee')
+        $fault = ItemFault::with('item', 'item.type', 'assignee', 'comments', 'comments.user')
             ->findOrFail($id);
 
         return view('items.instances.faults.view', ['fault' => $fault]);

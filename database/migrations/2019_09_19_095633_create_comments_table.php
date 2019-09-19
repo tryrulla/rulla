@@ -25,7 +25,7 @@ class CreateCommentsTable extends Migration
             $table->string('commentable_type');
 
             $table->string('comment_type');
-            $table->json('comments');
+            $table->json('data');
 
             $table->timestamps();
         });
