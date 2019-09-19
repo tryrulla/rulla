@@ -4,6 +4,7 @@ namespace Rulla\Http\Controllers\Items\Instances;
 
 use Illuminate\Http\Response;
 use Rulla\Http\Controllers\Controller;
+use Rulla\Http\Requests\EditItemFaultRequest;
 use Rulla\Items\Instances\ItemFault;
 use Illuminate\Http\Request;
 
@@ -81,16 +82,10 @@ class ItemFaultController extends Controller
      * @param int $id
      * @return Response
      */
-    public function update(Request $request, int $id)
+    public function update(EditItemFaultRequest $request, int $id)
     {
         $fault = ItemFault::findOrFail($id);
-        $data = $request->validate([
-            'title' => 'nullable|max:150',
-            'description' => 'nullable',
-            'assignee_id' => 'nullable|exists:users,id',
-        ]);
-
-        $fault->update($data);
+        $fault->update($request->validated());
         return redirect($fault->view_url);
     }
 

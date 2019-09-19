@@ -24,6 +24,14 @@
             </div>
 
             <div class="card">
+                <label class="block inline-flex items-center">
+                    <input type="checkbox" class="sr-only" name="closed" {{ old('closed', $fault->closed) ? 'checked' : ''}}/>
+                    <span class="form-checkbox text-blue-400" aria-hidden="true"></span>
+                    <span class="ml-2">{{ __('items.faults.fields.closed') }}</span>
+                </label>
+            </div>
+
+            <div class="card">
                 <div>
                     <span class="text-gray-700">{{ __('items.faults.fields.assignee') }}</span>
                     <search-input

@@ -72,6 +72,16 @@
 
                     <tr>
                         <th class="pr-4">
+                            {{ __('items.faults.fields.status') }}
+                        </th>
+
+                        <td>
+                            {{ $fault->closed ? __('items.faults.fields.closed') : __('items.faults.fields.open') }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th class="pr-4">
                             {{ __('items.faults.fields.assignee') }}
                         </th>
 

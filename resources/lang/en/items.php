@@ -84,6 +84,10 @@ return [
             'item' => 'Item',
             'type' => 'Item Type',
 
+            'status' => 'Status',
+            'open' => 'Open',
+            'closed' => 'Closed',
+
             'assignee' => 'Assignee',
 
             'title' => 'Title',

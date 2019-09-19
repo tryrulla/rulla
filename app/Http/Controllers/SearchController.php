@@ -29,7 +29,7 @@ class SearchController extends Controller
 
         $typeOnly = '';
 
-        if (preg_match('/([U])(\d+)/', $query, $idMatches)) {
+        if (preg_match('/([IU])(\d+)/', $query, $idMatches)) {
             $typeOnly = $idMatches[1];
             $filters['id'] = (int) $idMatches[2];
             $query = '';

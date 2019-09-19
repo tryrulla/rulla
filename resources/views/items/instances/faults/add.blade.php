@@ -28,7 +28,7 @@
                     <span class="text-gray-700">{{ __('items.faults.fields.item') }}</span>
                     <search-input
                         :filter="{{ json_encode(['type' => \Rulla\Items\Instances\Item::class]) }}"
-                        initial-value="{{ old('item_id') }}"
+                        initial-value="{{ old('item_id', Request::get('item_id')) }}"
                         id="item"
                     ></search-input>
                 </div>
@@ -37,7 +37,7 @@
                     <span class="text-gray-700">{{ __('items.faults.fields.assignee') }}</span>
                     <search-input
                         :filter="{{ json_encode(['type' => \Rulla\Authentication\Models\User::class]) }}"
-                        initial-value="{{ old('assignee_id') }}"
+                        initial-value="{{ old('assignee_id', Request::get('assignee_id')) }}"
                         id="assignee"
                     ></search-input>
                 </div>

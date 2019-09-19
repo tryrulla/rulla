@@ -18,6 +18,10 @@ class ItemFault extends Model
         return 'IF';
     }
 
+    protected $casts = [
+        'closed' => 'boolean',
+    ];
+
     /**
      * Scope a query to only include open faults.
      *
