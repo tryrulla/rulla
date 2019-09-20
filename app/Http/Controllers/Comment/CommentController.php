@@ -2,7 +2,7 @@
 
 namespace Rulla\Http\Controllers\Comment;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Rulla\Comments\Comment;
 use Rulla\Http\Controllers\Controller;
 use Rulla\Http\Requests\MakeCommentRequest;
@@ -12,8 +12,8 @@ class CommentController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param MakeCommentRequest $request
+     * @return Response
      */
     public function __invoke(MakeCommentRequest $request)
     {
