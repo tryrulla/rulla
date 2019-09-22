@@ -19,12 +19,14 @@
             'letterToType' => [
                 'I' => \Rulla\Items\Instances\Item::class,
                 'T' => \Rulla\Items\Types\ItemType::class,
-                'F' => \Rulla\Items\Fields\Field::class
+                'F' => \Rulla\Items\Fields\Field::class,
+                'U' => \Rulla\Authentication\Models\User::class,
             ],
             'typeToLetter' => [
                 \Rulla\Items\Instances\Item::class => 'I',
                 \Rulla\Items\Types\ItemType::class => 'T',
                 \Rulla\Items\Fields\Field::class => 'F',
+                \Rulla\Authentication\Models\User::class => 'U',
             ],
         ]
     ])

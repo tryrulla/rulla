@@ -54,6 +54,7 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
+        $user->loadMissing('assignedFaults', 'assignedFaults.item', 'assignedFaults.item.type');
         return view('users.profile.view', ['user' => $user]);
     }
 

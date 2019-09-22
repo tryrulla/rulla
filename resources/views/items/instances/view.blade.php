@@ -49,6 +49,12 @@
                         </button>
                     </form>
                 @endif
+
+                <div class="inline-block bg-gray-100 text-gray-700 p-2 shadow rounded">
+                    <a href="{{ route('items.faults.add', ['item_id' => $item->identifier]) }}" class="group">
+                        <span class="group-hover:underline">{{ __('items.instances.view.add-fault') }}</span>
+                    </a>
+                </div>
             </div>
         @endif
 
@@ -123,7 +129,7 @@
             </div>
         </div>
 
-        @if($item->checkouts->isNotEmpty())
+        @if($item->lastCheckouts->isNotEmpty())
             <div class="card">
                 <h3 class="font-bold">
                     {{ __('items.instances.view.checkouts.title') }}
@@ -149,7 +155,7 @@
                             </th>
                         </tr>
 
-                        @foreach($item->checkouts as $checkout)
+                        @foreach($item->lastCheckouts as $checkout)
                             <?php /** @var Rulla\Items\Instances\ItemCheckout $checkout */ ?>
                             <tr>
                                 <td class="pr-4 text-gray-700">
@@ -180,6 +186,11 @@
                     </table>
                 </div>
             </div>
+        @endif
+
+        @if($item->lastFaults->isNotEmpty())
+            @component('components.cards.lists.faults', ['faults' => $item->lastFaults, 'title' => __('items.faults.latest-faults'), 'showAssignee' => true])
+            @endcomponent
         @endif
 
         @if($item->locatedHere->isNotEmpty())

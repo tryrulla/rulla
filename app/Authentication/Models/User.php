@@ -4,10 +4,18 @@ namespace Rulla\Authentication\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Rulla\Items\Instances\ItemFault;
+use Rulla\Meta\HasFormattedIdentifier;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use HasFormattedIdentifier;
+
+    public function getIdentifierPrefixLetter(): string
+    {
+        return 'U';
+    }
 
     protected $appends = ['viewUrl'];
 
@@ -41,5 +49,11 @@ class User extends Authenticatable
     public function getViewUrlAttribute()
     {
         return url(route('user.profile.view', $this));
+    }
+
+    public function assignedFaults()
+    {
+        return $this->hasMany(ItemFault::class, 'assignee_id', 'id')
+            ->scopes('open');
     }
 }

@@ -117,7 +117,7 @@ class ItemController extends Controller
      */
     public function show(int $id)
     {
-        $item = Item::with('type', 'location', 'locatedHere', 'fields', 'checkouts', 'checkouts.user')
+        $item = Item::with('type', 'location', 'locatedHere', 'fields', 'lastCheckouts', 'lastCheckouts.user', 'lastFaults')
             ->findOrFail($id);
 
         return view('items.instances.view', ['item' => $item]);

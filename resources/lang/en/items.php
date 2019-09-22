@@ -47,6 +47,7 @@ return [
             'edit' => 'Edit',
             'checkout' => 'Checkout',
             'return' => 'Return',
+            'add-fault' => 'Record Fault',
 
             'details' => [
                 'title' => 'Details',
@@ -65,7 +66,34 @@ return [
                 'start_time' => 'Checked out at',
                 'return_time' => 'Returned at',
                 'user' => 'User',
-            ]
+            ],
+
+            'faults' => [
+                'title' => 'Latest faults',
+            ],
+        ],
+    ],
+
+    'faults' => [
+        'title' => 'Fault',
+        'latest-faults' => 'Latest Faults',
+        'assigned-faults' => 'Assigned Faults',
+        'create' => 'Create Item Fault',
+        'edit' => 'Edit Item Fault',
+
+        'fields' => [
+            'id' => 'ID',
+            'item' => 'Item',
+            'type' => 'Item Type',
+
+            'status' => 'Status',
+            'open' => 'Open',
+            'closed' => 'Closed',
+
+            'assignee' => 'Assignee',
+
+            'title' => 'Title',
+            'description' => 'Description',
         ],
     ],
 
