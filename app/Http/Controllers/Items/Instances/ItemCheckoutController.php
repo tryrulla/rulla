@@ -3,6 +3,7 @@
 namespace Rulla\Http\Controllers\Items\Instances;
 
 use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 use Rulla\Http\Controllers\Controller;
 use Rulla\Items\Instances\Item;
 use Rulla\Items\Instances\ItemCheckout;
@@ -42,8 +43,10 @@ class ItemCheckoutController extends Controller
         $items = is_array($items) ? collect(...$items) : collect($items);
 
         $items->each(function ($id) use ($request) {
-            $item = Item::find($id);
-            if ($item) {
+            $item = Item::with('checkouts')
+                ->find($id);
+
+            if ($item && !$item->isCheckedOut()) {
                 $item->checkouts()->create([
                     'user_id' => $request->user()->id,
                 ]);
