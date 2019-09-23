@@ -14,4 +14,16 @@ class AuthenticationTest extends TestCase
 
         $response->assertRedirect('/auth');
     }
+
+    public function testDoesNotRedirectIfSignedIn()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->login();
+        $response = $this
+            ->get('/');
+
+        $this->assertFalse($response->isRedirect());
+        $response->assertSee($this->user->name);
+    }
 }

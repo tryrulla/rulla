@@ -11,7 +11,7 @@ class ItemCheckoutTest extends TestCase
 {
     public function testCheckout()
     {
-        $this->loginWithFakeUser();
+        $this->login();
 
         $type = ItemType::create([
             'name' => 'Foo',
@@ -38,7 +38,7 @@ class ItemCheckoutTest extends TestCase
 
     public function testCheckoutShouldNotCreateDuplicates()
     {
-        $this->loginWithFakeUser();
+        $this->login();
 
         $type = ItemType::create([
             'name' => 'Foo',
