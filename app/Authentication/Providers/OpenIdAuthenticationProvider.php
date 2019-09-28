@@ -4,6 +4,7 @@ namespace Rulla\Authentication\Providers;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use League\OAuth2\Client\Provider\GenericProvider;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,7 +21,7 @@ class OpenIdAuthenticationProvider extends SocialAuthenticationProvider
 
         $key = "authentication-openid-$id-configuration";
 
-        $this->openIdConfiguration = \Cache::remember($key, 3600, function () use ($options) {
+        $this->openIdConfiguration = Cache::remember($key, 3600, function () use ($options) {
             $client = new Client();
             return json_decode($client->get($options->metadata)->getBody());
         });
