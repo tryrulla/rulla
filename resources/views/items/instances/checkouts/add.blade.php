@@ -24,11 +24,30 @@
 
             <div class="card">
                 <div>
+                    <h2 class="title">
+                        {{ __('items.checkouts.checkout-to.title') }}
+                    </h2>
+
+                    <div class="text-gray-700 text-sm">
+                        {{ __('items.checkouts.checkout-to.help') }}
+                    </div>
+                </div>
+
+                <div class="mt-4">
                     <span class="text-gray-700">{{ __('items.checkouts.fields.user') }}</span>
                     <search-input
                         :filter="{{ json_encode(['type' => \Rulla\Authentication\Models\User::class]) }}"
                         initial-value="{{ old('user_id', Request::input('user_id')) }}"
-                        id="assignee"
+                        id="user"
+                    ></search-input>
+                </div>
+
+                <div class="mt-4">
+                    <span class="text-gray-700">{{ __('items.checkouts.fields.location') }}</span>
+                    <search-input
+                        :filter="{{ json_encode(['type' => \Rulla\Items\Types\ItemType::class]) }}"
+                        initial-value="{{ old('location_id', Request::input('location_id')) }}"
+                        id="location"
                     ></search-input>
                 </div>
             </div>

@@ -103,6 +103,11 @@ return [
         'create' => 'New Checkout',
         'edit' => 'Edit Checkout',
 
+        'checkout-to' => [
+            'title' => 'Checkout To',
+            'help' => 'At least one is required.',
+        ],
+
         'fields' => [
             'id' => 'ID',
             'item' => 'Item',

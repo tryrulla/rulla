@@ -41,13 +41,11 @@
                         </button>
                     </form>
                 @else
-                    <form action="{{ route('items.checkout.store') }}" method="POST" class="inline-block">
-                        @csrf
-                        <input type="hidden" name="item" value="{{ $item->id }}">
-                        <button type="submit" class="bg-gray-100 text-gray-700 p-2 shadow rounded hover:underline">
+                    <div class="inline-block bg-gray-100 text-gray-700 p-2 shadow rounded">
+                        <a href="{{ route('items.checkout.add', ['item_id' => $item->id]) }}" class="hover:underline">
                             {{ __('items.instances.view.checkout') }}
-                        </button>
-                    </form>
+                        </a>
+                    </div>
                 @endif
 
                 <div class="inline-block bg-gray-100 text-gray-700 p-2 shadow rounded">
