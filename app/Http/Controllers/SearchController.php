@@ -17,7 +17,7 @@ class SearchController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $filters = $request->get('filters');
+        $filters = $request->input('filters');
         $types = $filters['type'] ?? [];
         if (!is_array($types)) {
             $types = [$types];
@@ -29,9 +29,12 @@ class SearchController extends Controller
 
         $typeOnly = '';
 
-        if (preg_match('/([IU])(\d+)/', $query, $idMatches)) {
+        if (preg_match('/([U]|I[FC]?)(\d+)/', $query, $idMatches)) {
             $typeOnly = $idMatches[1];
             $filters['id'] = (int) $idMatches[2];
+            $query = '';
+        } else if (preg_match('/(\d+)/', $query, $idMatches) && sizeof($types) === 1) {
+            $filters['id'] = (int) $idMatches[1];
             $query = '';
         }
 

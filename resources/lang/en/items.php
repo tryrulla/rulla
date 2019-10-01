@@ -97,6 +97,24 @@ return [
         ],
     ],
 
+    'checkouts' => [
+        'title' => 'Checkout',
+        'latest-checkouts' => 'Latest Checkouts',
+        'create' => 'New Checkout',
+        'edit' => 'Edit Checkout',
+
+        'fields' => [
+            'id' => 'ID',
+            'item' => 'Item',
+            'user' => 'User',
+            'location' => 'Location',
+
+            'due_date' => 'Due Date',
+            'created_at' => 'Checked Out At',
+            'returned_at' => 'Returned At',
+        ],
+    ],
+
     'types' => [
         'index' => [
             'title' => 'All Types',

@@ -28,7 +28,7 @@ class ItemCheckoutController extends Controller
      */
     public function create()
     {
-        //
+        return view('items.instances.checkouts.add');
     }
 
     /**
@@ -42,18 +42,22 @@ class ItemCheckoutController extends Controller
         $items = $request->get('item');
         $items = is_array($items) ? collect(...$items) : collect($items);
 
-        $items->each(function ($id) use ($request) {
+        $checkouts = collect();
+
+        $items->each(function ($id) use ($request, $checkouts) {
             $item = Item::with('checkouts')
                 ->find($id);
 
             if ($item && !$item->isCheckedOut()) {
-                $item->checkouts()->create([
+                $checkouts->push($item->checkouts()->create([
                     'user_id' => $request->user()->id,
-                ]);
+                ]));
             }
         });
 
-        return redirect()->back();
+        return $checkouts->count() === 1
+            ? redirect()->route('items.checkout.show', $checkouts->first()->identifier)
+            : redirect()->route('items.checkout.list');
     }
 
     /**
