@@ -128,57 +128,9 @@
         </div>
 
         @if($item->lastCheckouts->isNotEmpty())
-            <div class="card">
-                <h3 class="font-bold">
-                    {{ __('items.instances.view.checkouts.title') }}
-                </h3>
-
-                <div class="px-2">
-                    <table>
-                        <tr>
-                            <th class="pr-2">
-                                {{ __('items.instances.view.checkouts.id') }}
-                            </th>
-
-                            <th class="pr-2">
-                                {{ __('items.instances.view.checkouts.start_time') }}
-                            </th>
-
-                            <th class="pr-2">
-                                {{ __('items.instances.view.checkouts.return_time') }}
-                            </th>
-
-                            <th>
-                                {{ __('items.instances.view.checkouts.due_date') }}
-                            </th>
-                        </tr>
-
-                        @foreach($item->lastCheckouts as $checkout)
-                            <?php /** @var Rulla\Items\Instances\ItemCheckout $checkout */ ?>
-                            <tr>
-                                <td class="pr-4 text-gray-700">
-                                    <a href="{{ $checkout->view_url }}" class="hover:underline">
-                                        {{ $checkout->identifier }}
-                                    </a>
-                                </td>
-
-                                <td class="pr-2">
-                                    {{ \Rulla\Utils\Date::format($checkout->created_at) }}
-                                </td>
-
-                                <td class="pr-2">
-                                    {{ \Rulla\Utils\Date::format($checkout->returned_at) }}
-                                </td>
-
-                                <td>
-                                    {{ \Rulla\Utils\Date::format($checkout->due_date) }}
-                                </td>
-                            </tr>
-                        @endforeach
-                    </table>
-                </div>
-            </div>
-        @endif
+                @component('components.cards.lists.checkouts', ['checkouts' => $item->lastCheckouts, 'title' => __('items.checkouts.latest-checkouts')])
+                @endcomponent
+            @endif
 
         @if($item->lastFaults->isNotEmpty())
             @component('components.cards.lists.faults', ['faults' => $item->lastFaults, 'title' => __('items.faults.latest-faults'), 'showAssignee' => true])

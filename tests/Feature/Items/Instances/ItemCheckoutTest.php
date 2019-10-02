@@ -67,7 +67,7 @@ class ItemCheckoutTest extends TestCase
                 'item_id' => $item->id,
                 'user_id' => $this->user->id,
             ])
-            ->assertRedirect(route('items.checkout.index'));
+            ->assertRedirect(route('home'));
 
         $item->refresh();
 

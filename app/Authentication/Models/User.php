@@ -4,6 +4,7 @@ namespace Rulla\Authentication\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Rulla\Items\Instances\ItemCheckout;
 use Rulla\Items\Instances\ItemFault;
 use Rulla\Meta\HasFormattedIdentifier;
 
@@ -55,5 +56,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(ItemFault::class, 'assignee_id', 'id')
             ->scopes('open');
+    }
+
+    public function checkouts()
+    {
+        return $this->hasMany(ItemCheckout::class, 'user_id', 'id')
+            ->scopes('active');
     }
 }

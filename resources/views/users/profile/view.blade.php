@@ -61,6 +61,11 @@
             </div>
         </div>
 
+        @if($user->checkouts->isNotEmpty())
+            @component('components.cards.lists.checkouts', ['checkouts' => $user->checkouts, 'title' => __('items.checkouts.active-checkouts'), 'showItem' => true])
+            @endcomponent
+        @endif
+
         @if($user->assignedFaults->isNotEmpty())
             @component('components.cards.lists.faults', ['faults' => $user->assignedFaults, 'title' => __('items.faults.assigned-faults'), 'showItem' => true])
             @endcomponent

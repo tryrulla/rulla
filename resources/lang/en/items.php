@@ -100,6 +100,7 @@ return [
     'checkouts' => [
         'title' => 'Checkout',
         'latest-checkouts' => 'Latest Checkouts',
+        'active-checkouts' => 'Active Checkouts',
         'create' => 'New Checkout',
         'edit' => 'Edit Checkout',
 
