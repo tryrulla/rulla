@@ -39,25 +39,29 @@ class ItemCheckoutController extends Controller
      */
     public function store(Request $request)
     {
-        $items = $request->get('item');
+        $items = $request->input('item');
         $items = is_array($items) ? collect(...$items) : collect($items);
 
         $checkouts = collect();
 
-        $items->each(function ($id) use ($request, $checkouts) {
+        $userId = $request->input('user_id');
+        $locationId = $request->input('location_id');
+
+        $items->each(function ($id) use ($request, $checkouts, $userId, $locationId) {
             $item = Item::with('checkouts')
                 ->find($id);
 
             if ($item && !$item->isCheckedOut()) {
                 $checkouts->push($item->checkouts()->create([
-                    'user_id' => $request->user()->id,
+                    'user_id' => $userId,
+                    'location_id' => $locationId,
                 ]));
             }
         });
 
         return $checkouts->count() === 1
             ? redirect()->route('items.checkout.show', $checkouts->first()->identifier)
-            : redirect()->route('items.checkout.list');
+            : redirect()->route('items.checkout.index');
     }
 
     /**

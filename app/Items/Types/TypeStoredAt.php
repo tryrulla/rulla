@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class TypeStoredAt extends Model
 {
     public $guarded = [];
+    protected $casts = [
+        'storage' => 'boolean',
+        'checkout' => 'boolean',
+    ];
 
     public function storedType()
     {
