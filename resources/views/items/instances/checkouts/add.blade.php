@@ -20,6 +20,14 @@
                         id="item"
                     ></search-input>
                 </div>
+
+                <div class="mt-4">
+                    <span class="text-gray-700">{{ __('items.checkouts.fields.due_date') }}</span>
+                    <date-time-input
+                        id="due_date"
+                        initial-value="{{ old('due_date', Request::input('due_date')) }}"
+                    ></date-time-input>
+                </div>
             </div>
 
             <div class="card">

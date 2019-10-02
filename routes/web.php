@@ -112,9 +112,6 @@ Route::middleware('auth')
         Route::post('/app/view/I{id}/edit', 'Items\Instances\ItemController@update')
             ->name('items.instances.update');
 
-        Route::get('/app/item/checkout', 'Items\Instances\ItemCheckoutController@index')
-            ->name('items.checkout.index');
-
         Route::get('/app/item/checkout/new', 'Items\Instances\ItemCheckoutController@create')
             ->name('items.checkout.add');
 

@@ -2,6 +2,7 @@
 
 namespace Rulla\Items\Instances;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Rulla\Authentication\Models\User;
@@ -63,4 +64,10 @@ class ItemCheckout extends Model
         'returned_at',
         'due_date',
     ];
+
+    public function setDueDateAttribute($value)
+    {
+        $this->attributes['due_date'] = Carbon::createFromFormat('Y-m-d H:i', $value, 'UTC')
+            ->setTimezone(config('app.timezone', 'UTC'));
+    }
 }

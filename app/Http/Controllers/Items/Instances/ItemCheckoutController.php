@@ -48,9 +48,10 @@ class ItemCheckoutController extends Controller
         $data = $request->validate([
             'user_id' => 'nullable|exists:users,id',
             'location_id' => 'nullable|exists:item_types,id',
+            'due_date' => 'nullable|date|after:now',
         ]);
 
-        if (empty($data)) {
+        if (!array_key_exists('location_id', $data) && !array_key_exists('user_id', $data)) {
             throw ValidationException::withMessages([
                 'item_id' => __('validation.at-least-one-checkout-target'),
             ]);
@@ -67,7 +68,7 @@ class ItemCheckoutController extends Controller
 
         return $checkouts->count() === 1
             ? redirect()->to($checkouts->first()->view_url)
-            : redirect()->route('items.checkout.index');
+            : redirect()->route('home');
     }
 
     /**
