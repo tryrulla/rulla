@@ -76,9 +76,12 @@ class ItemCheckoutController extends Controller
      * @param ItemCheckout $checkout
      * @return Response
      */
-    public function show(ItemCheckout $checkout)
+    public function show(int $id)
     {
-        //
+        $checkout = ItemCheckout::with('item', 'location', 'user')
+            ->findOrFail($id);
+
+        return view('items.instances.checkouts.view', ['checkout' => $checkout]);
     }
 
     /**
@@ -112,6 +115,7 @@ class ItemCheckoutController extends Controller
      */
     public function destroy(ItemCheckout $checkout)
     {
+        abort_if($checkout->returned_at !== null, 400, "Can't return already what is already returned");
         $checkout->returned_at = now();
         $checkout->save();
         return redirect()->back();

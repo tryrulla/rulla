@@ -149,7 +149,7 @@
                             </th>
 
                             <th>
-                                {{ __('items.instances.view.checkouts.user') }}
+                                {{ __('items.instances.view.checkouts.due_date') }}
                             </th>
                         </tr>
 
@@ -157,27 +157,21 @@
                             <?php /** @var Rulla\Items\Instances\ItemCheckout $checkout */ ?>
                             <tr>
                                 <td class="pr-4 text-gray-700">
-                                    {{ $checkout->identifier }}
-                                </td>
-
-                                <td class="pr-2">
-                                    {{ $checkout->created_at->toDateTimeString() }}
-                                </td>
-
-                                <td class="pr-2">
-                                    {{ $checkout->returned_at ? $checkout->returned_at->toDateTimeString() : '' }}
-                                </td>
-
-                                <td class="pr-2">
-                                    <a href="{{ $checkout->user->viewUrl }}">
-                                        <span class="hover:underline text-gray-900 hover:text-black">
-                                            {{ $checkout->user->name }}
-
-                                            <span class="text-gray-700">
-                                                ({{ $checkout->user->email }})
-                                            </span>
-                                        </span>
+                                    <a href="{{ $checkout->view_url }}" class="hover:underline">
+                                        {{ $checkout->identifier }}
                                     </a>
+                                </td>
+
+                                <td class="pr-2">
+                                    {{ \Rulla\Utils\Date::format($checkout->created_at) }}
+                                </td>
+
+                                <td class="pr-2">
+                                    {{ \Rulla\Utils\Date::format($checkout->returned_at) }}
+                                </td>
+
+                                <td>
+                                    {{ \Rulla\Utils\Date::format($checkout->due_date) }}
                                 </td>
                             </tr>
                         @endforeach

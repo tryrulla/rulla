@@ -65,7 +65,7 @@ return [
                 'id' => 'ID',
                 'start_time' => 'Checked out at',
                 'return_time' => 'Returned at',
-                'user' => 'User',
+                'due_date' => 'Due Date',
             ],
 
             'faults' => [
@@ -112,12 +112,16 @@ return [
             'id' => 'ID',
             'item' => 'Item',
             'user' => 'User',
+            'type' => 'Item Type',
             'location' => 'Location',
 
             'due_date' => 'Due Date',
             'created_at' => 'Checked Out At',
             'returned_at' => 'Returned At',
         ],
+
+        'out' => 'Out',
+        'missing' => 'Missing',
     ],
 
     'types' => [

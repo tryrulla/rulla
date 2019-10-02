@@ -7,5 +7,6 @@ return [
 
     'cards' => [
         'details' => 'Details',
+        'target' => 'Target',
     ]
 ];

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 use Rulla\Comments\CommentType;
+use Rulla\Items\Instances\ItemCheckout;
 use Rulla\Items\Instances\ItemFault;
 
 class MakeCommentRequest extends FormRequest
@@ -53,7 +54,9 @@ class MakeCommentRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->sometimes(['commentable_id', 'commentable_type'], ['required'], function ($input) {
-            return in_array($input->commentable_type, [ItemFault::class]);
+            return in_array($input->commentable_type, [
+                ItemFault::class, ItemCheckout::class
+            ]);
         });
     }
 }

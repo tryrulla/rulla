@@ -22,6 +22,8 @@
     True
 @elseif($value === false)
     False
+@elseif(strtotime($value) !== false || $value instanceof DateTime)
+    {{ \Rulla\Utils\Date::format($value) }}
 @else
     {{ $value }}
 @endif

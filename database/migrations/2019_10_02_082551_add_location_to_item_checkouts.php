@@ -22,6 +22,9 @@ class AddLocationToItemCheckouts extends Migration
 
             $table->unsignedBigInteger('user_id')
                 ->nullable()->change();
+
+            $table->dateTime('due_date')
+                ->nullable();
         });
     }
 
