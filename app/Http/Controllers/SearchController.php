@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Rulla\Authentication\Models\User;
 use Rulla\Items\Instances\Item;
+use Rulla\Items\Types\ItemType;
 
 class SearchController extends Controller
 {
@@ -29,7 +30,7 @@ class SearchController extends Controller
 
         $typeOnly = '';
 
-        if (preg_match('/([U]|I[FC]?)(\d+)/', $query, $idMatches)) {
+        if (preg_match('/([UT]|I[FC]?)(\d+)/', $query, $idMatches)) {
             $typeOnly = $idMatches[1];
             $filters['id'] = (int) $idMatches[2];
             $query = '';
@@ -103,6 +104,38 @@ class SearchController extends Controller
                 })
                 ->each(function ($item) use ($results) {
                     return $results->push($item);
+                });
+        }
+
+        if (in_array(ItemType::class, $types) && ($typeOnly === '' || $typeOnly === 'T')) {
+            ItemType::query()
+                ->where(function (Builder $builder) use ($query) {
+                    if ($query && strlen($query) >= 1) {
+                        return $builder->where('name', 'like', '%' . $query . '%');
+                    }
+
+                    return $builder;
+                })
+                ->where(function (Builder $builder) use ($id) {
+                    if ($id > 0) {
+                        return $builder->where('id', $id);
+                    }
+
+                    return $builder;
+                })
+                ->get()
+                ->map(function (ItemType $type) {
+                    return [
+                        'type' => Item::class,
+                        'id' => $type->id,
+                        'name' => $type->name,
+                        'identifier' => $type->identifier,
+                        'viewUrl' => $type->view_url,
+                        'parent_id' => $type->parent_id,
+                    ];
+                })
+                ->each(function ($type) use ($results) {
+                    return $results->push($type);
                 });
         }
 

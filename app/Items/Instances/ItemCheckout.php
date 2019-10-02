@@ -67,6 +67,11 @@ class ItemCheckout extends Model
 
     public function setDueDateAttribute($value)
     {
+        if ($value === null) {
+            $this->attributes['due_date'] = null;
+            return;
+        }
+
         $this->attributes['due_date'] = Carbon::createFromFormat('Y-m-d H:i', $value, 'UTC')
             ->setTimezone(config('app.timezone', 'UTC'));
     }
