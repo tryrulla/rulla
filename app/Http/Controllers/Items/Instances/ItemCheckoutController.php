@@ -66,7 +66,7 @@ class ItemCheckoutController extends Controller
         });
 
         return $checkouts->count() === 1
-            ? redirect()->route('items.checkout.view', $checkouts->first()->id)
+            ? redirect()->to($checkouts->first()->view_url)
             : redirect()->route('items.checkout.index');
     }
 

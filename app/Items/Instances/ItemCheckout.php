@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Rulla\Authentication\Models\User;
 use Rulla\Items\Types\ItemType;
-use Rulla\Meta\HasFormattedIdentifier;
+use Rulla\Meta\HasViewUrl;
 
 class ItemCheckout extends Model
 {
-    use HasFormattedIdentifier;
+    use HasViewUrl;
 
     protected $guarded = [];
 
