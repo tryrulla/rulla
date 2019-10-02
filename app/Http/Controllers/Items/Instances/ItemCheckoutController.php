@@ -34,33 +34,39 @@ class ItemCheckoutController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return Response
+     * @throws ValidationException
      */
     public function store(Request $request)
     {
-        $items = $request->input('item');
+        $items = $request->input('item_id');
         $items = is_array($items) ? collect(...$items) : collect($items);
 
         $checkouts = collect();
 
-        $userId = $request->input('user_id');
-        $locationId = $request->input('location_id');
+        $data = $request->validate([
+            'user_id' => 'nullable|exists:users,id',
+            'location_id' => 'nullable|exists:item_types,id',
+        ]);
 
-        $items->each(function ($id) use ($request, $checkouts, $userId, $locationId) {
+        if (empty($data)) {
+            throw ValidationException::withMessages([
+                'item_id' => __('validation.at-least-one-checkout-target'),
+            ]);
+        }
+
+        $items->each(function ($id) use ($data, $checkouts) {
             $item = Item::with('checkouts')
                 ->find($id);
 
             if ($item && !$item->isCheckedOut()) {
-                $checkouts->push($item->checkouts()->create([
-                    'user_id' => $userId,
-                    'location_id' => $locationId,
-                ]));
+                $checkouts->push($item->checkouts()->create($data));
             }
         });
 
         return $checkouts->count() === 1
-            ? redirect()->route('items.checkout.show', $checkouts->first()->identifier)
+            ? redirect()->route('items.checkout.view', $checkouts->first()->id)
             : redirect()->route('items.checkout.index');
     }
 

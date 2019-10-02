@@ -15,6 +15,7 @@
     @javascript('Rulla', [
         'language' => Lang::getLocale(),
         'baseUrl' => url(route('home')),
+        'currentUser' => Auth::user()->identifier,
         'identifiers' => [
             'letterToType' => [
                 'I' => \Rulla\Items\Instances\Item::class,

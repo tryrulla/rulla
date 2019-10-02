@@ -39,6 +39,7 @@
                         :filter="{{ json_encode(['type' => \Rulla\Authentication\Models\User::class]) }}"
                         initial-value="{{ old('user_id', Request::input('user_id')) }}"
                         id="user"
+                        :show-set-self-button="true"
                     ></search-input>
                 </div>
 

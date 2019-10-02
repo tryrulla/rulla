@@ -12,6 +12,12 @@
             @search="onSearch"
             v-if="loaded"
         ></v-select>
+
+        <div v-if="showSetSelfButton">
+            <button class="hover:underline text-blue-700 text-sm" @click="setSelf" type="button">
+                Self
+            </button>
+        </div>
     </div>
 </template>
 
@@ -40,6 +46,10 @@ export default {
         initialValue: {
             type: String,
             default: null,
+        },
+        showSetSelfButton: {
+            type: Boolean,
+            default: false,
         },
     },
     methods: {
@@ -100,6 +110,19 @@ export default {
             }
 
             return parseInt(identifier.substr(1));
+        },
+        setSelf() {
+            this.loaded = false;
+            axios.post(Rulla.baseUrl + '/app/search', {filters: {query: Rulla.currentUser, ...this.filter}})
+                .then(({data}) => {
+                    this.options = data.results;
+
+                    if (this.options.length === 1) {
+                        this.value = this.options[0].identifier;
+                    }
+
+                    this.loaded = true;
+                });
         },
     },
     mounted() {

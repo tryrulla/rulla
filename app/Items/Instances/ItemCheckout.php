@@ -5,6 +5,7 @@ namespace Rulla\Items\Instances;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Rulla\Authentication\Models\User;
+use Rulla\Items\Types\ItemType;
 use Rulla\Meta\HasFormattedIdentifier;
 
 class ItemCheckout extends Model
@@ -32,6 +33,11 @@ class ItemCheckout extends Model
     public function item()
     {
         return $this->belongsTo(Item::class, 'item_id', 'id');
+    }
+
+    public function location()
+    {
+        return $this->belongsTo(ItemType::class, 'location_id', 'id');
     }
 
     public function user()

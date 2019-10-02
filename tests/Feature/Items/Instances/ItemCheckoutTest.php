@@ -27,7 +27,8 @@ class ItemCheckoutTest extends TestCase
         $this
             ->from($item->view_url)
             ->post(route('items.checkout.store'), [
-                'item' => $item->id,
+                'item_id' => $item->id,
+                'user_id' => $this->user->id,
             ])
             ->assertRedirect($item->view_url);
 
@@ -63,9 +64,10 @@ class ItemCheckoutTest extends TestCase
         $this
             ->from($item->view_url)
             ->post(route('items.checkout.store'), [
-                'item' => $item->id,
+                'item_id' => $item->id,
+                'user_id' => $this->user->id,
             ])
-            ->assertRedirect($item->view_url);
+            ->assertRedirect(route('items.checkout.index'));
 
         $item->refresh();
 
