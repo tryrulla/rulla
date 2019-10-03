@@ -19,14 +19,14 @@
                     </td>
 
                     <td class="pr-2">
-                        {{ $fault->created_at->toDateTimeString() }}
+                        {{ \Rulla\Utils\Date::format($fault->created_at) }}
                     </td>
 
                     <td class="pr-2">
                         {{ $fault->closed ? __('items.faults.fields.closed') : __('items.faults.fields.open') }}
                     </td>
 
-                @if(isset($showAssignee) && $showAssignee)
+                    @if(isset($showAssignee) && $showAssignee)
                         <td class="pr-2">
                             @if($fault->assignee)
                                 <a href="{{ $fault->assignee->viewUrl }}">

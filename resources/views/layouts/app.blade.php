@@ -15,6 +15,7 @@
     @javascript('Rulla', [
         'language' => Lang::getLocale(),
         'baseUrl' => url(route('home')),
+        'currentUser' => Auth::check() ? Auth::user()->identifier : null,
         'identifiers' => [
             'letterToType' => [
                 'I' => \Rulla\Items\Instances\Item::class,
@@ -95,6 +96,7 @@
 
         <div class="text-center text-xs text-gray-600 mt-1">Powered by
             <a href="https://github.com/tryrulla" class="hover:underline">Rulla</a>{!! \Rulla\Utils\Version::getVersion() !!}.
+            The current time is {{ \Rulla\Utils\Date::format(new DateTime()) }}.
         </div>
     </div>
 </div>

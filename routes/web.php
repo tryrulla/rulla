@@ -61,6 +61,9 @@ Route::middleware('auth')
         Route::post('/app/item/type-storage', 'Items\Types\TypeStoredAtController@store')
             ->name('items.type-storage.store');
 
+        Route::delete('/app/item/type-storage/{stored}', 'Items\Types\TypeStoredAtController@destroy')
+            ->name('items.type-storage.destroy');
+
         Route::get('/app/item/fields', 'Items\Fields\FieldController@index')
             ->name('items.fields.index');
 
@@ -112,8 +115,14 @@ Route::middleware('auth')
         Route::post('/app/view/I{id}/edit', 'Items\Instances\ItemController@update')
             ->name('items.instances.update');
 
+        Route::get('/app/item/checkout/new', 'Items\Instances\ItemCheckoutController@create')
+            ->name('items.checkout.add');
+
         Route::post('/app/item/checkout/new', 'Items\Instances\ItemCheckoutController@store')
             ->name('items.checkout.store');
+
+        Route::get('/app/view/IC{id}', 'Items\Instances\ItemCheckoutController@show')
+            ->name('items.checkout.view');
 
         Route::delete('/app/item/checkout/{checkout}', 'Items\Instances\ItemCheckoutController@destroy')
             ->name('items.checkout.delete');

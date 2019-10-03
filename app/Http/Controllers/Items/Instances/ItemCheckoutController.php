@@ -28,32 +28,47 @@ class ItemCheckoutController extends Controller
      */
     public function create()
     {
-        //
+        return view('items.instances.checkouts.add');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return Response
+     * @throws ValidationException
      */
     public function store(Request $request)
     {
-        $items = $request->get('item');
+        $items = $request->input('item_id');
         $items = is_array($items) ? collect(...$items) : collect($items);
 
-        $items->each(function ($id) use ($request) {
+        $checkouts = collect();
+
+        $data = $request->validate([
+            'user_id' => 'nullable|exists:users,id',
+            'location_id' => 'nullable|exists:item_types,id',
+            'due_date' => 'nullable|date|after:now',
+        ]);
+
+        if (!array_key_exists('location_id', $data) && !array_key_exists('user_id', $data)) {
+            throw ValidationException::withMessages([
+                'item_id' => __('validation.at-least-one-checkout-target'),
+            ]);
+        }
+
+        $items->each(function ($id) use ($data, $checkouts) {
             $item = Item::with('checkouts')
                 ->find($id);
 
             if ($item && !$item->isCheckedOut()) {
-                $item->checkouts()->create([
-                    'user_id' => $request->user()->id,
-                ]);
+                $checkouts->push($item->checkouts()->create($data));
             }
         });
 
-        return redirect()->back();
+        return $checkouts->count() === 1
+            ? redirect()->to($checkouts->first()->view_url)
+            : redirect()->route('home');
     }
 
     /**
@@ -62,9 +77,12 @@ class ItemCheckoutController extends Controller
      * @param ItemCheckout $checkout
      * @return Response
      */
-    public function show(ItemCheckout $checkout)
+    public function show(int $id)
     {
-        //
+        $checkout = ItemCheckout::with('item', 'location', 'user')
+            ->findOrFail($id);
+
+        return view('items.instances.checkouts.view', ['checkout' => $checkout]);
     }
 
     /**
@@ -98,6 +116,7 @@ class ItemCheckoutController extends Controller
      */
     public function destroy(ItemCheckout $checkout)
     {
+        abort_if($checkout->returned_at !== null, 400, "Can't return already what is already returned");
         $checkout->returned_at = now();
         $checkout->save();
         return redirect()->back();

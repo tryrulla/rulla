@@ -12,6 +12,12 @@
             @search="onSearch"
             v-if="loaded"
         ></v-select>
+
+        <div v-if="showSetSelfButton">
+            <button class="hover:underline text-blue-700 text-sm" @click="setSelf" type="button">
+                Self
+            </button>
+        </div>
     </div>
 </template>
 
@@ -26,6 +32,8 @@ export default {
             options: [],
             value: null,
             loaded: false,
+            lastSearch: '',
+            actualFilter: this.filter,
         };
     },
     props: {
@@ -41,9 +49,45 @@ export default {
             type: String,
             default: null,
         },
+        showSetSelfButton: {
+            type: Boolean,
+            default: false,
+        },
+        filterStoredAtFieldName: {
+            type: String,
+            required: false,
+        },
+        filterStoredAtExtra: {
+            type: Object,
+            required: false,
+        }
+    },
+    watch: {
+        filterStoredAtValue: {
+            async handler(newValue) {
+                if (this.filterStoredAtValue && this.filterStoredAtExtra && newValue) {
+                    this.actualFilter['storage-location'] = { ...this.filterStoredAtExtra };
+                    this.actualFilter['storage-location']['id'] = newValue;
+                } else {
+                    this.actualFilter['storage-location'] = null;
+                }
+                this.search(value => this.loaded = !value, this.lastSearch, this);
+            },
+            deep: true,
+        },
+        value(value) {
+            this.$store.dispatch('setValue', { key: this.id + '_id', value: this.getId(value) });
+            this.$store.dispatch('setValue', { key: this.id + '_type', value: this.getType(value) });
+        },
+    },
+    computed: {
+        filterStoredAtValue() {
+            return this.filterStoredAtFieldName ? this.$store.getters.values[this.filterStoredAtFieldName] : null;
+        },
     },
     methods: {
         onSearch(search, loading) {
+            this.lastSearch = search;
             loading(true);
             this.search(loading, search, this);
         },
@@ -54,7 +98,7 @@ export default {
                 return;
             }
 
-            axios.post(Rulla.baseUrl + '/app/search', {filters: {query: search, ...vm.filter}})
+            axios.post(Rulla.baseUrl + '/app/search', {filters: {query: search, ...vm.actualFilter}})
                 .then(({data}) => {
                     vm.options = data.results;
 
@@ -66,6 +110,7 @@ export default {
                 });
             }, 500),
         label(it) {
+            console.log({ it });
             if (typeof it.name === 'object') {
                 return `[${it.identifier}] ${it.name[this.language] || it.name['en']}`;
             }
@@ -101,19 +146,33 @@ export default {
 
             return parseInt(identifier.substr(1));
         },
+        setSelf() {
+            this.loaded = false;
+            axios.post(Rulla.baseUrl + '/app/search', {filters: {query: Rulla.currentUser, ...this.actualFilter}})
+                .then(({data}) => {
+                    this.options = data.results;
+
+                    if (this.options.length === 1) {
+                        this.value = this.options[0].identifier;
+                    }
+
+                    this.loaded = true;
+                });
+        },
     },
     mounted() {
         if (this.initialValue) {
             let typeToFetch = this.initialValue;
-            if (isNumber(typeToFetch) && typeof this.filter.type === 'string') {
+            if (isNumber(typeToFetch) && typeof this.actualFilter.type === 'string') {
                 const type = this.filter.type;
                 typeToFetch = window.Rulla.identifiers.typeToLetter[type] + typeToFetch;
             }
 
-            axios.post(Rulla.baseUrl + '/app/search', {filters: {query: typeToFetch, ...this.filter}})
+            axios.post(Rulla.baseUrl + '/app/search', {filters: {query: typeToFetch, ...this.actualFilter}})
                 .then(({data}) => {
                     this.options = data.results;
 
+                    console.log(this.options);
                     if (this.options.length === 1) {
                         this.value = this.options[0].identifier;
                     }

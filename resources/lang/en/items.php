@@ -65,7 +65,7 @@ return [
                 'id' => 'ID',
                 'start_time' => 'Checked out at',
                 'return_time' => 'Returned at',
-                'user' => 'User',
+                'due_date' => 'Due Date',
             ],
 
             'faults' => [
@@ -95,6 +95,34 @@ return [
             'title' => 'Title',
             'description' => 'Description',
         ],
+    ],
+
+    'checkouts' => [
+        'title' => 'Checkout',
+        'latest-checkouts' => 'Latest Checkouts',
+        'active-checkouts' => 'Active Checkouts',
+        'create' => 'New Checkout',
+        'edit' => 'Edit Checkout',
+
+        'checkout-to' => [
+            'title' => 'Checkout To',
+            'help' => 'At least one is required.',
+        ],
+
+        'fields' => [
+            'id' => 'ID',
+            'item' => 'Item',
+            'user' => 'User',
+            'type' => 'Item Type',
+            'location' => 'Location',
+
+            'due_date' => 'Due Date',
+            'created_at' => 'Checked Out At',
+            'returned_at' => 'Returned At',
+        ],
+
+        'out' => 'Out',
+        'missing' => 'Missing',
     ],
 
     'types' => [
@@ -181,6 +209,13 @@ return [
 
             'type' => 'Type Stored',
             'location' => 'Storage Location',
+
+            'apply_to' => 'Applies To',
+
+            'mode' => [
+                'storage' => 'Storage',
+                'checkout' => 'Checkout',
+            ],
 
             'submit' => 'Submit',
 

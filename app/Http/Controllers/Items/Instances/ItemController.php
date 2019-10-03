@@ -62,14 +62,13 @@ class ItemController extends Controller
             return $query->from('item_types')
                 ->whereIn('id', function (Builder $query) use ($type) {
                     return $query->from('type_stored_ats')
-                        ->whereIn('stored_type_id', $type->getAllParentIds())
+                        ->whereIn('stored_type_id', $type->getAllParentIds(true))
+                        ->where('storage', true)
                         ->select('storage_type_id');
                 })
                 ->select('id');
             })
             ->get();
-
-        $fields = $this->fields($type);
 
         return response()->json($locations);
     }

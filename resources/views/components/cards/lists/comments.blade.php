@@ -17,7 +17,7 @@
                         </span>
                     </a>
                     &middot;
-                    {{ $comment->created_at->toDateTimeString() }}
+                    {{ \Rulla\Utils\Date::format($comment->created_at) }}
                 </div>
 
                 @if($comment->comment_type->isComment())

@@ -41,13 +41,11 @@
                         </button>
                     </form>
                 @else
-                    <form action="{{ route('items.checkout.store') }}" method="POST" class="inline-block">
-                        @csrf
-                        <input type="hidden" name="item" value="{{ $item->id }}">
-                        <button type="submit" class="bg-gray-100 text-gray-700 p-2 shadow rounded hover:underline">
+                    <div class="inline-block bg-gray-100 text-gray-700 p-2 shadow rounded">
+                        <a href="{{ route('items.checkout.add', ['item_id' => $item->id]) }}" class="hover:underline">
                             {{ __('items.instances.view.checkout') }}
-                        </button>
-                    </form>
+                        </a>
+                    </div>
                 @endif
 
                 <div class="inline-block bg-gray-100 text-gray-700 p-2 shadow rounded">
@@ -130,63 +128,9 @@
         </div>
 
         @if($item->lastCheckouts->isNotEmpty())
-            <div class="card">
-                <h3 class="font-bold">
-                    {{ __('items.instances.view.checkouts.title') }}
-                </h3>
-
-                <div class="px-2">
-                    <table>
-                        <tr>
-                            <th class="pr-2">
-                                {{ __('items.instances.view.checkouts.id') }}
-                            </th>
-
-                            <th class="pr-2">
-                                {{ __('items.instances.view.checkouts.start_time') }}
-                            </th>
-
-                            <th class="pr-2">
-                                {{ __('items.instances.view.checkouts.return_time') }}
-                            </th>
-
-                            <th>
-                                {{ __('items.instances.view.checkouts.user') }}
-                            </th>
-                        </tr>
-
-                        @foreach($item->lastCheckouts as $checkout)
-                            <?php /** @var Rulla\Items\Instances\ItemCheckout $checkout */ ?>
-                            <tr>
-                                <td class="pr-4 text-gray-700">
-                                    {{ $checkout->identifier }}
-                                </td>
-
-                                <td class="pr-2">
-                                    {{ $checkout->created_at->toDateTimeString() }}
-                                </td>
-
-                                <td class="pr-2">
-                                    {{ $checkout->returned_at ? $checkout->returned_at->toDateTimeString() : '' }}
-                                </td>
-
-                                <td class="pr-2">
-                                    <a href="{{ $checkout->user->viewUrl }}">
-                                        <span class="hover:underline text-gray-900 hover:text-black">
-                                            {{ $checkout->user->name }}
-
-                                            <span class="text-gray-700">
-                                                ({{ $checkout->user->email }})
-                                            </span>
-                                        </span>
-                                    </a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </table>
-                </div>
-            </div>
-        @endif
+                @component('components.cards.lists.checkouts', ['checkouts' => $item->lastCheckouts, 'title' => __('items.checkouts.latest-checkouts')])
+                @endcomponent
+            @endif
 
         @if($item->lastFaults->isNotEmpty())
             @component('components.cards.lists.faults', ['faults' => $item->lastFaults, 'title' => __('items.faults.latest-faults'), 'showAssignee' => true])

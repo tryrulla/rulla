@@ -14,22 +14,43 @@
             <label class="block mt-4">
                 <span class="text-gray-700">{{ __('items.types.storage.location') }}</span>
 
-                <select-input
-                    :options="{{ json_encode($locations) }}"
+                <search-input
                     initial-value="{{ old('storage_type_id', Request::get('storage_type_id')) }}"
-                    name="storage_type_id"
-                ></select-input>
+                    :filter="{{ json_encode(['type' => \Rulla\Items\Types\ItemType::class]) }}"
+                    id="storage_type"
+                ></search-input>
             </label>
 
             <label class="block mt-4">
                 <span class="text-gray-700">{{ __('items.types.storage.type') }}</span>
 
-                <select-input
-                    :options="{{ json_encode($itemTypes) }}"
+                <search-input
                     initial-value="{{ old('stored_type_id', Request::get('stored_type_id')) }}"
-                    name="stored_type_id"
-                ></select-input>
+                    :filter="{{ json_encode(['type' => \Rulla\Items\Types\ItemType::class, 'type-has-parent' => 1]) }}"
+                    id="stored_type"
+                ></search-input>
             </label>
+
+            <div class="block mt-4">
+                <span class="text-gray-700">{{ __('items.types.storage.apply_to') }}</span>
+
+                <div class="mt-2">
+                    <div>
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" class="sr-only" name="storage"/>
+                            <span class="form-checkbox text-blue-400" aria-hidden="true"></span>
+                            <span class="ml-2">{{ __('items.types.storage.mode.storage') }}</span>
+                        </label>
+                    </div>
+                    <div>
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" class="sr-only" name="checkout"/>
+                            <span class="form-checkbox text-blue-400" aria-hidden="true"></span>
+                            <span class="ml-2">{{ __('items.types.storage.mode.checkout') }}</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
 
             <div class="mt-4">
                 <button class="button button-blue">

@@ -147,4 +147,10 @@ return [
 
     'attributes' => [],
 
+    /*
+     * Other
+     */
+    'at-least-one-checkout-target' => 'At least one checkout target is required.',
+
+
 ];
