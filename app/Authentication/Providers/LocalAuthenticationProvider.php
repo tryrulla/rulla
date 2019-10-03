@@ -12,7 +12,6 @@ class LocalAuthenticationProvider extends PasswordAuthenticationProvider
 {
     public function findUser(string $email, string $password): ?User
     {
-
         $user = User::where([
             'email' => $email,
         ])->first();

@@ -5,6 +5,7 @@ namespace Rulla\Authentication;
 use Illuminate\Support\Collection;
 use Rulla\Authentication\Models\AuthenticationSource;
 use Rulla\Authentication\Providers\AuthenticationProvider;
+use Rulla\Authentication\Providers\LdapAuthenticationProvider;
 use Rulla\Authentication\Providers\OpenIdAuthenticationProvider;
 use Rulla\Authentication\Providers\PassiveAuthenticationProvider;
 use Rulla\Authentication\Providers\PasswordAuthenticationProvider;
@@ -28,6 +29,10 @@ class AuthenticationManager
     {
         if ($this->providers) {
             return;
+        }
+
+        if (extension_loaded('ldap')) {
+            $this->providerClasses[] = LdapAuthenticationProvider::class;
         }
 
         $this->providers = AuthenticationSource::where('active', true)
