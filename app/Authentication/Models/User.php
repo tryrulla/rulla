@@ -55,12 +55,14 @@ class User extends Authenticatable
     public function assignedFaults()
     {
         return $this->hasMany(ItemFault::class, 'assignee_id', 'id')
+            ->with('item', 'item.type')
             ->scopes('open');
     }
 
     public function checkouts()
     {
         return $this->hasMany(ItemCheckout::class, 'user_id', 'id')
+            ->with('item', 'item.type')
             ->scopes('active');
     }
 }
