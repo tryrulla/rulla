@@ -16,11 +16,50 @@ abstract class AuthenticationProvider
     /** @var object|null */
     private $options;
 
+    /** @var bool */
+    private $useLogin, $useImport;
+
     public function __construct(int $id, string $name, $options)
     {
         $this->id = $id;
         $this->name = $name;
         $this->options = $options;
+    }
+
+    /**
+     * @return bool
+     */
+    public function useLogin(): bool
+    {
+        return $this->useLogin;
+    }
+
+    /**
+     * @param bool $useLogin
+     * @return self
+     */
+    public function setUseLogin(bool $useLogin): self
+    {
+        $this->useLogin = $useLogin;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function useImport(): bool
+    {
+        return $this->useImport;
+    }
+
+    /**
+     * @param bool $useImport
+     * @return self
+     */
+    public function setUseImport(bool $useImport): self
+    {
+        $this->useImport = $useImport;
+        return $this;
     }
 
     /**

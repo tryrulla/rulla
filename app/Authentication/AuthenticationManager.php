@@ -42,7 +42,9 @@ class AuthenticationManager
             })
             ->map(function (AuthenticationSource $source) {
                 $class = $source->type;
-                return new $class($source->id, $source->name, $source->options);
+                return ($class($source->id, $source->name, $source->options))
+                    ->setUseLogin($source->use_login)
+                    ->setUseImport($source->use_import);
             });
     }
 

@@ -17,6 +17,7 @@ return [
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
     'no-providers' => 'No authentication providers are currently available.',
+    'no-login-on-provider' => 'This authentication provider does not allow users to log in.',
 
     'form' => [
         'title' => 'Log in using email and password',

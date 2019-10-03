@@ -4,8 +4,10 @@ namespace Rulla\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Rulla\Authentication\AuthenticationManager;
 use Rulla\Authentication\Providers\PassiveAuthenticationProvider;
+use Rulla\Authentication\Providers\PasswordAuthenticationProvider;
 use Rulla\Authentication\Providers\SocialAuthenticationProvider;
 use Rulla\Http\Controllers\Controller;
 
@@ -22,6 +24,9 @@ class AuthenticationController extends Controller
     public function index(Request $request)
     {
         if ($this->authenticationManager->getPassiveProviders()
+            ->filter(function (PassiveAuthenticationProvider $provider) {
+                return $provider->useLogin();
+            })
             ->filter(function (PassiveAuthenticationProvider $provider) use ($request) {
                 return $provider->tryAuthenticate($request);
             })
@@ -30,17 +35,27 @@ class AuthenticationController extends Controller
                 ->intended('/');
         }
 
-        if ($this->authenticationManager->getSocialProviders()->isEmpty()
-            && $this->authenticationManager->getPasswordProviders()->isEmpty()) {
+        $socialProviders = $this->authenticationManager->getSocialProviders()
+            ->filter(function (SocialAuthenticationProvider $provider) {
+                return $provider->useLogin();
+            });
+
+        $passwordProviders = $this->authenticationManager->getSocialProviders()
+            ->filter(function (PasswordAuthenticationProvider $provider) {
+                return $provider->useLogin();
+            });
+
+        if ($socialProviders->isEmpty() && $passwordProviders->isEmpty()) {
             return view('general.message', ['message' => __('auth.no-providers')]);
         }
-        return view('authentication.auth');
+
+        return view('authentication.auth', collect('socialProviders', 'passwordProviders'));
     }
 
     public function login(Request $request)
     {
         $providerId = $request->validate([
-            'provider' => 'required|exists:authentication_sources,id',
+            'provider' => ['required', Rule::exists('authentication_sources', 'id')->where('use_login', true)],
         ])['provider'];
 
         $provider = $this->authenticationManager->getProvider($providerId);
@@ -56,8 +71,12 @@ class AuthenticationController extends Controller
     {
         $actualProvider = $this->authenticationManager->getProvider($provider);
 
-        if (!$provider) {
+        if (!$actualProvider) {
             return abort(404, 'Provider not found');
+        }
+
+        if (!$actualProvider->useLogin()) {
+            return view('general.message', ['message' => __('auth.no-login-on-provider')]);
         }
 
         if ($actualProvider instanceof SocialAuthenticationProvider) {
@@ -71,8 +90,12 @@ class AuthenticationController extends Controller
     {
         $actualProvider = $this->authenticationManager->getProvider($provider);
 
-        if (!$provider) {
+        if (!$actualProvider) {
             return abort(404, 'Provider not found');
+        }
+
+        if (!$actualProvider->useLogin()) {
+            return view('general.message', ['message' => __('auth.no-login-on-provider')]);
         }
 
         return $actualProvider->authenticate($request);

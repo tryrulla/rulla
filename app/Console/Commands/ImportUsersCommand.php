@@ -50,9 +50,12 @@ class ImportUsersCommand extends Command
         }
 
         if (!($provider instanceof SupportsImport)) {
-            throw new Exception("Authentication provider does not support password authentication");
+            throw new Exception("Authentication provider does not support importing users");
         }
 
+        if (!$provider->useImport()) {
+            throw new Exception("Authentication provider does not allow importing");
+        }
 
         $provider->importUsers($this);
     }

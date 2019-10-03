@@ -1,10 +1,7 @@
 @extends('layouts.app')
 
-@inject('authManager', '\Rulla\Authentication\AuthenticationManager')
-<?php /** @var $authManager \Rulla\Authentication\AuthenticationManager */ ?>
-
 @section('content')
-    @if($authManager->getPasswordProviders()->count() > 0)
+    @if($passwordProviders->count() > 0)
         <div class="card">
             <h2 class="title text-xl">{{ __('auth.form.title') }}</h2>
 
@@ -23,11 +20,11 @@
                         {{ empty(old('email', '')) ? '' : 'autofocus' }}>
                 </label>
 
-                @if($authManager->getPasswordProviders()->count() > 1)
+                @if($passwordProviders->count() > 1)
                     <label class="block mt-4">
                         <span class="text-gray-700">{{ __('auth.form.provider') }}</span>
                         <select name="provider" class="form-select mt-1 block w-full">
-                            @foreach($authManager->getPasswordProviders() as $provider)
+                            @foreach($passwordProviders as $provider)
                                 <?php /** @var $provider \Rulla\Authentication\Providers\PasswordAuthenticationProvider */ ?>
                                 <option value="{{ $provider->getId() }}"
                                     {{ old('provider', isset($selectedProvider) ? $selectedProvider : -1) === $provider->getId() ? 'selected' : '' }}
@@ -36,7 +33,7 @@
                         </select>
                     </label>
                 @else
-                    <input type="hidden" name="provider" value="{{ $authManager->getPasswordProviders()->first()->getId() }}">
+                    <input type="hidden" name="provider" value="{{ $passwordProviders->first()->getId() }}">
                 @endif
 
                 <label class="block mt-4">
@@ -53,11 +50,11 @@
         </div>
     @endif
 
-    @if($authManager->getSocialProviders()->count() > 0)
+    @if($socialProviders->count() > 0)
         <div class="card">
             <h2 class="title text-xl">{{ __('auth.social.title') }}</h2>
 
-            @foreach($authManager->getSocialProviders() as $provider)
+            @foreach($socialProviders as $provider)
                 <a href="{{ route('login.provider', ['provider' => $provider->getId()]) }}" class="block p-2 bg-white hover:underline mt-4">
                     {{ $provider->getName() }}
                 </a>
