@@ -40,7 +40,7 @@ class AuthenticationController extends Controller
                 return $provider->useLogin();
             });
 
-        $passwordProviders = $this->authenticationManager->getSocialProviders()
+        $passwordProviders = $this->authenticationManager->getPasswordProviders()
             ->filter(function (PasswordAuthenticationProvider $provider) {
                 return $provider->useLogin();
             });
@@ -49,7 +49,7 @@ class AuthenticationController extends Controller
             return view('general.message', ['message' => __('auth.no-providers')]);
         }
 
-        return view('authentication.auth', collect('socialProviders', 'passwordProviders'));
+        return view('authentication.auth', ['socialProviders' => $socialProviders, 'passwordProviders' => $passwordProviders]);
     }
 
     public function login(Request $request)

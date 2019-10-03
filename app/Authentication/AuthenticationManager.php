@@ -23,7 +23,7 @@ class AuthenticationManager
     ];
 
     /** @var Collection */
-    private $providers = [];
+    private $providers;
 
     private function boot()
     {
@@ -42,7 +42,7 @@ class AuthenticationManager
             })
             ->map(function (AuthenticationSource $source) {
                 $class = $source->type;
-                return ($class($source->id, $source->name, $source->options))
+                return (new $class($source->id, $source->name, $source->options))
                     ->setUseLogin($source->use_login)
                     ->setUseImport($source->use_import);
             });
