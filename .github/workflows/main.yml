@@ -28,9 +28,7 @@ jobs:
       - name: Verify MySQL connection from host
         run: mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -uroot -ppassword -e "SHOW DATABASES"
       - name: Run Migration
-        run: |
-          echo ${DB_PASSWORD}
-          php${{ matrix.php }} artisan migrate -v --force --seed
+        run: php${{ matrix.php }} artisan migrate -v --force --seed
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
       - name: Build assets
