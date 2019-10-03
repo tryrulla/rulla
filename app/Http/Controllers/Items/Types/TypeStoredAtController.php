@@ -20,16 +20,7 @@ class TypeStoredAtController extends Controller
      */
     public function create()
     {
-        $locations = ItemType::with('parents')
-            ->where('system', false)
-            ->orderBy('name')
-            ->get();
-
-        $itemTypes = $locations->filter(function (ItemType $it) {
-            return $it->hasParent(1);
-        });
-
-        return view('items.types.storage_types.add', ['itemTypes' => $itemTypes->values(), 'locations' => $locations->values()]);
+        return view('items.types.storage_types.add');
     }
 
     /**
@@ -40,8 +31,15 @@ class TypeStoredAtController extends Controller
      */
     public function store(CreateTypeStoredAtRequest $request)
     {
-        $typeStoredAt = TypeStoredAt::create($request->validated());
-        return redirect()->route('items.types.view', $typeStoredAt->stored_type_id);
+        if ($request->input('storage') === false && $request->input('checkout') === false) {
+            TypeStoredAt::where($request->only(['stored_type_id', 'storage_type_id']))
+                ->delete();
+
+            return redirect()->route('items.types.view', $request->input('stored_type_id'));
+        }
+
+        TypeStoredAt::updateOrInsert($request->only(['stored_type_id', 'storage_type_id']), $request->validated());
+        return redirect()->route('items.types.view', $request->input('stored_type_id'));
     }
 
     /**

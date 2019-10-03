@@ -39,8 +39,15 @@ class FieldAppliesToController extends Controller
      */
     public function store(FieldAppliesToRequest $request)
     {
-        $fieldAppliesTo = FieldAppliesTo::create($request->validated());
-        return redirect()->route('items.fields.view', $fieldAppliesTo->field_id);
+        if ($request->input('apply_to_item') === false && $request->input('apply_to_type') === false) {
+            FieldAppliesTo::where($request->only(['field_id', 'type_id']))
+                ->delete();
+
+            return redirect()->route('items.fields.view', $request->input('field_id'));
+        }
+
+        FieldAppliesTo::updateOrInsert($request->only(['field_id', 'type_id']), $request->validated());
+        return redirect()->route('items.fields.view', $request->input('field_id'));
     }
 
     /**
