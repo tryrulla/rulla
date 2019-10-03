@@ -6,22 +6,23 @@ use Exception;
 use Illuminate\Console\Command;
 use Rulla\Authentication\AuthenticationManager;
 use Rulla\Authentication\Providers\PasswordAuthenticationProvider;
+use Rulla\Authentication\Providers\SupportsImport;
 
-class TestAuthenticationCommand extends Command
+class ImportUsersCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'rulla:auth:test {provider}';
+    protected $signature = 'rulla:auth:import {provider}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Used to test an authentication provider';
+    protected $description = 'Imports all users from provider';
 
     /**
      * Create a new command instance.
@@ -48,17 +49,11 @@ class TestAuthenticationCommand extends Command
             throw new Exception("Authentication provider not found");
         }
 
-        if (!($provider instanceof PasswordAuthenticationProvider)) {
+        if (!($provider instanceof SupportsImport)) {
             throw new Exception("Authentication provider does not support password authentication");
         }
 
-        $this->info("Please enter your credentials for " . $provider->getName());
 
-        $username = $this->ask("Username");
-        $password = $this->secret("Password");
-
-        dd($provider->findUser($username, $password));
-
-        return;
+        $provider->importUsers($this);
     }
 }

@@ -6,8 +6,9 @@ use Adldap\Adldap;
 use Adldap\Connections\ProviderInterface;
 use Adldap\Models\User as AdldapUser;
 use Rulla\Authentication\Models\User;
+use Rulla\Console\Commands\ImportUsersCommand;
 
-class LdapAuthenticationProvider extends PasswordAuthenticationProvider
+class LdapAuthenticationProvider extends PasswordAuthenticationProvider implements SupportsImport
 {
     /** @var array */
     private $ldapConfig;
@@ -56,7 +57,7 @@ class LdapAuthenticationProvider extends PasswordAuthenticationProvider
             return null;
         }
 
-        /** @var AdldapUser $ldapUser    */
+        /** @var AdldapUser $ldapUser */
         $ldapUser = $connection->search()
             ->users()
             ->rawFilter($this->rawFilters)
@@ -87,5 +88,57 @@ class LdapAuthenticationProvider extends PasswordAuthenticationProvider
                 'password' => '',
             ]
         );
+    }
+
+    public function importUsers(ImportUsersCommand $command)
+    {
+        $bar = $command->getOutput()->createProgressBar();
+        $bar->setFormat('%message% %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%');
+
+        $bar->setMessage('Connecting to LDAP');
+        $bar->display();
+        $this->openConnection();
+        $connection = $this->connection;
+
+        $bar->setMessage('Retrieving results');
+        $bar->display();
+
+        $ldapUsers = $connection->search()
+            ->users()
+            ->rawFilter($this->rawFilters)
+            ->get();
+
+        $bar->setMaxSteps(count($ldapUsers));
+        $bar->setFormat('%message% %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s%');
+        $bar->setMessage('Saving users to database');
+        $bar->display();
+
+        foreach ($ldapUsers as $ldapUser) {
+            /** @var AdldapUser $ldapUser */
+
+            $ldapEmail = $ldapUser->getAttribute($this->emailAttribute);
+
+            if (is_array($ldapEmail)) {
+                if (sizeof($ldapEmail) < 1) {
+                    return null;
+                }
+
+                $ldapEmail = $ldapEmail[0];
+            }
+
+            $user = User::firstOrNew([
+                'email' => $ldapEmail,
+            ], [
+                'email_verified_at' => now(),
+                'password' => '',
+            ]);
+
+            $user->name = $ldapUser->getName();
+            $user->save();
+
+            $bar->advance();
+        }
+
+        $bar->finish();
     }
 }
