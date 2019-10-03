@@ -96,7 +96,7 @@
                                         {{ $row->storageType->identifier }}</a>
                                 </td>
 
-                                <td>
+                                <td class="pr-4">
                                     <a href="{{ route('items.types.view', $row->storageType) }}">
                                         <span class="hover:underline text-gray-900 hover:text-black">
                                         {{ $row->storageType->name }}</span>
@@ -109,15 +109,30 @@
                                     </a>
                                 </td>
 
-                                @if($row->stored_type_id !== $type->id)
-                                    <td class="text-gray-700">
+                                <td class="pr-4">
+                                    {{ $row->mode->map(function ($mode) { return __('items.types.storage.mode.' . $mode); })->join(', ') }}
+                                </td>
+
+                                <td class="text-gray-700 pr-4">
+                                    @if($row->stored_type_id !== $type->id)
                                         ({{ __('items.types.view.stored.via') }}
                                         <a href="{{ route('items.types.view', $row->storedType) }}"
                                            class="text-gray-700 hover:underline">
                                             {{ $row->storedType->identifier }}
                                             {{ $row->storedType->name }}</a>)
-                                    </td>
-                                @endif
+                                    @endif
+                                </td>
+
+                                <td>
+                                    <form action="{{ route('items.type-storage.destroy', $row) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-900 hover:underline">
+                                            <i class="fas fa-trash"></i>
+                                            Delete
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
                     </table>

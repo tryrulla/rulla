@@ -5,6 +5,7 @@ namespace Rulla\Http\Controllers\Items\Types;
 use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
+use Rulla\Http\Requests\CreateTypeStoredAtRequest;
 use Rulla\Items\Types\ItemType;
 use Rulla\Items\Types\TypeStoredAt;
 use Illuminate\Http\Request;
@@ -34,23 +35,12 @@ class TypeStoredAtController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param CreateTypeStoredAtRequest $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(CreateTypeStoredAtRequest $request)
     {
-        $data = $request->validate([
-            'stored_type_id' => [
-                'required',
-                Rule::exists('item_types', 'id')->where('system', 'false'),
-            ],
-            'storage_type_id' => [
-                'required',
-                Rule::exists('item_types', 'id')->where('system', 'false'),
-            ]
-        ]);
-
-        $typeStoredAt = TypeStoredAt::create($data);
+        $typeStoredAt = TypeStoredAt::create($request->validated());
         return redirect()->route('items.types.view', $typeStoredAt->stored_type_id);
     }
 
@@ -95,14 +85,14 @@ class TypeStoredAtController extends Controller
      * @return Response
      * @throws Exception
      */
-    public function destroy(TypeStoredAt $typeStoredAt)
+    public function destroy(TypeStoredAt $stored)
     {
-        abort_if($typeStoredAt->stored_type_id <= 1000, 400, "Can't delete typeStoredAt with system types");
-        abort_if($typeStoredAt->storage_type_id <= 1000, 400, "Can't delete typeStoredAt with system types");
+        abort_if($stored->stored_type_id <= 1000, 400, "Can't delete typeStoredAt with system types");
+        abort_if($stored->storage_type_id <= 1000, 400, "Can't delete typeStoredAt with system types");
 
-        $typeStoredAt->delete();
+        $stored->delete();
         return redirect()
-            ->route('items.fields.view', $typeStoredAt->stored_type_id)
+            ->back()
             ->with('notice', __('items.types.storage.deleted'));
     }
 }

@@ -210,6 +210,13 @@ return [
             'type' => 'Type Stored',
             'location' => 'Storage Location',
 
+            'apply_to' => 'Applies To',
+
+            'mode' => [
+                'storage' => 'Storage',
+                'checkout' => 'Checkout',
+            ],
+
             'submit' => 'Submit',
 
             'delete' => 'Delete',

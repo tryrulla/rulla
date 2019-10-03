@@ -61,6 +61,9 @@ Route::middleware('auth')
         Route::post('/app/item/type-storage', 'Items\Types\TypeStoredAtController@store')
             ->name('items.type-storage.store');
 
+        Route::delete('/app/item/type-storage/{stored}', 'Items\Types\TypeStoredAtController@destroy')
+            ->name('items.type-storage.destroy');
+
         Route::get('/app/item/fields', 'Items\Fields\FieldController@index')
             ->name('items.fields.index');
 

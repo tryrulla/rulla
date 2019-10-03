@@ -54,9 +54,11 @@
                 <div class="mt-4">
                     <span class="text-gray-700">{{ __('items.checkouts.fields.location') }}</span>
                     <search-input
-                        :filter="{{ json_encode(['type' => \Rulla\Items\Types\ItemType::class]) }}"
+                        :filter="{{ json_encode(['type' => [\Rulla\Items\Types\ItemType::class, \Rulla\Items\Instances\Item::class], 'type-has-parent' => 2]) }}"
                         initial-value="{{ old('location_id', Request::input('location_id')) }}"
                         id="location"
+                        filter-stored-at-field-name="item_id"
+                        :filter-stored-at-extra="{{ json_encode(['stored_at' => ['checkout' => true]]) }}"
                     ></search-input>
                 </div>
             </div>

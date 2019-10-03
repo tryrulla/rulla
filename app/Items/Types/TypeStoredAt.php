@@ -3,10 +3,13 @@
 namespace Rulla\Items\Types;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class TypeStoredAt extends Model
 {
     public $guarded = [];
+    protected $appends = ['mode'];
+
     protected $casts = [
         'storage' => 'boolean',
         'checkout' => 'boolean',
@@ -20,5 +23,23 @@ class TypeStoredAt extends Model
     public function storageType()
     {
         return $this->belongsTo(ItemType::class, 'storage_type_id', 'id');
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getModeAttribute()
+    {
+        $modes = collect();
+
+        if ($this->storage) {
+            $modes->push('storage');
+        }
+
+        if ($this->checkout) {
+            $modes->push('checkout');
+        }
+
+        return $modes;
     }
 }

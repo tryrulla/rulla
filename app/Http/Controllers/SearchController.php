@@ -3,7 +3,9 @@
 namespace Rulla\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Rulla\Authentication\Models\User;
 use Rulla\Items\Instances\Item;
 use Rulla\Items\Types\ItemType;
@@ -13,8 +15,8 @@ class SearchController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function __invoke(Request $request)
     {
@@ -90,6 +92,28 @@ class SearchController extends Controller
 
                     return $builder;
                 })
+                ->where(function (Builder $builder) use ($filters) {
+                    if (array_key_exists('storage-location', $filters)) {
+                        $type = Item::findOrFail($filters['storage-location']['id'])
+                            ->type()
+                            ->with('parents')
+                            ->where('system', false)
+                            ->firstOrFail();
+
+                        return $builder->whereIn('type_id', function (QueryBuilder $query) use ($type, $filters) {
+                            return $query->from('item_types')
+                                ->whereIn('id', function (QueryBuilder $query) use ($type, $filters) {
+                                    return $query->from('type_stored_ats')
+                                        ->whereIn('stored_type_id', $type->getAllParentIds(true))
+                                        ->where($filters['storage-location']['stored_at'])
+                                        ->select('storage_type_id');
+                                })
+                                ->select('id');
+                        });
+                    }
+
+                    return $builder;
+                })
                 ->get()
                 ->map(function (Item $item) {
                     return [
@@ -123,7 +147,15 @@ class SearchController extends Controller
 
                     return $builder;
                 })
+                ->with(array_key_exists('type-has-parent', $filters) ? ['parents'] : [])
                 ->get()
+                ->filter(function (ItemType $type) use ($filters) {
+                    if (array_key_exists('type-has-parent', $filters)) {
+                        return $type->hasParent($filters['type-has-parent'], true);
+                    }
+
+                    return true;
+                })
                 ->map(function (ItemType $type) {
                     return [
                         'type' => Item::class,
