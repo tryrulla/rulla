@@ -16,7 +16,8 @@ class GroupController extends Controller
      */
     public function index()
     {
-        return \response()->json(Group::all());
+        $groups = Group::paginate(50);
+        return view('users.groups.index', ['groups' => $groups]);
     }
 
     /**
@@ -49,7 +50,7 @@ class GroupController extends Controller
     public function show(int $id)
     {
         $group = Group::findOrFail($id);
-        return view('authentication.groups.view', ['group' => $group]);
+        return view('users.groups.view', ['group' => $group]);
     }
 
     /**

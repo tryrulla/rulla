@@ -29,6 +29,8 @@ return [
     ],
 
     'groups' => [
+        'all-groups' => 'All Groups',
+
         'fields' => [
             'id' => 'ID',
             'name' => 'Name',
