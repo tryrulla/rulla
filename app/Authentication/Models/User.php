@@ -4,6 +4,8 @@ namespace Rulla\Authentication\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Rulla\Authentication\Models\Groups\Group;
+use Rulla\Authentication\Models\Groups\UserInGroup;
 use Rulla\Items\Instances\ItemCheckout;
 use Rulla\Items\Instances\ItemFault;
 use Rulla\Meta\HasFormattedIdentifier;
@@ -64,5 +66,10 @@ class User extends Authenticatable
         return $this->hasMany(ItemCheckout::class, 'user_id', 'id')
             ->with('item', 'item.type')
             ->scopes('active');
+    }
+
+    public function groups()
+    {
+        return $this->hasManyThrough(Group::class, UserInGroup::class);
     }
 }

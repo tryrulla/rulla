@@ -5,6 +5,7 @@ return [
     'types' => 'Types',
     'fields' => 'Fields',
     'users' => 'Users',
+    'groups' => 'Groups',
 
     'login' => 'Log in',
 

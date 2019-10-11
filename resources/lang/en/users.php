@@ -27,4 +27,11 @@ return [
             'submit' => 'Submit',
         ],
     ],
+
+    'groups' => [
+        'fields' => [
+            'id' => 'ID',
+            'name' => 'Name',
+        ],
+    ],
 ];

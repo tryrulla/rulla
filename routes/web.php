@@ -157,6 +157,15 @@ Route::middleware('auth')
         Route::post('/app/user/profile/{user}/edit', 'Auth\UsersController@update')
             ->name('user.profile.update');
 
+        Route::get('/app/user/groups', 'Auth\GroupController@index')
+            ->name('user.groups.index');
+
+        Route::get('/app/view/G{id}', 'Auth\GroupController@show')
+            ->name('user.groups.view');
+
+        Route::get('/app/view/G{id}/edit', 'Auth\GroupController@edit')
+            ->name('user.groups.edit');
+
         Route::post('/app/search', 'SearchController')
             ->name('search');
 
