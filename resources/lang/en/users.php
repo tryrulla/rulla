@@ -30,6 +30,7 @@ return [
 
     'groups' => [
         'all-groups' => 'All Groups',
+        'edit' => 'Edit',
 
         'fields' => [
             'id' => 'ID',

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Rulla\Authentication\Models\Groups\Group;
 use Rulla\Authentication\Models\User;
 use Rulla\Items\Instances\Item;
 use Rulla\Items\Types\ItemType;
@@ -32,7 +33,7 @@ class SearchController extends Controller
 
         $typeOnly = '';
 
-        if (preg_match('/([UT]|I[FC]?)(\d+)/', $query, $idMatches)) {
+        if (preg_match('/([UTG]|I[FC]?)(\d+)/', $query, $idMatches)) {
             $typeOnly = $idMatches[1];
             $filters['id'] = (int) $idMatches[2];
             $query = '';
@@ -168,6 +169,37 @@ class SearchController extends Controller
                 })
                 ->each(function ($type) use ($results) {
                     return $results->push($type);
+                });
+        }
+
+        if (in_array(Group::class, $types) && ($typeOnly === '' || $typeOnly === 'G')) {
+            Group::query()
+                ->where(function (Builder $builder) use ($query) {
+                    if ($query && strlen($query) >= 1) {
+                        return $builder->where('name', 'like', '%' . $query . '%');
+                    }
+
+                    return $builder;
+                })
+                ->where(function (Builder $builder) use ($id) {
+                    if ($id > 0) {
+                        return $builder->where('id', $id);
+                    }
+
+                    return $builder;
+                })
+                ->get()
+                ->map(function (Group $group) {
+                    return [
+                        'type' => Group::class,
+                        'id' => $group->id,
+                        'identifier' => $group->identifier,
+                        'viewUrl' => $group->view_url,
+                        'name' => $group->name,
+                    ];
+                })
+                ->each(function ($group) use ($results) {
+                    return $results->push($group);
                 });
         }
 

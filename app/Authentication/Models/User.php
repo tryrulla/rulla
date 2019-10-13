@@ -6,6 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Rulla\Authentication\Models\Groups\Group;
 use Rulla\Authentication\Models\Groups\UserInGroup;
+use Rulla\Comments\HasComments;
+use Rulla\Comments\SavesActivityAsComments;
 use Rulla\Items\Instances\ItemCheckout;
 use Rulla\Items\Instances\ItemFault;
 use Rulla\Meta\HasFormattedIdentifier;
@@ -14,10 +16,16 @@ class User extends Authenticatable
 {
     use Notifiable;
     use HasFormattedIdentifier;
+    use HasComments, SavesActivityAsComments;
 
     public function getIdentifierPrefixLetter(): string
     {
         return 'U';
+    }
+
+    public function getFieldNameTranslationPrefix()
+    {
+        return 'users.profile.view.details';
     }
 
     protected $appends = ['viewUrl'];

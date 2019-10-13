@@ -20,6 +20,7 @@ class AuthSeed extends Seeder
         AuthenticationSource::create([
             'name' => 'Rulla Local Account',
             'type' => LocalAuthenticationProvider::class,
+            'use_login' => true,
         ]);
 
         factory(User::class)->create([

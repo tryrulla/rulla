@@ -3,6 +3,7 @@
 namespace Rulla\Http\Controllers\Auth;
 
 use Illuminate\Http\Response;
+use Rulla\Authentication\Models\Groups\UserInGroup;
 use Rulla\Authentication\Models\User;
 use Illuminate\Http\Request;
 use Rulla\Http\Controllers\Controller;
@@ -49,7 +50,7 @@ class UsersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \Rulla\Authentication\Models\User  $user
+     * @param User $user
      * @return Response
      */
     public function show(User $user)
@@ -61,7 +62,7 @@ class UsersController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \Rulla\Authentication\Models\User  $user
+     * @param User $user
      * @return Response
      */
     public function edit(User $user)
@@ -73,7 +74,7 @@ class UsersController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param  \Rulla\Authentication\Models\User  $user
+     * @param User $user
      * @return Response
      */
     public function update(Request $request, User $user)
@@ -82,14 +83,38 @@ class UsersController extends Controller
             'name' => 'nullable|min:2',
         ]);
 
+        if ($request->has('groups')) {
+            $newGroups = collect($request->get('groups'));
+            $oldGroupIds = $user->groups()
+                ->pluck('id')
+                ->toArray();
+
+            UserInGroup::where('user_id', $user->id)
+                ->whereNotIn('group_id', $newGroups)
+                ->delete();
+
+            $newGroups->each(function ($newGroupId) use ($user) {
+                UserInGroup::updateOrCreate([
+                    'user_id' => $user->id,
+                    'group_id' => $newGroupId,
+                ]);
+            });
+
+            $newGroupIds = $user->groups()
+                ->pluck('id')
+                ->toArray();
+            $user->addPendingChange('groups', $oldGroupIds, $newGroupIds);
+        }
+
         $user->update($data);
+        $user->savePendingChanges();
         return redirect($user->view_url);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Rulla\Authentication\Models\User  $user
+     * @param User $user
      * @return Response
      */
     public function destroy(User $user)

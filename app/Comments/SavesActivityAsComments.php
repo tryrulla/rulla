@@ -2,12 +2,15 @@
 
 namespace Rulla\Comments;
 
+use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 trait SavesActivityAsComments
 {
     // protected $fieldToModelTypes = [];
+
+    private $pendingChanges = [];
 
     /**
      * @return array
@@ -26,10 +29,57 @@ trait SavesActivityAsComments
         return __($this->getFieldNameTranslationPrefix() . $field);
     }
 
+    /**
+     * @return array
+     */
+    public function getPendingChanges(): array
+    {
+        return $this->pendingChanges;
+    }
+
+    public function clearPendingChanges(): void
+    {
+        $this->pendingChanges = [];
+    }
+
+    public function addPendingChange(string $key, $original, $new)
+    {
+        if ($original === $new) {
+            return;
+        }
+
+        $this->pendingChanges[$key] = ['original' => $original, 'new' => $new];
+    }
+
+    public function savePendingChanges()
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return;
+        }
+
+        $diff = $this->getPendingChanges();
+
+        if (empty($diff)) {
+            return;
+        }
+
+        Comment::create([
+            'user_id' => $user->id,
+            'commentable_id' => $this->id,
+            'commentable_type' => get_class($this),
+            'comment_type' => CommentType::change(),
+            'data' => ['diff' => $diff],
+        ]);
+
+        $this->clearPendingChanges();
+    }
+
     public static function bootSavesActivityAsComments()
     {
         static::created(function (Model $model) {
-            $user = \Auth::user();
+            $user = Auth::user();
 
             if (!$user) {
                 return;
@@ -48,7 +98,9 @@ trait SavesActivityAsComments
                 })
                 ->reject(function ($item, $key) {
                     return $key === 'created_at' || $key === 'updated_at';
-                });
+                })
+                ->concat($model->getPendingChanges());
+            $model->clearPendingChanges();
 
             Comment::create([
                 'user_id' => $user->id,
@@ -60,7 +112,7 @@ trait SavesActivityAsComments
         });
 
         static::updated(function (Model $model) {
-            $user = \Auth::user();
+            $user = Auth::user();
 
             if (!$user) {
                 return;
@@ -78,7 +130,9 @@ trait SavesActivityAsComments
                 })
                 ->reject(function ($item, $key) {
                     return $key === 'updated_at';
-                });
+                })
+                ->concat($model->getPendingChanges());
+            $model->clearPendingChanges();
 
             if ($diff->isEmpty()) {
                 return;
