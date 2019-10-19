@@ -84,9 +84,9 @@ class UsersController extends Controller
         ]);
 
         if ($request->has('groups')) {
-            $newGroups = collect($request->get('groups'));
+            $newGroups = collect(json_decode($request->get('groups')));
             $oldGroupIds = $user->groups()
-                ->pluck('id')
+                ->pluck('groups.id')
                 ->toArray();
 
             UserInGroup::where('user_id', $user->id)
@@ -101,7 +101,7 @@ class UsersController extends Controller
             });
 
             $newGroupIds = $user->groups()
-                ->pluck('id')
+                ->pluck('groups.id')
                 ->toArray();
             $user->addPendingChange('groups', $oldGroupIds, $newGroupIds);
         }

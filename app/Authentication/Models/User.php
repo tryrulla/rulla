@@ -78,6 +78,6 @@ class User extends Authenticatable
 
     public function groups()
     {
-        return $this->hasManyThrough(Group::class, UserInGroup::class);
+        return $this->belongsToMany(Group::class, UserInGroup::class);
     }
 }

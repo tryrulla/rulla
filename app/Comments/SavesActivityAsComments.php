@@ -102,6 +102,10 @@ trait SavesActivityAsComments
                 ->concat($model->getPendingChanges());
             $model->clearPendingChanges();
 
+            if ($diff->isEmpty()) {
+                return;
+            }
+
             Comment::create([
                 'user_id' => $user->id,
                 'commentable_id' => $model->id,

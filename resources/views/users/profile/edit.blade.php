@@ -19,6 +19,16 @@
             </div>
 
             <div class="card">
+                <div>
+                    <span class="text-gray-700">Label</span>
+                    <multi-input
+                        :type="{{ json_encode(\Rulla\Authentication\Models\Groups\Group::class) }}"
+                        name="groups"
+                    ></multi-input>
+                </div>
+            </div>
+
+            <div class="card">
                 <button class="button button-blue">
                     {{ __('users.profile.edit.submit') }}
                 </button>

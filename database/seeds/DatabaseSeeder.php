@@ -1,19 +1,8 @@
 <?php
 
-use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use Rulla\Authentication\Models\AuthenticationSource;
-use Rulla\Authentication\Models\Groups\Group;
-use Rulla\Authentication\Models\User;
-use Rulla\Authentication\Providers\LocalAuthenticationProvider;
 use Rulla\Comments\Comment;
 use Rulla\Comments\CommentType;
-use Rulla\Items\Fields\Field;
-use Rulla\Items\Fields\FieldAppliesTo;
-use Rulla\Items\Fields\FieldType;
-use Rulla\Items\Fields\FieldValue;
-use Rulla\Items\Instances\Item;
-use Rulla\Items\Instances\ItemCheckout;
 use Rulla\Items\Instances\ItemFault;
 use Rulla\Items\Types\ItemType;
 
