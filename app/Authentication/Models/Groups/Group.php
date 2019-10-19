@@ -19,6 +19,7 @@ class Group extends Model
 
     public function members()
     {
-        return $this->belongsToMany(User::class, UserInGroup::class);
+        return $this->belongsToMany(User::class, UserInGroup::class)
+            ->orderBy('users.id');
     }
 }

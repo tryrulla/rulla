@@ -78,6 +78,7 @@ class User extends Authenticatable
 
     public function groups()
     {
-        return $this->belongsToMany(Group::class, UserInGroup::class);
+        return $this->belongsToMany(Group::class, UserInGroup::class)
+            ->orderBy('groups.id');
     }
 }

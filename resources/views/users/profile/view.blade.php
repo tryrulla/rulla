@@ -61,6 +61,11 @@
             </div>
         </div>
 
+        @if($user->groups->isNotEmpty())
+            @component('components.cards.lists.groups', ['groups' => $user->groups, 'title' => __('users.groups.groups')])
+            @endcomponent
+        @endif
+
         @if($user->checkouts->isNotEmpty())
             @component('components.cards.lists.checkouts', ['checkouts' => $user->checkouts, 'title' => __('items.checkouts.active-checkouts'), 'showItem' => true])
             @endcomponent

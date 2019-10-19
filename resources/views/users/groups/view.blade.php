@@ -50,6 +50,11 @@
                 </table>
             </div>
         </div>
+
+        @if($group->members->isNotEmpty())
+            @component('components.cards.lists.users', ['users' => $group->members, 'title' => __('users.profile.users')])
+            @endcomponent
+        @endif
     </div>
 
 @endsection

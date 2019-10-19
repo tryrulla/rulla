@@ -2,6 +2,8 @@
 
 return [
     'profile' => [
+        'users' => 'Users',
+
         'index' => [
             'title' => 'All Users',
         ],
@@ -29,6 +31,7 @@ return [
     ],
 
     'groups' => [
+        'groups' => 'Groups',
         'all-groups' => 'All Groups',
         'edit' => 'Edit',
 
