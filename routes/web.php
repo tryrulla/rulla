@@ -160,11 +160,20 @@ Route::middleware('auth')
         Route::get('/app/user/groups', 'Auth\GroupController@index')
             ->name('user.groups.index');
 
+        Route::get('/app/users/groups/new', 'Auth\GroupController@create')
+            ->name('user.groups.add');
+
+        Route::post('/app/users/groups/new', 'Auth\GroupController@store')
+            ->name('user.groups.store');
+
         Route::get('/app/view/G{id}', 'Auth\GroupController@show')
             ->name('user.groups.view');
 
         Route::get('/app/view/G{id}/edit', 'Auth\GroupController@edit')
             ->name('user.groups.edit');
+
+        Route::post('/app/view/G{id}/edit', 'Auth\GroupController@update')
+            ->name('user.groups.update');
 
         Route::post('/app/search', 'SearchController')
             ->name('search');

@@ -75,6 +75,9 @@
             @component('components.cards.lists.faults', ['faults' => $user->assignedFaults, 'title' => __('items.faults.assigned-faults'), 'showItem' => true])
             @endcomponent
         @endif
+
+        @component('components.cards.lists.comments', ['commentable' => $user])
+        @endcomponent
     </div>
 
 @endsection

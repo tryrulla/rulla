@@ -16,6 +16,7 @@ return [
                 'id' => 'User ID',
                 'email' => 'Email',
                 'name' => 'Name',
+                'groups' => 'Groups',
             ],
         ],
 
@@ -33,7 +34,8 @@ return [
     'groups' => [
         'groups' => 'Groups',
         'all-groups' => 'All Groups',
-        'edit' => 'Edit',
+        'create' => 'New Group',
+        'edit' => 'Edit Group',
 
         'fields' => [
             'id' => 'ID',

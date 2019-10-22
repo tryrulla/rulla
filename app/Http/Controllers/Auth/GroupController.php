@@ -27,7 +27,7 @@ class GroupController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.groups.add');
     }
 
     /**
@@ -38,7 +38,12 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'nullable|min:2',
+        ]);
+
+        $group = Group::create($data);
+        return redirect($group->view_url);
     }
 
     /**
@@ -56,30 +61,38 @@ class GroupController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \Rulla\Authentication\Models\Groups\Group  $group
+     * @param int $id
      * @return Response
      */
-    public function edit(Group $group)
+    public function edit(int $id)
     {
-        //
+        $group = Group::findOrFail($id);
+        return view('users.groups.edit', ['group' => $group]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param  \Rulla\Authentication\Models\Groups\Group  $group
+     * @param int $id
      * @return Response
      */
-    public function update(Request $request, Group $group)
+    public function update(Request $request, int $id)
     {
-        //
+        $group = Group::findOrFail($id);
+
+        $data = $request->validate([
+            'name' => 'nullable|min:2',
+        ]);
+
+        $group->update($data);
+        return redirect($group->view_url);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Rulla\Authentication\Models\Groups\Group  $group
+     * @param Group $group
      * @return Response
      */
     public function destroy(Group $group)

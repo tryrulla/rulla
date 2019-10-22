@@ -8,13 +8,13 @@
             {{ __('users.groups.all-groups') }}
         </h1>
 
-        {{--<div class="my-2">
+        <div class="my-2">
             <div class="inline-block bg-gray-300 text-gray-700 p-2 shadow rounded">
-                <a href="{{ route('users.groups.add') }}" class="group">
-                    <i class="fas fa-plus"></i> <span class="group-hover:underline">{{ __('users.group.index.add') }}</span>
+                <a href="{{ route('user.groups.add') }}" class="group">
+                    <i class="fas fa-plus"></i> <span class="group-hover:underline">{{ __('general.add') }}</span>
                 </a>
             </div>
-        </div>--}}
+        </div>
 
         <table>
             @foreach($groups as $group)
@@ -30,10 +30,6 @@
                         <a href="{{ $group->viewUrl }}" class="inline-block mr-2 hover:underline">
                             {{ $group->name }}
                         </a>
-                    </td>
-
-                    <td class="pr-2 text-gray-700">
-                        {{ $group->email }}
                     </td>
                 </tr>
             @endforeach

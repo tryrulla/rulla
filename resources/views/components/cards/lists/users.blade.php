@@ -16,7 +16,12 @@
                     <td class="pr-2">
                         <a href="{{ $user->viewUrl }}">
                             <span class="hover:underline text-gray-900 hover:text-black">
-                                {{ $user->name }}</span>
+                                {{ $user->name }}
+
+                                <span class="text-gray-700">
+                                    ({{ $user->email }})
+                                </span>
+                            </span>
                         </a>
                     </td>
                 </tr>

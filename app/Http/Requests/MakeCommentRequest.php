@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
+use Rulla\Authentication\Models\Groups\Group;
+use Rulla\Authentication\Models\User;
 use Rulla\Comments\CommentType;
 use Rulla\Items\Instances\ItemCheckout;
 use Rulla\Items\Instances\ItemFault;
@@ -41,22 +43,9 @@ class MakeCommentRequest extends FormRequest
         return [
             'data.text' => 'required|min:1|max:1000',
             'comment_type' => ['required', Rule::in([CommentType::comment()])],
-            'user_id' => ['required', Rule::in(Auth::user()->id)]
+            'user_id' => ['required', Rule::in(Auth::user()->id)],
+            'commentable_id' => 'required',
+            'commentable_type' => ['required', Rule::in([ItemFault::class, ItemCheckout::class, User::class, Group::class])],
         ];
-    }
-
-    /**
-     * Configure the validator instance.
-     *
-     * @param  Validator  $validator
-     * @return void
-     */
-    public function withValidator($validator)
-    {
-        $validator->sometimes(['commentable_id', 'commentable_type'], ['required'], function ($input) {
-            return in_array($input->commentable_type, [
-                ItemFault::class, ItemCheckout::class
-            ]);
-        });
     }
 }

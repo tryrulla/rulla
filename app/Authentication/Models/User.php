@@ -18,16 +18,6 @@ class User extends Authenticatable
     use HasFormattedIdentifier;
     use HasComments, SavesActivityAsComments;
 
-    public function getIdentifierPrefixLetter(): string
-    {
-        return 'U';
-    }
-
-    public function getFieldNameTranslationPrefix()
-    {
-        return 'users.profile.view.details';
-    }
-
     protected $appends = ['viewUrl'];
 
     /**
@@ -56,6 +46,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $fieldToModelTypes = [
+        'groups' => [Group::class, 'id'],
+    ];
+
+    public function getIdentifierPrefixLetter(): string
+    {
+        return 'U';
+    }
+
+    public function getFieldNameTranslationPrefix()
+    {
+        return 'users.profile.view.details.';
+    }
 
     public function getViewUrlAttribute()
     {

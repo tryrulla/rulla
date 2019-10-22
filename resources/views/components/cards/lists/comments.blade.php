@@ -46,13 +46,33 @@
                                     </td>
 
                                     <td class="pr-2">
-                                        @component('components.value', ['typeModels' => $commentable->getFieldToModelTypes(), 'name' => $key, 'value' => $diff->original])
-                                        @endcomponent
+                                        @if(is_array($diff->original))
+                                            @foreach($diff->original as $value)
+                                                @component('components.value', ['typeModels' => $commentable->getFieldToModelTypes(), 'name' => $key, 'value' => $value])
+                                                @endcomponent
+                                                @if(!$loop->last)
+                                                    <br/>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            @component('components.value', ['typeModels' => $commentable->getFieldToModelTypes(), 'name' => $key, 'value' => $diff->original])
+                                            @endcomponent
+                                        @endif
                                     </td>
 
                                     <td>
-                                        @component('components.value', ['typeModels' => $commentable->getFieldToModelTypes(), 'name' => $key, 'value' => $diff->new])
-                                        @endcomponent
+                                        @if(is_array($diff->new))
+                                            @foreach($diff->new as $value)
+                                                @component('components.value', ['typeModels' => $commentable->getFieldToModelTypes(), 'name' => $key, 'value' => $value])
+                                                @endcomponent
+                                                @if(!$loop->last)
+                                                    <br/>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            @component('components.value', ['typeModels' => $commentable->getFieldToModelTypes(), 'name' => $key, 'value' => $diff->new])
+                                            @endcomponent
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

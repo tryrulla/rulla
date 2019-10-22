@@ -16,7 +16,7 @@
             <div class="inline-block bg-gray-100 text-gray-700 p-2 shadow rounded">
                 <a href="{{ route('user.groups.edit', $group) }}" class="group">
                     <i class="fas fa-pen"></i> <span
-                        class="group-hover:underline">{{ __('users.groups.edit') }}</span>
+                        class="group-hover:underline">{{ __('general.edit') }}</span>
                 </a>
             </div>
         </div>
@@ -55,6 +55,9 @@
             @component('components.cards.lists.users', ['users' => $group->members, 'title' => __('users.profile.users')])
             @endcomponent
         @endif
+
+        @component('components.cards.lists.comments', ['commentable' => $group])
+        @endcomponent
     </div>
 
 @endsection
