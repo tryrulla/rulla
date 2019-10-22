@@ -20,9 +20,10 @@
 
             <div class="card">
                 <div>
-                    <span class="text-gray-700">Label</span>
+                    <span class="text-gray-700">{{ __('users.profile.view.details.groups') }}</span>
                     <multi-input
                         :type="{{ json_encode(\Rulla\Authentication\Models\Groups\Group::class) }}"
+                        :old-value="{{ json_encode($user->groups()->pluck('groups.id')->toArray()) }}"
                         name="groups"
                     ></multi-input>
                 </div>

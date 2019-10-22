@@ -2,7 +2,9 @@
 
 namespace Rulla\Http\Controllers\Auth;
 
+use Exception;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Rulla\Authentication\Models\Groups\UserInGroup;
 use Rulla\Authentication\Models\User;
 use Illuminate\Http\Request;
@@ -76,6 +78,7 @@ class UsersController extends Controller
      * @param Request $request
      * @param User $user
      * @return Response
+     * @throws Exception
      */
     public function update(Request $request, User $user)
     {
@@ -84,26 +87,34 @@ class UsersController extends Controller
         ]);
 
         if ($request->has('groups')) {
-            $newGroups = collect(json_decode($request->get('groups')));
-            $oldGroupIds = $user->groups()
-                ->pluck('groups.id')
-                ->toArray();
+            try {
+                DB::beginTransaction();
 
-            UserInGroup::where('user_id', $user->id)
-                ->whereNotIn('group_id', $newGroups)
-                ->delete();
+                $newGroups = collect(json_decode($request->get('groups')));
+                $oldGroupIds = $user->groups()
+                    ->pluck('groups.id')
+                    ->toArray();
 
-            $newGroups->each(function ($newGroupId) use ($user) {
-                UserInGroup::updateOrCreate([
-                    'user_id' => $user->id,
-                    'group_id' => $newGroupId,
-                ]);
-            });
+                UserInGroup::where('user_id', $user->id)
+                    ->whereNotIn('group_id', $newGroups)
+                    ->delete();
 
-            $newGroupIds = $user->groups()
-                ->pluck('groups.id')
-                ->toArray();
-            $user->addPendingChange('groups', $oldGroupIds, $newGroupIds);
+                $newGroups->each(function ($newGroupId) use ($user) {
+                    UserInGroup::updateOrCreate([
+                        'user_id' => $user->id,
+                        'group_id' => $newGroupId,
+                    ]);
+                });
+
+                $newGroupIds = $user->groups()
+                    ->pluck('groups.id')
+                    ->toArray();
+                $user->addPendingChange('groups', $oldGroupIds, $newGroupIds);
+                DB::commit();
+            } catch (Exception $ex) {
+                DB::rollback();
+                throw $ex;
+            }
         }
 
         $user->update($data);

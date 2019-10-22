@@ -8,7 +8,7 @@
             @search="search"
             v-model="selected"
             :options="options"
-            :reduce="it => it.id"
+            :reduce="reduce"
             :get-option-label="label"
             :filterable="false"
         />
@@ -23,7 +23,7 @@ export default {
     data() {
         return {
             options: [],
-            selected: [],
+            selected: this.oldValue || [],
         };
     },
     props: {
@@ -38,7 +38,11 @@ export default {
         filter: {
             type: Object,
             default: () => {},
-        }
+        },
+        oldValue: {
+            type: Array,
+            default: () => [],
+        },
     },
     computed: {
         realFilter() {
@@ -75,6 +79,10 @@ export default {
                 return it;
             }
 
+            if (typeof it === 'number') {
+                return `${Rulla.identifiers.typeToLetter[this.type]}${it}`;
+            }
+
             if (it.identifier) {
                 if (typeof it.name === 'object') {
                     return `[${it.identifier}] ${it.name[this.language] || it.name['en']}`;
@@ -83,8 +91,15 @@ export default {
                 return `[${it.identifier}] ${it.name || it.tag}`;
             }
 
-            console.warn('Could not get name for ' + JSON.encode(it));
+            console.warn('Could not get name for ' + JSON.stringify(it));
             return 'foo';
+        },
+        reduce(it) {
+            if (typeof it === 'number') {
+                return it;
+            }
+
+            return it.id;
         },
     },
 }
