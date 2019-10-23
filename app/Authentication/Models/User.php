@@ -2,8 +2,10 @@
 
 namespace Rulla\Authentication\Models;
 
+use Exception;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 use Rulla\Authentication\Models\Groups\Group;
 use Rulla\Authentication\Models\Groups\UserInGroup;
 use Rulla\Comments\HasComments;
@@ -84,5 +86,43 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Group::class, UserInGroup::class)
             ->orderBy('groups.id');
+    }
+
+    public function getGroupIds(): array
+    {
+        return $this->groups()
+            ->pluck('groups.id')
+            ->toArray();
+    }
+
+    /**
+     * @param array $groupIds
+     * @throws Exception
+     */
+    public function setGroups(array $groupIds) {
+        try {
+            DB::beginTransaction();
+
+            $newGroups = collect($groupIds);
+            $oldGroupIds = $this->getGroupIds();
+
+            UserInGroup::where('user_id', $this->id)
+                ->whereNotIn('group_id', $newGroups)
+                ->delete();
+
+            $newGroups->each(function ($newGroupId) {
+                UserInGroup::updateOrCreate([
+                    'user_id' => $this->id,
+                    'group_id' => $newGroupId,
+                ]);
+            });
+
+            $newGroupIds = $this->getGroupIds();
+            $this->addPendingChange('groups', $oldGroupIds, $newGroupIds);
+            DB::commit();
+        } catch (Exception $ex) {
+            DB::rollback();
+            throw $ex;
+        }
     }
 }

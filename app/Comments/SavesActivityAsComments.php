@@ -5,6 +5,7 @@ namespace Rulla\Comments;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Rulla\Authentication\Models\User;
 
 trait SavesActivityAsComments
 {
@@ -53,20 +54,16 @@ trait SavesActivityAsComments
 
     public function savePendingChanges()
     {
-        $user = Auth::user();
-
-        if (!$user) {
-            return;
-        }
-
         $diff = $this->getPendingChanges();
 
         if (empty($diff)) {
             return;
         }
 
+        $userId = Auth::check() ? Auth::user()->id : 0;
+
         Comment::create([
-            'user_id' => $user->id,
+            'user_id' => $userId,
             'commentable_id' => $this->id,
             'commentable_type' => get_class($this),
             'comment_type' => CommentType::change(),
@@ -76,79 +73,48 @@ trait SavesActivityAsComments
         $this->clearPendingChanges();
     }
 
+    public function saveAllChanges()
+    {
+        $diff = collect($this->getChanges())
+            ->map(function ($item, $key) {
+                $original = $this->getOriginal($key);
+
+                if ($this->hasCast($key)) {
+                    $original = $this->publicCastAttribute($key, $original);
+                }
+
+                return ['original' => $original, 'new' => $item];
+            })
+            ->reject(function ($item, $key) {
+                return $key === 'updated_at' || $this->isGuarded($key);
+            })
+            ->concat($this->getPendingChanges());
+        $this->clearPendingChanges();
+
+        if ($diff->isEmpty()) {
+            return;
+        }
+
+        $userId = Auth::check() ? Auth::user()->id : 0;
+
+        Comment::create([
+            'user_id' => $userId,
+            'commentable_id' => $this->id,
+            'commentable_type' => get_class($this),
+            'comment_type' => CommentType::change(),
+            'data' => ['diff' => $diff],
+        ]);
+
+    }
+
     public static function bootSavesActivityAsComments()
     {
         static::created(function (Model $model) {
-            $user = Auth::user();
-
-            if (!$user) {
-                return;
-            }
-
-            $diff = collect($model->getAttributes())
-                ->reject(function ($item) {
-                    return $item === null;
-                })
-                ->map(function ($item, $key) use ($model) {
-                    if ($model->hasCast($key)) {
-                        $item = $model->publicCastAttribute($key, $item);
-                    }
-
-                    return ['original' => null, 'new' => $item];
-                })
-                ->reject(function ($item, $key) {
-                    return $key === 'created_at' || $key === 'updated_at';
-                })
-                ->concat($model->getPendingChanges());
-            $model->clearPendingChanges();
-
-            if ($diff->isEmpty()) {
-                return;
-            }
-
-            Comment::create([
-                'user_id' => $user->id,
-                'commentable_id' => $model->id,
-                'commentable_type' => get_class($model),
-                'comment_type' => CommentType::change(),
-                'data' => ['diff' => $diff],
-            ]);
+            $model->saveAllChanges();
         });
 
         static::updated(function (Model $model) {
-            $user = Auth::user();
-
-            if (!$user) {
-                return;
-            }
-
-            $diff = collect($model->getChanges())
-                ->map(function ($item, $key) use ($model) {
-                    $original = $model->getOriginal($key);
-
-                    if ($model->hasCast($key)) {
-                        $original = $model->publicCastAttribute($key, $original);
-                    }
-
-                    return ['original' => $original, 'new' => $item];
-                })
-                ->reject(function ($item, $key) {
-                    return $key === 'updated_at';
-                })
-                ->concat($model->getPendingChanges());
-            $model->clearPendingChanges();
-
-            if ($diff->isEmpty()) {
-                return;
-            }
-
-            Comment::create([
-                'user_id' => $user->id,
-                'commentable_id' => $model->id,
-                'commentable_type' => get_class($model),
-                'comment_type' => CommentType::change(),
-                'data' => ['diff' => $diff],
-            ]);
+            $model->saveAllChanges();
         });
     }
 

@@ -7,15 +7,21 @@
         @foreach($commentable->comments as $comment)
             <div class="my-2">
                 <div>
-                    <a href="{{ $comment->user->viewUrl }}">
-                        <span class="hover:underline text-gray-900 hover:text-black">
-                            {{ $comment->user->name }}
+                    @if($comment->user)
+                        <a href="{{ $comment->user->viewUrl }}">
+                            <span class="hover:underline text-gray-900 hover:text-black">
+                                {{ $comment->user->name }}
 
-                            <span class="text-gray-700">
-                                ({{ $comment->user->email }})
+                                <span class="text-gray-700">
+                                    ({{ $comment->user->email }})
+                                </span>
                             </span>
-                        </span>
-                    </a>
+                        </a>
+                    @elseif($comment->user_id === 0)
+                        <span>{{ __('comments.system') }}</span>
+                    @else
+                        <span>{{ __('comments.deleted_user', ['id' => $comment->user_id]) }}</span>
+                    @endif
                     &middot;
                     {{ \Rulla\Utils\Date::format($comment->created_at) }}
                 </div>

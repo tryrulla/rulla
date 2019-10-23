@@ -87,34 +87,7 @@ class UsersController extends Controller
         ]);
 
         if ($request->has('groups')) {
-            try {
-                DB::beginTransaction();
-
-                $newGroups = collect(json_decode($request->get('groups')));
-                $oldGroupIds = $user->groups()
-                    ->pluck('groups.id')
-                    ->toArray();
-
-                UserInGroup::where('user_id', $user->id)
-                    ->whereNotIn('group_id', $newGroups)
-                    ->delete();
-
-                $newGroups->each(function ($newGroupId) use ($user) {
-                    UserInGroup::updateOrCreate([
-                        'user_id' => $user->id,
-                        'group_id' => $newGroupId,
-                    ]);
-                });
-
-                $newGroupIds = $user->groups()
-                    ->pluck('groups.id')
-                    ->toArray();
-                $user->addPendingChange('groups', $oldGroupIds, $newGroupIds);
-                DB::commit();
-            } catch (Exception $ex) {
-                DB::rollback();
-                throw $ex;
-            }
+            $user->setGroups(json_decode($request->get('groups')));
         }
 
         $user->update($data);
