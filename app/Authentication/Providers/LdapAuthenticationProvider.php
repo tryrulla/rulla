@@ -133,6 +133,10 @@ class LdapAuthenticationProvider extends PasswordAuthenticationProvider implemen
 
         $user->name = $ldapUser->getName();
 
+        if (!$user->id) {
+            $user->save();
+        }
+
         $ldapGroups = $ldapUser->getGroups([$ldapUser->getSchema()->distinguishedName(), $ldapUser->getSchema()->memberOf()], true)
             ->map(function (AdlapGroup $group) {
                 return $group->getDistinguishedName();
