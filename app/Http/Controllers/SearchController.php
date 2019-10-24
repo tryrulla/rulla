@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Rulla\Authentication\Models\ACL\AccessControlList;
 use Rulla\Authentication\Models\Groups\Group;
 use Rulla\Authentication\Models\User;
 use Rulla\Items\Instances\Item;
@@ -22,6 +23,17 @@ class SearchController extends Controller
     public function __invoke(Request $request)
     {
         $filters = $request->input('filters');
+        $results = self::search($filters, true);
+
+        return response()->json(['results' => $results->toArray()]);
+    }
+
+    /**
+     * @param array $filters
+     * @param bool $map
+     */
+    public static function search(array $filters, $map = false)
+    {
         $types = $filters['type'] ?? [];
         if (!is_array($types)) {
             $types = [$types];
@@ -33,7 +45,7 @@ class SearchController extends Controller
 
         $typeOnly = '';
 
-        if (preg_match('/([UTG]|I[FC]?)(\d+)/', $query, $idMatches)) {
+        if (preg_match('/([UTGA]|I[FC]?)(\d+)/', $query, $idMatches)) {
             $typeOnly = $idMatches[1];
             $filters['id'] = (int) $idMatches[2];
             $query = '';
@@ -62,7 +74,11 @@ class SearchController extends Controller
                     return $builder;
                 })
                 ->get()
-                ->map(function (User $user) {
+                ->map(function (User $user) use ($map) {
+                    if (!$map) {
+                        return $user;
+                    }
+
                     return [
                         'type' => User::class,
                         'id' => $user->id,
@@ -116,7 +132,11 @@ class SearchController extends Controller
                     return $builder;
                 })
                 ->get()
-                ->map(function (Item $item) {
+                ->map(function (Item $item) use ($map) {
+                    if (!$map) {
+                        return $item;
+                    }
+
                     return [
                         'type' => Item::class,
                         'id' => $item->id,
@@ -157,7 +177,11 @@ class SearchController extends Controller
 
                     return true;
                 })
-                ->map(function (ItemType $type) {
+                ->map(function (ItemType $type) use ($map) {
+                    if (!$map) {
+                        return $type;
+                    }
+
                     return [
                         'type' => Item::class,
                         'id' => $type->id,
@@ -189,7 +213,11 @@ class SearchController extends Controller
                     return $builder;
                 })
                 ->get()
-                ->map(function (Group $group) {
+                ->map(function (Group $group) use ($map) {
+                    if (!$map) {
+                        return $group;
+                    }
+
                     return [
                         'type' => Group::class,
                         'id' => $group->id,
@@ -203,6 +231,40 @@ class SearchController extends Controller
                 });
         }
 
-        return response()->json(['results' => $results->toArray()]);
+        if (in_array(AccessControlList::class, $types) && ($typeOnly === '' || $typeOnly === 'A')) {
+            AccessControlList::query()
+                ->where(function (Builder $builder) use ($id) {
+                    if ($id > 0) {
+                        return $builder->where('id', $id);
+                    }
+
+                    return $builder;
+                })
+                ->where(function (Builder $builder) use ($filters) {
+                    if ($filters['system'] === true || $filters['system'] == false) {
+                        return $builder->where('system', $filters['system']);
+                    }
+
+                    return $builder;
+                })
+                ->get()
+                ->map(function (AccessControlList $acl) use ($map) {
+                    if (!$map) {
+                        return $acl;
+                    }
+
+                    return [
+                        'type' => AccessControlList::class,
+                        'id' => $acl->id,
+                        'identifier' => $acl->identifier,
+                        'viewUrl' => $acl->view_url,
+                    ];
+                })
+                ->each(function ($acl) use ($results) {
+                    return $results->push($acl);
+                });
+        }
+
+        return $results;
     }
 }
