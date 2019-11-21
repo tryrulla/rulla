@@ -30,6 +30,7 @@ class CreateDefaultAccessControlList extends Migration
 
         AccessControlList::create([
             'system' => true,
+            'priority' => 100000,
             'data' => [
                 [
                     'target' => [AuthenticationSource::class, null],
@@ -42,6 +43,21 @@ class CreateDefaultAccessControlList extends Migration
                 [
                     'target' => [AccessControlList::class, 'edit'],
                     'rules' => $adminOnlyRules,
+                ],
+            ],
+        ]);
+
+        AccessControlList::create([
+            'system' => true,
+            'priority' => -100000,
+            'data' => [
+                [
+                    'target' => [null, null],
+                    'rules' => [
+                        [
+                            'action' => AccessControlAction::ALLOW(),
+                        ],
+                    ],
                 ],
             ],
         ]);
