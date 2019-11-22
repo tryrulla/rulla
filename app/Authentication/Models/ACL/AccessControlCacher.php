@@ -4,6 +4,8 @@
 namespace Rulla\Authentication\Models\ACL;
 
 
+use Cache;
+
 class AccessControlCacher
 {
     const DEFAULT = 'default';
@@ -68,5 +70,14 @@ class AccessControlCacher
         }
 
         return $results;
+    }
+
+    public static function getRuleSet(array $ruleIds)
+    {
+        $cacheKey = "acl-sets-" . join('-', $ruleIds);
+
+        return Cache::remember($cacheKey, 3600, function () use ($ruleIds) {
+            return self::parseLists(AccessControlList::findMany($ruleIds));
+        });
     }
 }
