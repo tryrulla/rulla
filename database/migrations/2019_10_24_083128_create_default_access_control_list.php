@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use Rulla\Authentication\Models\ACL\AccessControlList;
 use Rulla\Authentication\Models\ACL\AccessControlAction;
+use Rulla\Authentication\Models\ACL\AccessControlList;
+use Rulla\Authentication\Models\ACL\AccessControlResult;
 use Rulla\Authentication\Models\ACL\AccessControlTarget;
 use Rulla\Authentication\Models\AuthenticationSource;
 use Rulla\Authentication\Models\Groups\Group;
@@ -20,11 +21,11 @@ class CreateDefaultAccessControlList extends Migration
     {
         $adminOnlyRules = [
             [
-                'action' => AccessControlAction::DENY(),
+                'result' => AccessControlResult::DENY(),
             ],
             [
                 'group' => 1,
-                'action' => AccessControlAction::ALLOW(),
+                'result' => AccessControlResult::ALLOW(),
             ],
         ];
 
@@ -33,15 +34,15 @@ class CreateDefaultAccessControlList extends Migration
             'priority' => 100000,
             'data' => [
                 [
-                    'target' => [AuthenticationSource::class, null],
+                    'target' => [AuthenticationSource::class, AccessControlAction::DEFAULT()],
                     'rules' => $adminOnlyRules,
                 ],
                 [
-                    'target' => [Group::class, 'edit'],
+                    'target' => [Group::class, AccessControlAction::EDIT()],
                     'rules' => $adminOnlyRules,
                 ],
                 [
-                    'target' => [AccessControlList::class, 'edit'],
+                    'target' => [AccessControlList::class, AccessControlAction::EDIT()],
                     'rules' => $adminOnlyRules,
                 ],
             ],
@@ -52,10 +53,10 @@ class CreateDefaultAccessControlList extends Migration
             'priority' => -100000,
             'data' => [
                 [
-                    'target' => [null, null],
+                    'target' => [null, AccessControlAction::DEFAULT()],
                     'rules' => [
                         [
-                            'action' => AccessControlAction::ALLOW(),
+                            'result' => AccessControlResult::ALLOW(),
                         ],
                     ],
                 ],

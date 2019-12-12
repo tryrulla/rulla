@@ -14,7 +14,7 @@ class AccessControlCacher
     {
         $results = [
             self::DEFAULT => [
-                self::DEFAULT => [],
+                AccessControlAction::DEFAULT()->getName() => [],
             ],
         ];
 
@@ -23,9 +23,12 @@ class AccessControlCacher
                 $targetClass = sizeof($ruleSet->target) > 0 ? $ruleSet->target[0] : self::DEFAULT;
                 $targetAction = sizeof($ruleSet->target) > 1 ? $ruleSet->target[1] : self::DEFAULT;
 
+                $targetClass = strlen($targetClass) > 0 ? $targetClass : self::DEFAULT;
+                $targetAction = strlen($targetAction) > 0 ? AccessControlAction::make($targetAction)->getName() : AccessControlAction::DEFAULT()->getName();
+
                 if (!array_key_exists($targetClass, $results)) {
                     $results[$targetClass] = [
-                        self::DEFAULT => [],
+                        AccessControlAction::DEFAULT()->getName() => [],
                     ];
                 }
 
@@ -36,7 +39,7 @@ class AccessControlCacher
                 foreach ($ruleSet->rules as $rule) {
                     $results[$targetClass][$targetAction][] = [
                         'group' => $rule->group ?? null,
-                        'action' => AccessControlAction::make($rule->action),
+                        'result' => AccessControlResult::make($rule->result),
                     ];
                 }
             }
@@ -45,27 +48,36 @@ class AccessControlCacher
         return $results;
     }
 
-    public static function getListForAction($rules, $class = self::DEFAULT, $action = self::DEFAULT)
+    public static function getListForAction($rules, $class = self::DEFAULT, string $action = null)
     {
+        if (!$action) {
+            $action = AccessControlAction::DEFAULT()->getName();
+        }
+
         $results = [];
 
         if (array_key_exists($class, $rules)) {
+            //dd(compact('rules', 'class'));
+            dd([
+                'action' => $action,
+                'rules' => $rules[$class],
+            ]);
             if (array_key_exists($action, $rules[$class])) {
                 $results = array_merge($results, $rules[$class][$action]);
             }
 
-            if (array_key_exists(self::DEFAULT, $rules[$class]) && $action !== self::DEFAULT) {
-                $results = array_merge($results, $rules[$class][self::DEFAULT]);
+            if (array_key_exists(AccessControlAction::DEFAULT()->getName(), $rules[$class]) && $action !== AccessControlAction::DEFAULT()->getName()) {
+                $results = array_merge($results, $rules[$class][AccessControlAction::DEFAULT()->getName()]);
             }
         }
 
-        if (array_key_exists(self::DEFAULT, $rules) && $action !== self::DEFAULT) {
+        if (array_key_exists(self::DEFAULT, $rules) && $action !== AccessControlAction::DEFAULT()->getName()) {
             if (array_key_exists($action, $rules[self::DEFAULT])) {
                 $results = array_merge($results, $rules[self::DEFAULT][$action]);
             }
 
-            if (array_key_exists(self::DEFAULT, $rules[self::DEFAULT])) {
-                $results = array_merge($results, $rules[self::DEFAULT][self::DEFAULT]);
+            if (array_key_exists(AccessControlAction::DEFAULT()->getName(), $rules[self::DEFAULT])) {
+                $results = array_merge($results, $rules[self::DEFAULT][AccessControlAction::DEFAULT()->getName()]);
             }
         }
 

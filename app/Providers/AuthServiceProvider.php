@@ -2,8 +2,11 @@
 
 namespace Rulla\Providers;
 
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Rulla\Authentication\Models\ACL\AccessControlList;
+use Rulla\Items\Fields\Field;
+use Rulla\Policies\Authentication\ACL\AccessControlListPolicy;
+use Rulla\Policies\Items\Fields\FieldPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -13,7 +16,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'Rulla\Model' => 'Rulla\Policies\ModelPolicy',
+        Field::class => FieldPolicy::class,
+        AccessControlList::class => AccessControlListPolicy::class,
     ];
 
     /**
