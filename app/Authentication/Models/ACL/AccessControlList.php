@@ -26,8 +26,7 @@ class AccessControlList extends Model
 
     public static function defaultRuleList()
     {
-        return self::where('system', true)
-            ->orderBy('id')
+        return self::orderByDesc('priority')
             ->get();
     }
 

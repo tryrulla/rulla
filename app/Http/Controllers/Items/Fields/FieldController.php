@@ -18,6 +18,7 @@ class FieldController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Field::class);
         $fields = Field::orderByDesc('system')
             ->orderBy('name')
             ->paginate(50);
@@ -32,6 +33,7 @@ class FieldController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Field::class);
         return view('items.fields.add');
     }
 
@@ -43,6 +45,7 @@ class FieldController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Field::class);
         $fields = $request->validate([
             'name' => 'required|min:3',
             'description' => 'nullable|max:1024',
@@ -67,6 +70,7 @@ class FieldController extends Controller
     {
         $field = Field::with('values', 'values.field', 'appliesTo', 'appliesTo.type')
             ->findOrFail($id);
+        $this->authorize('view', $field);
         return view('items.fields.view', ['field' => $field]);
     }
 
@@ -82,6 +86,7 @@ class FieldController extends Controller
             ->findOrFail($id);
 
         abort_if($field->system, 400, 'System can\'t be edited');
+        $this->authorize('update', $field);
 
         return view('items.fields.edit', ['field' => $field]);
     }
@@ -98,6 +103,7 @@ class FieldController extends Controller
         $field = Field::findOrFail($id);
 
         abort_if($field->system, 400, 'System can\'t be edited');
+        $this->authorize('update', $field);
 
         $fields = $request->validate([
             'name' => 'required|min:3',
@@ -121,6 +127,7 @@ class FieldController extends Controller
      */
     public function destroy(Field $field)
     {
-        //
+        $this->authorize('delete', $field);
+
     }
 }
