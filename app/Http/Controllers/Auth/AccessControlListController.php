@@ -22,34 +22,16 @@ class AccessControlListController extends Controller
         return view('acls.index', ['acls' => $acls]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return void
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return void
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return Response
-     * @throws AuthorizationException
-     */
     public function show(int $id)
     {
         $acl = AccessControlList::with([])
@@ -59,35 +41,16 @@ class AccessControlListController extends Controller
         return view('acls.view', ['acl' => $acl]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param AccessControlList $acl
-     * @return void
-     */
     public function edit(AccessControlList $acl)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param AccessControlList $acl
-     * @return void
-     */
     public function update(Request $request, AccessControlList $acl)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param AccessControlList $acl
-     * @return void
-     */
     public function destroy(AccessControlList $acl)
     {
         //

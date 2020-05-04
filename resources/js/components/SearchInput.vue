@@ -172,7 +172,6 @@ export default {
                 .then(({data}) => {
                     this.options = data.results;
 
-                    console.log(this.options);
                     if (this.options.length === 1) {
                         this.value = this.options[0].identifier;
                     }

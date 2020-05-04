@@ -3,6 +3,7 @@
 namespace Rulla\Items\Fields;
 
 use Illuminate\Database\Eloquent\Model;
+use Rulla\Authentication\Models\ACL\HasAccessControl;
 use Rulla\Meta\HasViewUrl;
 use Spatie\Enum\Laravel\HasEnums;
 use Spatie\Translatable\HasTranslations;
@@ -11,6 +12,7 @@ use stdClass;
 class Field extends Model
 {
     use HasViewUrl;
+    use HasAccessControl;
 
     use HasTranslations, HasEnums {
         HasTranslations::setAttribute as translationTraitSetAttribute;

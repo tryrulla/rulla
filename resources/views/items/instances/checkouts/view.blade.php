@@ -154,7 +154,7 @@
             </div>
         </div>
 
-    @component('components.cards.lists.comments', ['commentable' => $checkout])
+        @component('components.cards.lists.comments', ['commentable' => $checkout])
         @endcomponent
     </div>
 

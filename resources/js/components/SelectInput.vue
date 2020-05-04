@@ -118,7 +118,7 @@
                     return `[${it.identifier}] ${it.name || it.tag}`;
                 }
 
-                console.warn('Could not get name for ' + JSON.encode(it));
+                console.warn('Could not get name for ' + JSON.stringify(it));
                 return 'foo';
             },
             getKey(it) {
@@ -134,7 +134,7 @@
                     return it.id;
                 }
 
-                console.warn('Could not get key for ' + JSON.encode(it));
+                console.warn('Could not get key for ' + JSON.stringify(it));
                 return 'foo';
             },
             getType(identifier) {
