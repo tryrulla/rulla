@@ -16,6 +16,7 @@ class GroupController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Group::class);
         $groups = Group::paginate(50);
         return view('users.groups.index', ['groups' => $groups]);
     }
@@ -27,6 +28,7 @@ class GroupController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Group::class);
         return view('users.groups.add');
     }
 
@@ -38,6 +40,7 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Group::class);
         $data = $request->validate([
             'name' => 'nullable|min:2',
         ]);
@@ -55,6 +58,7 @@ class GroupController extends Controller
     public function show(int $id)
     {
         $group = Group::findOrFail($id);
+        $this->authorize('view', $group);
         return view('users.groups.view', ['group' => $group]);
     }
 
@@ -67,6 +71,7 @@ class GroupController extends Controller
     public function edit(int $id)
     {
         $group = Group::findOrFail($id);
+        $this->authorize('update', $group);
         return view('users.groups.edit', ['group' => $group]);
     }
 
@@ -80,6 +85,7 @@ class GroupController extends Controller
     public function update(Request $request, int $id)
     {
         $group = Group::findOrFail($id);
+        $this->authorize('update', $group);
 
         $data = $request->validate([
             'name' => 'nullable|min:2',
@@ -97,6 +103,6 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
-        //
+        $this->authorize('delete', $group);
     }
 }

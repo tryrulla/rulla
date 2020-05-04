@@ -39,7 +39,15 @@ class CreateDefaultAccessControlList extends Migration
                     'rules' => $allowAdminRule,
                 ],
                 [
+                    'target' => [Group::class, AccessControlAction::CREATE()],
+                    'rules' => $allowAdminRule,
+                ],
+                [
                     'target' => [Group::class, AccessControlAction::EDIT()],
+                    'rules' => $allowAdminRule,
+                ],
+                [
+                    'target' => [AccessControlList::class, AccessControlAction::CREATE()],
                     'rules' => $allowAdminRule,
                 ],
                 [
@@ -59,7 +67,15 @@ class CreateDefaultAccessControlList extends Migration
                     'rules' => $denyAllRule,
                 ],
                 [
+                    'target' => [Group::class, AccessControlAction::CREATE()],
+                    'rules' => $denyAllRule,
+                ],
+                [
                     'target' => [Group::class, AccessControlAction::EDIT()],
+                    'rules' => $denyAllRule,
+                ],
+                [
+                    'target' => [AccessControlList::class, AccessControlAction::CREATE()],
                     'rules' => $denyAllRule,
                 ],
                 [
