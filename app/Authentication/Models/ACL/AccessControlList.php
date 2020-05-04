@@ -11,6 +11,7 @@ class AccessControlList extends Model
 {
     use HasViewUrl;
     use HasComments, SavesActivityAsComments;
+    use HasAccessControl;
 
     protected $guarded = [];
     protected $casts = [

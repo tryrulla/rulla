@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Rulla\Authentication\Models\Groups\Group;
+use Rulla\Authentication\Models\AuthenticationSource;
 use Rulla\Authentication\Models\ACL\AccessControlList;
 use Rulla\Authentication\Models\ACL\AccessControlResult;
-use Rulla\Authentication\Models\AuthenticationSource;
-use Rulla\Authentication\Models\Groups\Group;
 use Rulla\Authentication\Models\ACL\AccessControlAction;
 
 class CreateDefaultAccessControlList extends Migration
@@ -28,9 +28,10 @@ class CreateDefaultAccessControlList extends Migration
 
         AccessControlList::create([
             'system' => true,
+            'priority' => 100000,
             'data' => [
                 [
-                    'target' => [AuthenticationSource::class, null],
+                    'target' => [AuthenticationSource::class, AccessControlAction::DEFAULT()],
                     'rules' => $adminOnlyRules,
                 ],
                 [
@@ -40,6 +41,21 @@ class CreateDefaultAccessControlList extends Migration
                 [
                     'target' => [AccessControlList::class, AccessControlAction::EDIT()],
                     'rules' => $adminOnlyRules,
+                ],
+            ],
+        ]);
+
+        AccessControlList::create([
+            'system' => true,
+            'priority' => -100000,
+            'data' => [
+                [
+                    'target' => [null, AccessControlAction::DEFAULT()],
+                    'rules' => [
+                        [
+                            'result' => AccessControlResult::ALLOW(),
+                        ],
+                    ],
                 ],
             ],
         ]);

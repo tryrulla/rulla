@@ -57,6 +57,16 @@
                         {{ __('navbar.' . $key) }}
                     </a>
                 @endforeach
+
+                @can('update', \Rulla\Authentication\Models\ACL\AccessControlList::first())
+                    <span class="navbar-item">
+                        can edit first ACL
+                    </span>
+                @else
+                    <span class="navbar-item">
+                        can not edit first ACL: {{ \Rulla\Authentication\Models\ACL\AccessControlList::first() }}
+                    </span>
+                @endif
             </div>
 
             <div class="md:inline-flex max-md:inline-block mr-2">
