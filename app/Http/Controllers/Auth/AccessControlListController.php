@@ -2,19 +2,12 @@
 
 namespace Rulla\Http\Controllers\Auth;
 
-use Illuminate\Http\Response;
-use Illuminate\Auth\Access\AuthorizationException;
 use Rulla\Authentication\Models\ACL\AccessControlList;
 use Illuminate\Http\Request;
 use Rulla\Http\Controllers\Controller;
 
 class AccessControlListController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index()
     {
         $this->authorize('viewAny', AccessControlList::class);
