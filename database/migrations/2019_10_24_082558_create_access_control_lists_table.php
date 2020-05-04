@@ -15,6 +15,7 @@ class CreateAccessControlListsTable extends Migration
     {
         Schema::create('access_control_lists', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('title');
 
             $table->integer('priority')
                 ->default(0);

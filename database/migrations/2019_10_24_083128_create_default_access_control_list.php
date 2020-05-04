@@ -16,46 +16,67 @@ class CreateDefaultAccessControlList extends Migration
      */
     public function up()
     {
-        $adminOnlyRules = [
-            [
-                'group' => 1,
-                'action' => AccessControlResult::ALLOW(),
-            ],
-            [
-                'action' => AccessControlResult::DENY(),
-            ],
-        ];
+        $allowAdminRule = [[
+            'group' => 1,
+            'result' => AccessControlResult::ALLOW(),
+        ]];
+
+        $allowAllRule = [[
+            'result' => AccessControlResult::ALLOW(),
+        ]];
+
+        $denyAllRule = [[
+            'result' => AccessControlResult::DENY(),
+        ]];
 
         AccessControlList::create([
+            'title' => 'Allow access to edit authentication-related objects for administrators',
             'system' => true,
             'priority' => 100000,
             'data' => [
                 [
-                    'target' => [AuthenticationSource::class, AccessControlAction::DEFAULT()],
-                    'rules' => $adminOnlyRules,
+                    'target' => [AuthenticationSource::class, AccessControlAction::ANY()],
+                    'rules' => $allowAdminRule,
                 ],
                 [
                     'target' => [Group::class, AccessControlAction::EDIT()],
-                    'rules' => $adminOnlyRules,
+                    'rules' => $allowAdminRule,
                 ],
                 [
                     'target' => [AccessControlList::class, AccessControlAction::EDIT()],
-                    'rules' => $adminOnlyRules,
+                    'rules' => $allowAdminRule,
                 ],
             ],
         ]);
 
         AccessControlList::create([
+            'title' => 'Deny access to edit authentication-related objects if not explicitly allowed',
+            'system' => true,
+            'priority' => -99999,
+            'data' => [
+                [
+                    'target' => [AuthenticationSource::class, AccessControlAction::ANY()],
+                    'rules' => $denyAllRule,
+                ],
+                [
+                    'target' => [Group::class, AccessControlAction::EDIT()],
+                    'rules' => $denyAllRule,
+                ],
+                [
+                    'target' => [AccessControlList::class, AccessControlAction::EDIT()],
+                    'rules' => $denyAllRule,
+                ],
+            ],
+        ]);
+
+        AccessControlList::create([
+            'title' => 'Allow all if not explicitly denied',
             'system' => true,
             'priority' => -100000,
             'data' => [
                 [
-                    'target' => [null, AccessControlAction::DEFAULT()],
-                    'rules' => [
-                        [
-                            'result' => AccessControlResult::ALLOW(),
-                        ],
-                    ],
+                    'target' => [null, AccessControlAction::ANY()],
+                    'rules' => $allowAllRule,
                 ],
             ],
         ]);

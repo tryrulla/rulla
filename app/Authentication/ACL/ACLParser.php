@@ -19,7 +19,8 @@ class ACLParser
             $aclSets = $acl->data;
             foreach ($aclSets as $aclSet) {
                 $classMatches = $aclSet->target[0] == null || $aclSet->target[0] == $class;
-                $actionMatches = $aclSet->target[1] == null || $action->isEqual($aclSet->target[1]);
+                $actionMatches = AccessControlAction::make($aclSet->target[1])
+                    ->isAny([AccessControlAction::ANY(), $action]);
 
                 if ($classMatches && $actionMatches) {
                     foreach ($aclSet->rules as $rule) {
@@ -39,7 +40,7 @@ class ACLParser
 
         foreach ($rules as $rule) {
             if (!isset($rule->group) || in_array($rule->group, $allGroups)) {
-                return AccessControlResult::make($rule->action);
+                return AccessControlResult::make($rule->result);
             }
         }
 

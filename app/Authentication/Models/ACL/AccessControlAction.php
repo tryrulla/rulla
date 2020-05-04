@@ -5,7 +5,7 @@ namespace Rulla\Authentication\Models\ACL;
 use Spatie\Enum\Enum;
 
 /**
- * @method static self DEFAULT()
+ * @method static self ANY()
  * @method static self LIST()
  * @method static self VIEW()
  * @method static self EDIT()
