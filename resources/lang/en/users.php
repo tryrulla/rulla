@@ -2,6 +2,8 @@
 
 return [
     'profile' => [
+        'users' => 'Users',
+
         'index' => [
             'title' => 'All Users',
         ],
@@ -14,6 +16,7 @@ return [
                 'id' => 'User ID',
                 'email' => 'Email',
                 'name' => 'Name',
+                'groups' => 'Groups',
             ],
         ],
 
@@ -25,6 +28,18 @@ return [
             ],
 
             'submit' => 'Submit',
+        ],
+    ],
+
+    'groups' => [
+        'groups' => 'Groups',
+        'all-groups' => 'All Groups',
+        'create' => 'New Group',
+        'edit' => 'Edit Group',
+
+        'fields' => [
+            'id' => 'ID',
+            'name' => 'Name',
         ],
     ],
 ];

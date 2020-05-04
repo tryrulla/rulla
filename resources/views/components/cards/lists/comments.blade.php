@@ -7,15 +7,19 @@
         @foreach($commentable->comments as $comment)
             <div class="my-2">
                 <div>
-                    <a href="{{ $comment->user->viewUrl }}">
-                        <span class="hover:underline text-gray-900 hover:text-black">
-                            {{ $comment->user->name }}
+                    @if($comment->user)
+                        <a href="{{ $comment->user->viewUrl }}">
+                            <span class="hover:underline text-gray-900 hover:text-black">
+                                {{ $comment->user->name }}
 
-                            <span class="text-gray-700">
-                                ({{ $comment->user->email }})
-                            </span>
-                        </span>
-                    </a>
+                                <span class="text-gray-700">
+                                    ({{ $comment->user->email }})</span></span>
+                        </a>
+                    @elseif($comment->user_id === 0)
+                        <span>{{ __('comments.system') }}</span>
+                    @else
+                        <span>{{ __('comments.deleted_user', ['id' => $comment->user_id]) }}</span>
+                    @endif
                     &middot;
                     {{ \Rulla\Utils\Date::format($comment->created_at) }}
                 </div>
@@ -46,13 +50,33 @@
                                     </td>
 
                                     <td class="pr-2">
-                                        @component('components.value', ['typeModels' => $commentable->getFieldToModelTypes(), 'name' => $key, 'value' => $diff->original])
-                                        @endcomponent
+                                        @if(is_array($diff->original))
+                                            @foreach($diff->original as $value)
+                                                @component('components.value', ['typeModels' => $commentable->getFieldToModelTypes(), 'name' => $key, 'value' => $value])
+                                                @endcomponent
+                                                @if(!$loop->last)
+                                                    <br/>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            @component('components.value', ['typeModels' => $commentable->getFieldToModelTypes(), 'name' => $key, 'value' => $diff->original])
+                                            @endcomponent
+                                        @endif
                                     </td>
 
                                     <td>
-                                        @component('components.value', ['typeModels' => $commentable->getFieldToModelTypes(), 'name' => $key, 'value' => $diff->new])
-                                        @endcomponent
+                                        @if(is_array($diff->new))
+                                            @foreach($diff->new as $value)
+                                                @component('components.value', ['typeModels' => $commentable->getFieldToModelTypes(), 'name' => $key, 'value' => $value])
+                                                @endcomponent
+                                                @if(!$loop->last)
+                                                    <br/>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            @component('components.value', ['typeModels' => $commentable->getFieldToModelTypes(), 'name' => $key, 'value' => $diff->new])
+                                            @endcomponent
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

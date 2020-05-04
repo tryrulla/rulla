@@ -22,12 +22,14 @@
                 'T' => \Rulla\Items\Types\ItemType::class,
                 'F' => \Rulla\Items\Fields\Field::class,
                 'U' => \Rulla\Authentication\Models\User::class,
+                'G' => \Rulla\Authentication\Models\Groups\Group::class,
             ],
             'typeToLetter' => [
                 \Rulla\Items\Instances\Item::class => 'I',
                 \Rulla\Items\Types\ItemType::class => 'T',
                 \Rulla\Items\Fields\Field::class => 'F',
                 \Rulla\Authentication\Models\User::class => 'U',
+                \Rulla\Authentication\Models\Groups\Group::class => 'G',
             ],
         ]
     ])
@@ -49,6 +51,8 @@
                     'types' => route('items.types.index'),
                     'fields' => route('items.fields.index'),
                     'users' => route('user.profile.index'),
+                    'groups' => route('user.groups.index'),
+                    'acls' => route('acls.index'),
                 ] as $key => $link)
                     <a href="{{ $link }}" class="navbar-item hover:underline">
                         {{ __('navbar.' . $key) }}

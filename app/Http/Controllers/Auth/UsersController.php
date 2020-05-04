@@ -2,7 +2,10 @@
 
 namespace Rulla\Http\Controllers\Auth;
 
+use Exception;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
+use Rulla\Authentication\Models\Groups\UserInGroup;
 use Rulla\Authentication\Models\User;
 use Illuminate\Http\Request;
 use Rulla\Http\Controllers\Controller;
@@ -49,7 +52,7 @@ class UsersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \Rulla\Authentication\Models\User  $user
+     * @param User $user
      * @return Response
      */
     public function show(User $user)
@@ -61,7 +64,7 @@ class UsersController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \Rulla\Authentication\Models\User  $user
+     * @param User $user
      * @return Response
      */
     public function edit(User $user)
@@ -73,8 +76,9 @@ class UsersController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param  \Rulla\Authentication\Models\User  $user
+     * @param User $user
      * @return Response
+     * @throws Exception
      */
     public function update(Request $request, User $user)
     {
@@ -82,14 +86,19 @@ class UsersController extends Controller
             'name' => 'nullable|min:2',
         ]);
 
+        if ($request->has('groups')) {
+            $user->setGroups(json_decode($request->get('groups')));
+        }
+
         $user->update($data);
+        $user->savePendingChanges();
         return redirect($user->view_url);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Rulla\Authentication\Models\User  $user
+     * @param User $user
      * @return Response
      */
     public function destroy(User $user)
