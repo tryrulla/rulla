@@ -32,7 +32,7 @@ class ACLParser
         return $lists;
     }
 
-    public static function can(User $user, $class, AccessControlAction $action)
+    public static function getResult(User $user, $class, AccessControlAction $action)
     {
         $rules = static::getAclsFor($class, $action);
         $allGroups = $user->groups()->pluck('groups.id')->toArray();
@@ -44,5 +44,10 @@ class ACLParser
         }
 
         return AccessControlResult::DENY(); // deny if not allowed
+    }
+
+    public static function can(User $user, $class, AccessControlAction $action)
+    {
+        return static::getResult($user, $class, $action)->isAllow();
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Rulla\Policies\Authentication\ACL;
 
+use Rulla\Authentication\ACL\ACLParser;
 use Rulla\Authentication\Models\ACL\AccessControlAction;
-use Rulla\Authentication\Models\ACL\AccessControlUtility;
 use Rulla\Authentication\Models\User;
 use Rulla\Authentication\Models\ACL\AccessControlList;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -20,7 +20,7 @@ class AccessControlListPolicy
      */
     public function viewAny(?User $user)
     {
-        return AccessControlUtility::can($user, AccessControlList::class, AccessControlAction::LIST(), AccessControlUtility::defaultRuleIds());
+        return ACLParser::can($user, AccessControlList::class, AccessControlAction::LIST());
     }
 
     /**
@@ -32,7 +32,7 @@ class AccessControlListPolicy
      */
     public function view(?User $user, AccessControlList $acl)
     {
-        return AccessControlUtility::can($user, AccessControlList::class, AccessControlAction::VIEW(), $acl->getAclRuleIds());
+        return ACLParser::can($user, AccessControlList::class, AccessControlAction::VIEW());
     }
 
     /**
@@ -43,7 +43,7 @@ class AccessControlListPolicy
      */
     public function create(?User $user)
     {
-        return AccessControlUtility::can($user, AccessControlList::class, AccessControlAction::CREATE(), AccessControlUtility::defaultRuleIds());
+        return ACLParser::can($user, AccessControlList::class, AccessControlAction::CREATE());
     }
 
     /**
@@ -55,7 +55,7 @@ class AccessControlListPolicy
      */
     public function update(?User $user, AccessControlList $acl)
     {
-        return AccessControlUtility::can($user, AccessControlList::class, AccessControlAction::EDIT(), $acl->getAclRuleIds());
+        return ACLParser::can($user, AccessControlList::class, AccessControlAction::EDIT());
     }
 
     /**
@@ -67,7 +67,7 @@ class AccessControlListPolicy
      */
     public function delete(?User $user, AccessControlList $acl)
     {
-        return AccessControlUtility::can($user, AccessControlList::class, AccessControlAction::DELETE(), $acl->getAclRuleIds());
+        return ACLParser::can($user, AccessControlList::class, AccessControlAction::DELETE());
     }
 
     /**
@@ -79,7 +79,7 @@ class AccessControlListPolicy
      */
     public function restore(?User $user, AccessControlList $acl)
     {
-        return AccessControlUtility::can($user, AccessControlList::class, AccessControlAction::DELETE(), $acl->getAclRuleIds());
+        return ACLParser::can($user, AccessControlList::class, AccessControlAction::DELETE());
     }
 
     /**
@@ -91,6 +91,6 @@ class AccessControlListPolicy
      */
     public function forceDelete(?User $user, AccessControlList $acl)
     {
-        return AccessControlUtility::can($user, AccessControlList::class, AccessControlAction::FORCEDELETE(), $acl->getAclRuleIds());
+        return ACLParser::can($user, AccessControlList::class, AccessControlAction::FORCEDELETE());
     }
 }
