@@ -1,13 +1,15 @@
 <?php
 
 use Carbon\Carbon;
+use Rulla\Comments\Comment;
 use Illuminate\Database\Seeder;
 use Rulla\Items\Instances\Item;
+use Rulla\Comments\CommentType;
 use Rulla\Items\Instances\ItemCheckout;
 use Rulla\Items\Instances\ItemFault;
 use Rulla\Items\Types\ItemType;
 
-class CheckoutSeed extends Seeder
+class CheckoutFaultSeed extends Seeder
 {
     /**
      * Run the database seeds.
@@ -58,5 +60,17 @@ class CheckoutSeed extends Seeder
                     }
                 }
             });
+
+        ItemFault::each(function (ItemFault $fault) use ($faker) {
+            for ($i = 0; $i < $faker->numberBetween(1, 3); $i++) {
+                Comment::create([
+                    'user_id' => $faker->numberBetween(1, 20),
+                    'commentable_id' => $fault->id,
+                    'commentable_type' => ItemFault::class,
+                    'comment_type' => CommentType::comment(),
+                    'data' => ['text' => $faker->sentence],
+                ]);
+            }
+        });
     }
 }

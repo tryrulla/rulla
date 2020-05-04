@@ -1,13 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Rulla\Authentication\Models\ACL\AccessControlList;
-use Rulla\Authentication\Models\ACL\AccessControlAction;
-use Rulla\Authentication\Models\ACL\AccessControlTarget;
+use Rulla\Authentication\Models\ACL\AccessControlResult;
 use Rulla\Authentication\Models\AuthenticationSource;
 use Rulla\Authentication\Models\Groups\Group;
+use Rulla\Authentication\Models\ACL\AccessControlAction;
 
 class CreateDefaultAccessControlList extends Migration
 {
@@ -20,11 +18,11 @@ class CreateDefaultAccessControlList extends Migration
     {
         $adminOnlyRules = [
             [
-                'action' => AccessControlAction::DENY(),
+                'group' => 1,
+                'action' => AccessControlResult::ALLOW(),
             ],
             [
-                'group' => 1,
-                'action' => AccessControlAction::ALLOW(),
+                'action' => AccessControlResult::DENY(),
             ],
         ];
 
@@ -36,11 +34,11 @@ class CreateDefaultAccessControlList extends Migration
                     'rules' => $adminOnlyRules,
                 ],
                 [
-                    'target' => [Group::class, 'edit'],
+                    'target' => [Group::class, AccessControlAction::EDIT()],
                     'rules' => $adminOnlyRules,
                 ],
                 [
-                    'target' => [AccessControlList::class, 'edit'],
+                    'target' => [AccessControlList::class, AccessControlAction::EDIT()],
                     'rules' => $adminOnlyRules,
                 ],
             ],

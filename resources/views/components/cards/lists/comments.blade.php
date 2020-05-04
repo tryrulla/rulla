@@ -13,9 +13,7 @@
                                 {{ $comment->user->name }}
 
                                 <span class="text-gray-700">
-                                    ({{ $comment->user->email }})
-                                </span>
-                            </span>
+                                    ({{ $comment->user->email }})</span></span>
                         </a>
                     @elseif($comment->user_id === 0)
                         <span>{{ __('comments.system') }}</span>

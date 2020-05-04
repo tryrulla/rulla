@@ -75,23 +75,24 @@ trait SavesActivityAsComments
 
     public function saveAllChanges()
     {
-        $diff = collect($this->getChanges())
-            ->map(function ($item, $key) {
+        $fieldChanges = collect($this->getChanges())
+            ->mapWithKeys(function ($item, $key) {
                 $original = $this->getOriginal($key);
 
                 if ($this->hasCast($key)) {
                     $original = $this->publicCastAttribute($key, $original);
                 }
 
-                return ['original' => $original, 'new' => $item];
+                return [$key => ['original' => $original, 'new' => $item]];
             })
             ->reject(function ($item, $key) {
-                return $key === 'updated_at' || $this->isGuarded($key);
+                return $key === 'updated_at' || in_array($key, $this->getHidden());
             })
-            ->concat($this->getPendingChanges());
+            ->toArray();
+        $diff = array_merge($fieldChanges, $this->getPendingChanges());
         $this->clearPendingChanges();
 
-        if ($diff->isEmpty()) {
+        if (empty($diff)) {
             return;
         }
 

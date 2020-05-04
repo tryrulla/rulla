@@ -5,9 +5,8 @@ namespace Rulla\Authentication\Models\ACL;
 use Spatie\Enum\Enum;
 
 /**
- * @method static self ALLOW()
- * @method static self DENY()
- * @method static self DEFAULT()
+ * @method static self VIEW()
+ * @method static self EDIT()
  */
 class AccessControlAction extends Enum
 {}

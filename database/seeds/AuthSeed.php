@@ -23,10 +23,13 @@ class AuthSeed extends Seeder
             'use_login' => true,
         ]);
 
-        factory(User::class)->create([
+        $admin = factory(User::class)->create([
             'name' => 'Administrator',
             'email' => 'admin@example.org'
         ]);
+
+        $admin->setGroups([1]);
+        $admin->saveAllChanges();
 
         factory(User::class, 19)->create();
     }

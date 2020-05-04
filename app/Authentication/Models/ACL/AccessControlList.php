@@ -27,7 +27,7 @@ class AccessControlList extends Model
     {
         return self::where('system', true)
             ->orderBy('id')
-            ->firstOrFail();
+            ->get();
     }
 
     public function getFieldNameTranslationPrefix()
