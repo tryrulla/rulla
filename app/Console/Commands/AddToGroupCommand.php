@@ -28,8 +28,8 @@ class AddToGroupCommand extends Command
      */
     public function handle()
     {
-        $user = User::findOrFail($this->option('user'));
-        $user->setGroups([1]);
+        $user = User::findOrFail($this->argument('user'));
+        $user->setGroups(array_merge($user->getGroupIds(), [$this->argument('group')]));
         $user->saveAllChanges();
     }
 }
