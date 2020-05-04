@@ -1,4 +1,14 @@
 module.exports = {
+    purge: {
+        enabled: true,
+        content: [
+            './resources/js/components/**/*.vue',
+            './resources/views/**/*.blade.php',
+        ],
+        options: {
+            whitelistPatterns: [/vs__/],
+        },
+    },
     theme: {
         extend: {
             screens: {
